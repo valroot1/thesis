@@ -3,7 +3,7 @@
     {
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.9\textwidth]{img/#1.png}
+            \includegraphics[width=0.9\textwidth]{usecase/#1.png}
             \caption{Diagramma #1}
         \end{figure}
     }
@@ -96,7 +96,6 @@
     \hline
 }
 
-
 \chapter{Analisi dei requisiti}
 \label{cap:analisi-requisiti}
 
@@ -129,22 +128,22 @@ L'attore principale è l'\textbf{utente}, suddiviso in utente base e admin.
 
 \subsection{Attori secondari}
 L'attore secondario è il modello di intelligenza artificiale (\textbf{LLM}), il quale viene utilizzato dal sistema per 
-svolgere le azioni di \textit{crawling} nei domini dei vari siti \textit{web}.
+svolgere le funzionalità definite nei \gls{toolg} esposti, tra cui l'azione di \gls{crawlingg} dei vari siti web.
 \begingroup
 \renewcommand{\arraystretch}{1.5}
 \begin{center}
 \begin{xltabular}{\textwidth}{|c|X|}
 \hline
-LLM & Modello di intelligenza artificiale per crawling ed elaborazione \\
+\textbf{LLM} & Modello di intelligenza artificiale per l'elaborazione \\
 \hline
 \caption{Attori secondari}
 \end{xltabular}
 \end{center}
 \endgroup
 
-\subsection{Lista dei casi d'uso}
+\section{Lista dei casi d'uso}
 
-\subsubsection{UC1 - Autenticazione}
+\subsection{UC1 - Autenticazione}
 \label{1}
 \makeUC{UC1}
 {Utente}
@@ -172,7 +171,7 @@ LLM & Modello di intelligenza artificiale per crawling ed elaborazione \\
 {UC1.3 \ref{1.3}}{}
 
 
-\subsubsection{UC1.1 - Inserimento \textit{username}}
+\subsection{UC1.1 - Inserimento \textit{username}}
 \label{1.1}
 \makeUC{}
 {Utente}
@@ -181,7 +180,7 @@ LLM & Modello di intelligenza artificiale per crawling ed elaborazione \\
 {L'utente inserisce l'\textit{username}.}{}{}{}{}
 
 
-\subsubsection{UC1.2 - Inserimento \textit{password}}
+\subsection{UC1.2 - Inserimento \textit{password}}
 \label{1.2}
 \makeUC{}
 {Utente}
@@ -189,7 +188,7 @@ LLM & Modello di intelligenza artificiale per crawling ed elaborazione \\
 {Il sistema riceve la \textit{password} dell'utente.}
 {L'utente inserisce la \textit{password}.}{}{}{}{}
 
-\subsubsection{UC1.3 - Visualizzazione errore \textit{username} o \textit{password} errati}
+\subsection{UC1.3 - Visualizzazione errore \textit{username} o \textit{password} errati}
 \label{1.3}
 \makeUC{}
 {Utente}
@@ -198,7 +197,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema non autentica l'utente.}
 {Il sistema mostra un messaggio di errore.}{}{}{}{}
 
-\subsubsection{UC2 - \textit{Logout}}
+\subsection{UC2 - \textit{Logout}}
 \label{2}
 \makeUC{UC2}
 {Utente}
@@ -212,7 +211,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema effettua il \textit{logout} dell'utente, riportandolo alla pagina di autenticazione.}
 {L'utente seleziona l'opzione relativa al \textit{logout}.}{}{}{}{}
 
-\subsubsection{UC3 - Creazione utente}
+\subsection{UC3 - Creazione utente}
 \label{3}
 \makeUC{UC3}
 {Admin}
@@ -254,7 +253,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
     \end{itemize}
 }{}
 
-\subsubsection{UC3.1 - Inserimento \textit{email}}
+\subsection{UC3.1 - Inserimento \textit{email}}
 \label{3.1}
 \makeUC{}
 {Admin}
@@ -262,7 +261,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema riceve l'\textit{email} del nuovo utente base.}
 {L'admin inserisce l'\textit{email}.}{}{}{}{}
 
-\subsubsection{UC3.2 - Inserimento \textit{username}}
+\subsection{UC3.2 - Inserimento \textit{username}}
 \label{3.2}
 \makeUC{}
 {Admin}
@@ -270,7 +269,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema riceve l'\textit{username} del nuovo utente base.}
 {L'admin inserisce l'\textit{username}.}{}{}{}{}
 
-\subsubsection{UC3.3 - Inserimento \textit{password}}
+\subsection{UC3.3 - Inserimento \textit{password}}
 \label{3.3}
 \makeUC{}
 {Admin}
@@ -278,15 +277,22 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema riceve la \textit{password} del nuovo utente base.}
 {L'admin inserisce la \textit{password}.}{}{}{}{}
 
-\subsubsection{UC3.4 - Selezione \textit{permessi}}
+\subsection{UC3.4 - Selezione \textit{permessi}}
 \label{3.4}
 \makeUC{}
 {Admin}
 {L'admin sta eseguendo la creazione di un nuovo utente base.}
 {Il sistema riceve la scelta dei permessi del nuovo utente base.}
-{L'admin seleziona i permessi.}{}{}{}{}
+{L'admin seleziona i permessi di utilizzo dei vari \gls{toolg} da assegnare all'utente. 
+In particolare, per ogni tipo di azione disponibile, i permessi assegnabili sono:
+\begin{itemize}
+    \item utilizzo generale dell'azione: l'utente può chiamare e usare quel determinato \gls{toolg};
+    \item utilizzo della cache: il sistema, quando avvia l'elaborazione per quel determinato \gls{toolg}, utilizza il controllo della \textit{cache};
+    \item visualizzazione passaggi: il sistema, quando avvia l'elaborazione per quel determinato \gls{toolg}, mostra all'utente i passaggi di elaborazione.
+\end{itemize}
+}{}{}{}{}
 
-\subsubsection{UC3.5 - Visualizzazione errore \textit{email} già esistente}
+\subsection{UC3.5 - Visualizzazione errore \textit{email} già esistente}
 \label{3.5}
 \makeUC{}
 {Admin}
@@ -294,7 +300,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema non registra l'utente base.}
 {Il sistema mostra un messaggio di errore.}{}{}{}{}
 
-\subsubsection{UC3.6 - Visualizzazione errore \textit{username} già esistente}
+\subsection{UC3.6 - Visualizzazione errore \textit{username} già esistente}
 \label{3.6}
 \makeUC{}
 {Admin}
@@ -302,7 +308,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema non registra l'utente base.}
 {Il sistema mostra un messaggio di errore.}{}{}{}{}
 
-\subsubsection{UC4 - Eliminazione utente base}
+\subsection{UC4 - Eliminazione utente base}
 \label{4}
 \makeUC{}
 {Admin}
@@ -315,13 +321,13 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema elimina il profilo dell'utente base selezionato.}
 {   \begin{enumerate}
         \item l'admin seleziona l'utente base che vuole eliminare;
-        \item l'admin seleziona l'opzione di eliminazione del profilo;
+        \item l'admin seleziona l'opzione di eliminazione dell'utente base;
         \item l'admin visualizza un pop-up di conferma di eliminazione del profilo, quindi conferma.
     \end{enumerate}
 }
 {}{}{}{}
 
-\subsubsection{UC5 - Visualizzazione profilo}
+\subsection{UC5 - Visualizzazione profilo}
 \label{5}
 \makeUC{UC5}
 {Utente}
@@ -344,7 +350,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
     \end{itemize} 
 }{}{}{}
 
-\subsubsection{UC5.1 - Visualizzazione \textit{username}}
+\subsection{UC5.1 - Visualizzazione \textit{username}}
 \label{5.1}
 \makeUC{}
 {Utente}
@@ -352,7 +358,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {L'utente visualizza l'\textit{username}.}
 {L'utente visualizza l'\textit{username}.}{}{}{}{}
 
-\subsubsection{UC5.2 - Visualizzazione \textit{email}}
+\subsection{UC5.2 - Visualizzazione \textit{email}}
 \label{5.2}
 \makeUC{}
 {Utente}
@@ -360,7 +366,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {L'utente visualizza l'\textit{email}.}
 {L'utente visualizza l'\textit{email}.}{}{}{}{}
 
-\subsubsection{UC6 - Modifica profilo}
+\subsection{UC6 - Modifica profilo}
 \label{6}
 \makeUC{UC6}
 {Utente}
@@ -388,16 +394,16 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 }
 {
     \begin{itemize}
-        \item l'\textit{username} è già esistente nel sistema (§\ref{3.5}).
+        \item l'\textit{username} è già esistente nel sistema (§\ref{3.6}).
     \end{itemize}
 }
 {
     \begin{itemize}
-        \item UC3.5 §\ref{3.5}
+        \item UC3.6 §\ref{3.6}
     \end{itemize}
 }{}
 
-\subsubsection{UC6.1 - Modifica \textit{username}}
+\subsection{UC6.1 - Modifica \textit{username}}
 \label{6.1}
 \makeUC{}
 {Utente}
@@ -405,7 +411,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema riceve l'\textit{username} dell'utente.}
 {L'utente inserisce l'\textit{username}.}{}{}{}{}
 
-\subsubsection{UC6.2 - Modifica \textit{password}}
+\subsection{UC6.2 - Modifica \textit{password}}
 \label{6.2}
 \makeUC{}
 {Utente}
@@ -413,7 +419,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema riceve la \textit{password} dell'utente.}
 {L'utente inserisce la \textit{password}.}{}{}{}{}
 
-\subsubsection{UC7 - Invio messaggio in linguaggio naturale}
+\subsection{UC7 - Invio messaggio in linguaggio naturale}
 \label{7}
 \makeUC{UC7}
 {Utente, LLM}
@@ -423,43 +429,41 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
         \item l'utente si trova nella pagina relativa alla \textit{chat}.
     \end{itemize}
 }
-{Il sistema riceve i parametri e l'LLM è pronto per iniziare l'elaborazione dei dati.}
+{Il sistema riceve il messaggio dell'utente, comprende il \gls{toolg} richiesto, 
+estrae i parametri necessari alla sua esecuzione e l'\gls{llmg} avvia l'elaborazione.}
 {   \begin{enumerate}
-        \item L'utente definisce, in linguaggio naturale, l'azione da intraprendere;
+        \item L'utente definisce, in linguaggio naturale, l'azione da intraprendere
+        (per esempio ''\textit{cerca qual è il meteo attuale a Padova nel sito meteo.it. Rispondi in formato Markdown.}'');
         \item l'utente definisce, in linguaggio naturale, i parametri di ricerca:
             \begin{itemize}
                 \item inserimento url (§\ref{7.3});
                 \item inserimento domanda (§\ref{7.4});
-                \item inserimento profondità massima (§\ref{7.5}) (opzionale);
-                \item inserimento ampiezza massima (§\ref{7.6}) (opzionale);
-                \item inserimento tipo di formato della risposta (§\ref{7.7}) (opzionale).
+                \item inserimento tipo di formato della risposta (§\ref{7.5}) (opzionale).
             \end{itemize}
         \item in base ai permessi assegnati all'utente, la ricerca può essere effettuata:
             \begin{itemize}
                 \item con controllo della \textit{cache} per evitare richieste ridondanti (§\ref{7.1});
                 \item senza controllo della \textit{cache} (\textit{cache bypass}) (§\ref{7.2}).
             \end{itemize}
-        \item l'utente conferma l'operazione.
+        \item l'utente invia il messaggio.
     \end{enumerate}
 }
 {   \begin{itemize}
         \item UC7.3 §\ref{7.3}
         \item UC7.4 §\ref{7.4}
         \item UC7.5 §\ref{7.5}
-        \item UC7.6 §\ref{7.6}
-        \item UC7.7 §\ref{7.7}
     \end{itemize} 
 }
 {
     \begin{itemize}
-        \item I parametri forniti dall'utente non sono validi (§\ref{7.8});
-        \item i parametri non sono stati forniti dall'utente (§\ref{7.9}).
+        \item Alcuni parametri obbligatori per l'esecuzione del \gls{toolg} sono mancanti (§\ref{7.6});
+        \item L'azione richiesta dall'utente non è permessa (§\ref{7.7}).
     \end{itemize}
 }
 {
     \begin{itemize}
-        \item UC7.8 §\ref{7.8}
-        \item UC7.9 §\ref{7.9}
+        \item UC7.6 §\ref{7.6}
+        \item UC7.7 §\ref{7.7}
     \end{itemize}
 }{
     \begin{itemize}
@@ -468,93 +472,90 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
     \end{itemize}
 }
 
-\subsubsection{UC7.1 - Avvio ricerca con controllo \textit{cache}}
+\subsection{UC7.1 - Avvio tool con controllo \textit{cache}}
 \label{7.1}
 \makeUC{}
-{Utente}
-{L'utente si trova nella pagina relativa all'avvio della ricerca.}
-{Il sistema avvia la ricerca in base ai parametri scelti dall'utente.}
-{L'utente seleziona l'opzione relativa all'avvio della ricerca con controllo \textit{cache}.}{}{}{}{}
+{Utente, LLM}
+{
+    \begin{itemize}
+        \item L'utente si trova nella pagina relativa alla \textit{chat};
+        \item L'utente ha inviato un messaggio richiedendo un \gls{toolg};
+        \item L'utente ha i permessi di utilizzo del \gls{toolg} e i permessi di uso della \textit{cache}.
+    \end{itemize}
+}
+{Il sistema avvia l'azione in base al messaggio inviato dall'utente.}
+{L'\gls{llmg} avvia l'elaborazione.}{}{}{}{}
 
-\subsubsection{UC7.2 - Avvio ricerca con \textit{cache bypass}}
+\subsection{UC7.2 - Avvio tool con \textit{cache bypass}}
 \label{7.2}
 \makeUC{}
-{Utente}
-{L'utente si trova nella pagina relativa all'avvio della ricerca.}
-{Il sistema avvia correttamente la ricerca con \textit{cache bypass}, che non effettua il 
+{Utente, LLM}
+{
+    \begin{itemize}
+        \item L'utente si trova nella pagina relativa alla \textit{chat};
+        \item L'utente ha inviato un messaggio richiedendo un \gls{toolg};
+        \item L'utente ha i permessi di utilizzo del \gls{toolg} ma non ha i permessi di uso della \textit{cache}.
+    \end{itemize}
+}
+{Il sistema avvia correttamente l'azione con \textit{cache bypass}, ovvero non effettua il 
 controllo della \textit{cache}.}
-{L'utente seleziona l'opzione relativa all'avvio della ricerca con \textit{cache bypass}.}{}{}{}{}
+{L'\gls{llmg} avvia l'elaborazione.}{}{}{}{}
 
-\subsubsection{UC7.3 - Inserimento url}
+\subsection{UC7.3 - Inserimento url}
 \label{7.3}
 \makeUC{}
 {Utente}
-{L'utente sta eseguendo l'avvio della ricerca.}
-{Il sistema riceve l'url per la ricerca.}
+{L'utente sta inviando un messaggio nella pagina di \textit{chat}.}
+{Il sistema riceve l'url.}
 {L'utente inserisce l'url.}{}{}{}{}
 
-\subsubsection{UC7.4 - Inserimento domanda}
+\subsection{UC7.4 - Inserimento domanda}
 \label{7.4}
 \makeUC{}
 {Utente}
-{L'utente sta eseguendo l'avvio della ricerca.}
-{Il sistema riceve la domanda da effettuare per la ricerca.}
+{L'utente sta inviando un messaggio nella pagina di \textit{chat}.}
+{Il sistema riceve la domanda.}
 {L'utente inserisce la domanda.}{}{}{}{}
 
-\subsubsection{UC7.5 - Inserimento profondità massima}
+\subsection{UC7.5 - Inserimento tipo di formato della risposta}
 \label{7.5}
 \makeUC{}
 {Utente}
-{L'utente sta eseguendo l'avvio della ricerca.}
-{Il sistema riceve la profondità massima di ricerca.}
-{L'utente inserisce la profondità massima.}{}{}{}{}
+{L'utente sta inviando un messaggio nella pagina di \textit{chat}.}
+{Il sistema riceve il tipo di formato con cui generare la risposta.}
+{L'utente inserisce il tipo di formato della risposta.}{}{}{}{}
 
-\subsubsection{UC7.6 - Inserimento ampiezza massima}
+\subsection{UC7.6 - Visualizzazione errore parametri mancanti}
 \label{7.6}
 \makeUC{}
 {Utente}
-{L'utente sta eseguendo l'avvio della ricerca.}
-{Il sistema riceve l'ampiezza massima di ricerca.}
-{L'utente inserisce l'ampiezza massima.}{}{}{}{}
+{L'utente non ha inserito uno o più parametri obbligatori per l'elaborazione del \gls{toolg} richiesto.}
+{Il sistema non avvia il \gls{toolg}}
+{Il sistema mostra un messaggio di errore e 
+segnala all'utente quali sono i parametri mancanti.}{}{}{}{}
 
-\subsubsection{UC7.7 - Inserimento tipo di formato della risposta}
+\subsection{UC7.7 - Visualizzazione errore tool non permesso}
 \label{7.7}
 \makeUC{}
 {Utente}
-{L'utente sta eseguendo l'avvio della ricerca.}
-{Il sistema riceve il tipo di formato con cui generare la risposta relativa alla ricerca.}
-{L'utente inserisce il tipo di formato della risposta.}{}{}{}{}
-
-\subsubsection{UC7.8 - Visualizzazione errore parametri non validi}
-\label{7.8}
-\makeUC{}
-{Utente}
-{L'utente ha inserito uno o più parametri obbligatori non validi.}
-{Il sistema non avvia la ricerca.}
+{L'utente non ha i permessi necessari per eseguire l'azione richiesta 
+oppure il \gls{toolg} richiesto non è valido.}
+{Il sistema non avvia l'elaborazione.}
 {Il sistema mostra un messaggio di errore.}{}{}{}{}
 
-\subsubsection{UC7.9 - Richiesta parametri mancanti}
-\label{7.9}
-\makeUC{}
-{Utente}
-{L'utente non ha fornito alla \textit{chat} i parametri necessari.}
-{Il sistema richiede all'utente l'inserimento dei parametri, in linguaggio naturale.}
-{Il sistema mostra un messaggio di errore.}{}{}{}{}
-
-
-\subsubsection{UC8 - Visualizzazione lista dei passaggi della ricerca}
+\subsection{UC8 - Visualizzazione lista dei passaggi della ricerca}
 \label{8}
-\makeUC{UC8}
+\makeUC{}
 {Utente, LLM}
 {   \begin{itemize}
         \item Il sistema è attivo;
-        \item l'utente ha avviato una ricerca;
-        \item l'LLM sta producendo o ha prodotto i dati della ricerca;
+        \item l'utente ha inviato un messaggio nella pagina relativa alla \textit{chat};
+        \item l'LLM sta elaborando o ha elaborato la richiesta dell'utente;
         \item l'utente ha i permessi per visualizzare i passaggi della ricerca.
     \end{itemize}
 }
-{L'utente visualizza la sequenza di azioni logiche compiute dall'LLM.}
-{L'utente visualizza in tempo reale i singoli passaggi generati dall'attività dell'LLM (§\ref{8.1}).}
+{L'utente visualizza la sequenza di azioni logiche compiute dall'\gls{llmg}.}
+{L'utente visualizza in tempo reale i singoli passaggi generati dall'attività dell'\gls{llmg} (§\ref{8.1}).}
 {
     \begin{itemize}
         \item UC8.1 §\ref{8.1}
@@ -562,24 +563,25 @@ controllo della \textit{cache}.}
 }
 {}{}{}
 
-\subsubsection{UC8.1 - Visualizzazione singolo passaggio della ricerca}
+\subsection{UC8.1 - Visualizzazione singolo passaggio della ricerca}
 \label{8.1}
 \makeUC{}
 {Utente, LLM}
 {   \begin{itemize}
-        \item L'utente ha avviato una ricerca;
-        \item l'utente sta visualizzando il flusso di ricerca generato dall'LLM.
+        \item L'utente ha inviato un messaggio nella pagina relativa alla \textit{chat};
+        \item l'utente ha i permessi per visualizzare i passaggi della ricerca;
+        \item l'utente sta visualizzando il flusso di ricerca generato dall'\gls{llmg}.
     \end{itemize}
 }
-{L'utente visualizza un messaggio informativo riguardante l'operazione specifica effettuata dall'LLM in quel momento.}
+{L'utente visualizza un messaggio informativo riguardante l'operazione specifica effettuata dall'\gls{llmg} in quel momento.}
 {
     \begin{enumerate}
-        \item L'utente visualizza una delle tipologie di passaggi elaborate dall'LLM:
+        \item L'utente visualizza una delle seguenti tipologie di passaggi, in caso il \gls{toolg} sia quello di \textit{crawling}:
             \begin{itemize}
-                \item link in fase di analisi (§\ref{8.1.1}); 
+                \item pagina web estratta e analizzata (§\ref{8.1.1}); 
                 \item riassunto semantico del contenuto (§\ref{8.1.2}); 
-                \item link di dominio individuati (§\ref{8.1.3}); 
-                \item link selezionati per coerenza (§\ref{8.1.4}); 
+                \item link trovati nella pagina web analizzata (§\ref{8.1.3}); 
+                \item link selezionati per continuare il processo di \textit{crawling} (§\ref{8.1.4}); 
                 \item risposta finale elaborata (§\ref{8.1.5}). 
             \end{itemize}
         \item L'utente, per il singolo passaggio, visualizza le seguenti proprietà:
@@ -587,7 +589,8 @@ controllo della \textit{cache}.}
                 \item il nome del passaggio (§\ref{8.2});
                 \item la descrizione del passaggio (§\ref{8.3}).
             \end{itemize}
-        \item Se si tratta del passaggio finale di risposta, l'utente può salvare la risposta generata (§\ref{8.5}).
+        \item Se al termine dell'elaborazione il sistema genera correttamente la risposta,
+        l'utente può salvare la risposta generata (§\ref{8.5}).
     \end{enumerate}
 }
 {
@@ -596,7 +599,7 @@ controllo della \textit{cache}.}
         \item UC8.3 §\ref{8.3}
     \end{itemize}
 }
-{Interruzione per errore dell'LLM o di connessione (§\ref{8.4}).}
+{Interruzione dell'elaborazione per errore interno o di connessione (§\ref{8.4}).}
 {
     \begin{itemize}
         \item UC8.4 §\ref{8.4}
@@ -612,7 +615,7 @@ controllo della \textit{cache}.}
     \end{itemize}
 }
 
-\subsubsection{UC8.1.1 - Visualizzazione passaggio: link di ricerca}
+\subsection{UC8.1.1 - Visualizzazione passaggio: pagina analizzata}
 \label{8.1.1}
 \makeUC{}
 {Utente, LLM}
@@ -620,7 +623,7 @@ controllo della \textit{cache}.}
 {L'utente visualizza il nome della pagina \textit{web} da cui si sta estraendo il contenuto.}
 {Il sistema mostra un messaggio informativo relativo all'estrazione del contenuto da una pagina \textit{web}.}{}{}{}{}
 
-\subsubsection{UC8.1.2 - Visualizzazione passaggio: riassunto del link}
+\subsection{UC8.1.2 - Visualizzazione passaggio: riassunto della pagina analizzata}
 \label{8.1.2}
 \makeUC{}
 {Utente, LLM}
@@ -628,30 +631,31 @@ controllo della \textit{cache}.}
 {L'utente visualizza la sintesi generata dall'LLM.}
 {Il sistema mostra il riassunto informativo che l'LLM ha estratto dal link analizzato per determinare la pertinenza alla domanda.}{}{}{}{}
 
-\subsubsection{UC8.1.3 - Visualizzazione passaggio: link trovati}
+\subsection{UC8.1.3 - Visualizzazione passaggio: link trovati}
 \label{8.1.3}
 \makeUC{}
 {Utente}
 {
     \begin{itemize}
         \item Il sistema ha estratto il testo riassuntivo da una pagina \textit{web};
-        \item il sistema non ha ritenuto sufficiente o pertinente il contenuto trovato per poter rispondere all'utente;
+        \item il sistema non ha ritenuto sufficiente o pertinente il contenuto trovato per poter rispondere in maniera completa alla domanda dell'utente;
         \item il sistema ha completato l'estrazione di tutti i link a cui fa riferimento la pagina \textit{web} per poter continuare la ricerca.
     \end{itemize}
 }
 {L'utente visualizza la lista dei link trovati.}
 {Il sistema mostra la lista dei link trovati nella pagina \textit{web} analizzata.}{}{}{}{}
 
-\subsubsection{UC8.1.4 - Visualizzazione passaggio: link scelti}
+\subsection{UC8.1.4 - Visualizzazione passaggio: link scelti}
 \label{8.1.4}
 \makeUC{}
 {Utente, LLM}
 {L'LLM ha completato la scelta dei link pertinenti per la ricerca.}
 {L'utente visualizza la lista dei link scelti dall'LLM per continuare la ricerca.
-Il massimo numero di link che l'LLM può scegliere corrisponde al parametro "massima ampiezza".}
+Il massimo numero di link scelti corrisponde al parametro "massima ampiezza" 
+definito dal \gls{llmg}.}
 {Il sistema mostra la lista dei link scelti.}{}{}{}{}
 
-\subsubsection{UC8.1.5 - Visualizzazione passaggio: risposta}
+\subsection{UC8.1.5 - Visualizzazione passaggio: risposta}
 \label{8.1.5}
 \makeUC{}
 {Utente, LLM}
@@ -669,7 +673,7 @@ Il massimo numero di link che l'LLM può scegliere corrisponde al parametro "mas
     \end{enumerate}
 }{}{}{}{}
 
-\subsubsection{UC8.2 - Visualizzazione nome passaggio}
+\subsection{UC8.2 - Visualizzazione nome passaggio}
 \label{8.2}
 \makeUC{}
 {Utente}
@@ -677,7 +681,7 @@ Il massimo numero di link che l'LLM può scegliere corrisponde al parametro "mas
 {L'utente visualizza il nome del passaggio.}
 {Il sistema mostra il nome relativo al passaggio visualizzato.}{}{}{}{}
 
-\subsubsection{UC8.3 - Visualizzazione descrizione passaggio}
+\subsection{UC8.3 - Visualizzazione descrizione passaggio}
 \label{8.3}
 \makeUC{}
 {Utente}
@@ -685,25 +689,25 @@ Il massimo numero di link che l'LLM può scegliere corrisponde al parametro "mas
 {L'utente visualizza la descrizione del passaggio.}
 {Il sistema mostra la descrizione relativa al passaggio visualizzato.}{}{}{}{}
 
-\subsubsection{UC8.4 - Visualizzazione errore durante la ricerca}
+\subsection{UC8.4 - Visualizzazione errore durante la ricerca}
 \label{8.4}
 \makeUC{}
 {Utente, LLM}
-{L'LLM riscontra un'impossibilità nel proseguire il crawling o nell'elaborare i dati.}
+{L'LLM riscontra un'impossibilità nel proseguire l'elaborazione della risposta.}
 {Il sistema notifica il fallimento della ricerca e ne interrompe l'esecuzione.}
-{Il sistema mostra un messaggio di errore indicando se l'interruzione è dovuta a problemi dell'LLM (es. timeout, limiti di contesto) o di rete.}{}{}{}{}
+{Il sistema mostra un messaggio di errore indicando se l'interruzione è dovuta a problemi interni (es. \textit{timeout}, limiti di contesto) o problemi di rete.}{}{}{}{}
 
-\subsubsection{UC8.5 - Salva risposta}
+\subsection{UC8.5 - Salva risposta}
 \label{8.5}
 \makeUC{UC8.5}
 {Utente}
-{L'utente sta visualizzando il passaggio finale di risposta alla richiesta.}
+{L'utente sta visualizzando la risposta generata correttamente dal sistema.}
 {Il contenuto della risposta viene correttamente salvato.}
 {
     L'utente seleziona una tra le seguenti opzioni:
         \begin{itemize}
             \item Copia la risposta negli appunti (§\ref{8.5.1});
-            \item Salva in un file la risposta (§\ref{8.5.2})
+            \item Salva in un file la risposta (§\ref{8.5.2}).
         \end{itemize}
 }{}{}{}{
     \begin{itemize}
@@ -712,20 +716,20 @@ Il massimo numero di link che l'LLM può scegliere corrisponde al parametro "mas
     \end{itemize}
 }
 
-\subsubsection{UC8.5.1 - Copia risposta negli appunti}
+\subsection{UC8.5.1 - Copia risposta negli appunti}
 \label{8.5.1}
 \makeUC{}
 {Utente}
-{L'utente sta visualizzando il passaggio finale di risposta alla richiesta.}
+{L'utente sta visualizzando la risposta generata correttamente dal sistema.}
 {Il contenuto della risposta viene correttamente copiato negli appunti.}
 {L'utente seleziona l'opzione di copia negli appunti.}{}{}{}{}
 
-\subsubsection{UC8.5.2 - Salvataggio risposta in un file}
+\subsection{UC8.5.2 - Salvataggio risposta in un file}
 \label{8.5.2}
 \makeUC{}
 {Utente}
-{L'utente sta visualizzando il passaggio finale di risposta alla richiesta.}
-{Il contenuto della risposta viene correttamente salvato in un file nel dispostivo dell'utente.}
+{L'utente sta visualizzando la risposta generata correttamente dal sistema.}
+{Il contenuto della risposta viene correttamente salvato in un file nel dispositivo dell'utente.}
 {
     \begin{enumerate}
         \item L'utente seleziona l'opzione di creazione di un file in cui salvare la risposta;
@@ -733,32 +737,35 @@ Il massimo numero di link che l'LLM può scegliere corrisponde al parametro "mas
         \item l'utente conferma l'operazione.
     \end{enumerate}
 }{}{
-    Il file non viene creato e salvato a causa di un errore durante il procedimento (§\ref{8.5.2.1})
-}{}{}
+    Il file non viene creato e salvato a causa di un errore durante il procedimento (§\ref{8.5.2.1}).
+}{
+    \begin{itemize}
+        \item UC8.5.2.1 §\ref{8.5.2.1}
+    \end{itemize}
+}{}
 
-\subsubsection{UC8.5.2.1 - Visualizzazione errore file non salvato}
+\subsection{UC8.5.2.1 - Visualizzazione errore file non salvato}
 \label{8.5.2.1}
 \makeUC{}
 {Utente}
 {
     \begin{itemize}
-        \item L'utente sta visualizzando il passaggio finale di risposta alla richiesta;
+        \item L'utente sta visualizzando la risposta generata correttamente dal sistema;
         \item l'utente ha selezionato l'opzione di salvataggio della risposta in un file.
     \end{itemize}
 }
 {Il contenuto della risposta non viene salvato in un file.}
 {Il sistema mostra all'utente un messaggio di errore.}{}{}{}{}
 
-\subsubsection{UC9 - Visualizzazione storico delle ricerche}
+\subsection{UC9 - Visualizzazione storico delle chat}
 \label{9}
-\makeUC{UC9}
+\makeUC{}
 {Utente}
 {
     \begin{itemize}
         \item Il sistema è attivo;
         \item l'utente è autenticato nel sistema;
-        \item l'utente si trova nella pagina di storico delle ricerche;
-        \item l'utente ha i permessi per poter visualizzare lo storico delle ricerche.
+        \item l'utente sta visualizzando lo storico delle \textit{chat}.
     \end{itemize}
 }
 {
@@ -766,7 +773,7 @@ Il massimo numero di link che l'LLM può scegliere corrisponde al parametro "mas
 }
 {
     \begin{enumerate}
-        \item L'utente seleziona un filtro di periodo, per esempio 'ultima settimana, ultimi 30 giorni, \dots' (§\ref{9.1});
+        \item L'utente seleziona un filtro di periodo, per esempio ''\textit{ultima settimana}, \textit{ultimi 30 giorni}, \dots'' (§\ref{9.1});
         \item l'utente conferma l'operazione;
         \item l'utente visualizza i singoli elementi dello storico (§\ref{9.2}).
     \end{enumerate}
@@ -781,70 +788,40 @@ Il massimo numero di link che l'LLM può scegliere corrisponde al parametro "mas
 {}
 {}
 
-\subsubsection{UC9.1 - Selezione filtro periodo}
+\subsection{UC9.1 - Selezione filtro periodo}
 \label{9.1}
 \makeUC{}
 {Utente}
-{L'utente si trova nella pagina di storico delle ricerche.}
-{L'utente visualizza lo storico delle ricerche nel periodo selezionato.}
-{Il sistema mostra la lista di tutte le ricerche nel periodo selezionato 
+{L'utente sta visualizzando lo storico delle \textit{chat}.}
+{L'utente visualizza lo storico delle \textit{chat} nel periodo selezionato.}
+{Il sistema mostra la lista di tutte le \textit{chat} nel periodo selezionato 
 dall'utente.}{}{}{}{}
 
-\subsubsection{UC9.2 - Visualizzazione singolo elemento dello storico}
+\subsection{UC9.2 - Visualizzazione singolo elemento dello storico}
 \label{9.2}
 \makeUC{}
 {Utente}
-{L'utente sta visualizzando lo storico delle richieste nel periodo selezionato.}
+{L'utente sta visualizzando lo storico delle \textit{chat}.}
 {L'utente visualizza il singolo elemento dello storico.}
-{Il sistema mostra il singolo elemento dello storico, caratterizzato da:
-\begin{itemize}
-        \item url della richiesta (§\ref{9.2.1});
-        \item domanda della richiesta (§\ref{9.2.2});
-        \item risposta fornita (§\ref{9.2.3});
-        \item tempo trascorso dall'esecuzione della richiesta (§\ref{9.2.4}).
-    \end{itemize}
+{Il sistema mostra il singolo elemento dello storico, caratterizzato dall'ultimo messaggio 
+inviato nella \textit{chat}.
 }{
     \begin{itemize}
         \item UC9.2.1 §\ref{9.2.1}
-        \item UC9.2.2 §\ref{9.2.2}
-        \item UC9.2.3 §\ref{9.2.3}
-        \item UC9.2.4 §\ref{9.2.4}
     \end{itemize}
 }{}{}{}
 
-\subsubsection{UC9.2.1 - Visualizzazione url}
+\subsection{UC9.2.1 - Visualizzazione ultimo messaggio della chat}
 \label{9.2.1}
 \makeUC{}
 {Utente}
-{L'utente sta visualizzando lo storico delle richieste nel periodo selezionato.}
-{L'utente visualizza l'url della richiesta nello storico.}
-{Il sistema mostra l'url della richiesta nello storico.}{}{}{}{}
+{L'utente sta visualizzando lo storico delle \textit{chat} nel periodo selezionato.}
+{L'utente visualizza l'ultimo messaggio della \textit{chat} che può essere un messaggio dell'utente 
+oppure un messaggio del sistema.}
+{Il sistema mostra parte dell'ultimo messaggio della \textit{chat} nello storico.}{}{}{}{}
 
-\subsubsection{UC9.2.2 - Visualizzazione domanda}
-\label{9.2.2}
-\makeUC{}
-{Utente}
-{L'utente sta visualizzando lo storico delle richieste nel periodo selezionato.}
-{L'utente visualizza la domanda della richiesta nello storico.}
-{Il sistema mostra la domanda della richiesta nello storico.}{}{}{}{}
 
-\subsubsection{UC9.2.3 - Visualizzazione risposta}
-\label{9.2.3}
-\makeUC{}
-{Utente}
-{L'utente sta visualizzando lo storico delle richieste nel periodo selezionato.}
-{L'utente visualizza la risposta generata dalla richiesta nello storico.}
-{Il sistema mostra la risposta generata dalla richiesta nello storico.}{}{}{}{}
-
-\subsubsection{UC9.2.4 - Visualizzazione tempo trascorso dall'esecuzione}
-\label{9.2.4}
-\makeUC{}
-{Utente}
-{L'utente sta visualizzando lo storico delle richieste nel periodo selezionato.}
-{L'utente visualizza il tempo trascorso dall'esecuzione della richiesta nello storico.}
-{Il sistema mostra il tempo trascorso dall'esecuzione della richiesta nello storico.}{}{}{}{}
-
-\subsubsection{UC10 - Eliminazione storico}
+\subsection{UC10 - Eliminazione storico}
 \label{10}
 \makeUC{UC10}
 {Utente}
@@ -882,11 +859,11 @@ dall'utente.}{}{}{}{}
     \end{itemize}
 }
 
-\subsubsection{UC10.1 - Eliminazione singolo elemento dello storico}
+\subsection{UC10.1 - Eliminazione singolo elemento dello storico}
 \label{10.1}
 \makeUC{}
 {Utente}
-{L'utente sta visualizzando lo storico delle richieste nel periodo selezionato.}
+{L'utente sta visualizzando lo storico delle \textit{chat} nel periodo selezionato.}
 {L'utente elimina correttamente il singolo elemento dello storico selezionato.}
 {
     \begin{enumerate}
@@ -896,11 +873,11 @@ dall'utente.}{}{}{}{}
     \end{enumerate}
 }{}{}{}{}
 
-\subsubsection{UC10.2 - Eliminazione intero storico}
+\subsection{UC10.2 - Eliminazione intero storico}
 \label{10.2}
 \makeUC{}
 {Utente}
-{L'utente sta visualizzando lo storico delle richieste nel periodo selezionato.}
+{L'utente sta visualizzando lo storico delle \textit{chat} nel periodo selezionato.}
 {L'utente elimina correttamente tutto lo storico, indipendentemente dal periodo selezionato.}
 {
     \begin{enumerate}
@@ -909,7 +886,7 @@ dall'utente.}{}{}{}{}
     \end{enumerate}
 }{}{}{}{}
 
-\subsubsection{UC10.3 - Visualizzazione errore storico vuoto}
+\subsection{UC10.3 - Visualizzazione errore storico vuoto}
 \label{10.3}
 \makeUC{}
 {Utente}
@@ -917,42 +894,13 @@ dall'utente.}{}{}{}{}
 {Il sistema non elimina lo storico.}
 {Il sistema mostra un messaggio di errore.}{}{}{}{}
 
-\subsubsection{UC11 - Riesecuzione ricerca dallo storico}
-\label{11}
-\makeUC{UC11}
-{Utente}
-{
-    \begin{itemize}
-        \item Il sistema è attivo;
-        \item l'utente è autenticato nel sistema;
-        \item l'utente si trova nella pagina di storico delle ricerche;
-        \item l'utente ha i permessi per poter visualizzare lo storico delle ricerche.
-    \end{itemize}
-}
-{Il sistema invia nuovamente nella \textit{chat} il messaggio di ricerca con i parametri salvati nello storico.}
-{
-    \begin{enumerate}
-        \item L'utente seleziona l'elemento nello storico da eseguire nuovamente;
-        \item l'utente seleziona l'opzione relativa alla riesecuzione della ricerca;
-        \item l'utente conferma l'operazione.
-    \end{enumerate}
-}
-{}{}{}{}
-
-\section{Requisiti}
-In questa sezione viene presentata la specifica dei requisti. In particolare, i requisiti di dividono in:
-\begin{itemize}
-    \item \textbf{Funzionali}: descrivono le funzionalità che un sistema deve avere per soddisfare i bisogni. Si suddividono in requisiti funzionali obbligatori, opzionali e desiderabili;
-    \item \textbf{Di qualità}: requisiti che devono essere rispettati per accertare la qualità della progettazione e dello sviluppo del sistema;
-    \item \textbf{Di vincolo}: restrizioni che devono essere rispettate durante la progettazione e lo sviluppo del sistema.
-\end{itemize}
 \subsection{Funzionali}
 \begingroup
 \renewcommand{\arraystretch}{1.50}
 \begin{center}
     \begin{xltabular}{\textwidth}{|c|c| >{\arraybackslash}X|c|}
         \hline
-        \rowcolor{lightgray} \textbf{ID} & \textbf{Tipo} & \textbf{Descrizione} & \textbf{Fonti} \\
+        \textbf{ID} & \textbf{Tipo} & \textbf{Descrizione} & \textbf{Fonti} \\
         \hline
         % ── OBBLIGATORI ──────────────────────────────────────────────────────
         \makeReq{1}{L'utente deve potersi autenticare presso il sistema}{1}
@@ -978,101 +926,53 @@ In questa sezione viene presentata la specifica dei requisti. In particolare, i 
         \makeReq{1}{L'utente deve poter avviare una ricerca con \textit{cache bypass}}{7.2}
         \makeReq{1}{Il sistema deve estrarre l'URL di partenza dal messaggio dell'utente per avviare la ricerca}{7.3}
         \makeReq{1}{Il sistema deve estrarre la domanda dal messaggio dell'utente per avviare la ricerca}{7.4}
-        \makeReq{1}{Il sistema deve poter estrarre la profondità massima di ricerca dal messaggio dell'utente}{7.5}
-        \makeReq{1}{Il sistema deve poter estrarre l'ampiezza massima di ricerca dal messaggio dell'utente}{7.6}
-        \makeReq{1}{L'utente deve poter specificare il formato della risposta (\textit{Markdown}, \textit{HTML}, \textit{JSON})}{7.7}
-        \makeReq{1}{L'utente deve ricevere un errore se i parametri forniti non sono validi}{7.8}
-        \makeReq{1}{Il sistema deve chiedere all'utente l'inserimento dei parametri assenti}{7.9}
+        \makeReq{1}{Il sistema deve segnalare all'utente i parametri obbligatori mancanti, impedendo l'avvio del \textit{tool}}{7.6}
+        \makeReq{1}{L'utente deve ricevere un errore se l'azione richiesta non è permessa o il \textit{tool} richiesto non è valido}{7.7}
         \makeReq{1}{L'utente deve poter visualizzare la risposta generata dal sistema}{8.1.5}
         \makeReq{1}{Il sistema deve notificare l'utente in caso di errore durante la ricerca}{8.4}
         % ── OPZIONALI ─────────────────────────────────────────────────────────
+        \makeReq{2}{L'utente deve poter specificare il formato della risposta (\textit{Markdown}, \textit{HTML}, \textit{JSON})}{7.5}
         \makeReq{2}{L'utente deve poter visualizzare in tempo reale i passaggi della ricerca in corso}{8}
         \makeReq{2}{L'utente deve poter visualizzare in tempo reale il singolo passaggio della ricerca in corso}{8.1}
-        \makeReq{2}{L'utente deve poter visualizzare il passaggio relativo al link che si sta analizzando}{8.1.1}
-        \makeReq{2}{L'utente deve poter visualizzare il passaggio relativo al riassunto semantico del link analizzato}{8.1.2}
-        \makeReq{2}{L'utente deve poter visualizzare il passaggio relativo ai link trovati}{8.1.3}
+        \makeReq{2}{L'utente deve poter visualizzare il passaggio relativo alla pagina \textit{web} in fase di analisi}{8.1.1}
+        \makeReq{2}{L'utente deve poter visualizzare il passaggio relativo al riassunto semantico della pagina analizzata}{8.1.2}
+        \makeReq{2}{L'utente deve poter visualizzare il passaggio relativo ai link trovati nella pagina analizzata}{8.1.3}
         \makeReq{2}{L'utente deve poter visualizzare il passaggio relativo ai link scelti per continuare la ricerca}{8.1.4}
         \makeReq{2}{L'utente deve poter visualizzare il nome del passaggio}{8.2}
         \makeReq{2}{L'utente deve poter visualizzare la descrizione del passaggio}{8.3}
-        \makeReq{2}{L'utente deve poter visualizzare lo storico delle proprie ricerche}{9}
+        \makeReq{2}{L'utente deve poter visualizzare lo storico delle proprie \textit{chat}}{9}
         \makeReq{2}{L'utente deve poter filtrare lo storico per periodo temporale (ultima settimana, ultimo mese, \dots)}{9.1}
-        \makeReq{2}{L'utente deve poter visualizzare i dettagli di una singola ricerca passata}{9.2}
-        \makeReq{2}{L'utente deve poter visualizzare l'url di una singola ricerca passata}{9.2.1}
-        \makeReq{2}{L'utente deve poter visualizzare la domanda di una singola ricerca passata}{9.2.2}
-        \makeReq{2}{L'utente deve poter visualizzare la risposta di una singola ricerca passata}{9.2.3}
-        \makeReq{2}{L'utente deve poter visualizzare il tempo trascorso dall'esecuzione di una singola ricerca passata}{9.2.4}
-        \makeReq{2}{L'utente deve poter eliminare lo storico delle proprie ricerche}{10}
-        \makeReq{2}{L'utente deve poter eliminare il singolo elemento nello storico}{10.1}
+        \makeReq{2}{L'utente deve poter visualizzare i singoli elementi dello storico}{9.2}
+        \makeReq{2}{L'utente deve poter visualizzare, per ogni elemento dello storico, l'ultimo messaggio della relativa \textit{chat}}{9.2.1}
+        \makeReq{2}{L'utente deve poter eliminare lo storico delle proprie \textit{chat}}{10}
+        \makeReq{2}{L'utente deve poter eliminare il singolo elemento dello storico}{10.1}
         \makeReq{2}{L'utente deve poter eliminare tutto lo storico}{10.2}
-        \makeReq{2}{L'utente deve poter ricevere un errore se lo storico è vuoto e si cerca di eliminarne il contenuto}{10.3}
-        \makeReq{2}{L'utente deve poter rieseguire una ricerca presente nello storico}{11}
+        \makeReq{2}{L'utente deve ricevere un errore se tenta di eliminare lo storico quando è vuoto}{10.3}
         % ── DESIDERABILI ──────────────────────────────────────────────────────
         \makeReq{3}{L'utente deve poter avviare una ricerca con controllo della \textit{cache}}{7.1}
         \makeReq{3}{L'utente deve poter salvare la risposta generata dal sistema}{8.5}
         \makeReq{3}{L'utente deve poter copiare la risposta generata negli appunti}{8.5.1}
         \makeReq{3}{L'utente deve poter salvare la risposta generata in un file locale}{8.5.2}
-        \makeReq{3}{L'utente deve poter ricevere un errore se il file con la risposta generata non è stato salvato}{8.5.2.1}
+        \makeReq{3}{L'utente deve ricevere un errore se il file con la risposta generata non viene salvato correttamente}{8.5.2.1}
     \end{xltabular}
 \end{center}
 \endgroup
-
-
-\subsection{Di qualità}
-\begingroup
-\renewcommand{\arraystretch}{1.50}
-\begin{center}
-    \begin{xltabular}{\textwidth}{|c|c| >{\arraybackslash}X|c|}
-        \hline
-        \rowcolor{lightgray} \textbf{ID} & \textbf{Tipo} & \textbf{Descrizione} & \textbf{Fonti} \\
-        \hline
-        \RQ{1}{Il sistema deve essere corredato da almeno un test che verifichi il corretto funzionamento del \textit{routing} dei \textit{MCP tool}}{-1}
-        \RQ{1}{Il sistema deve essere corredato da almeno un test per ogni funzionalità fornita dai \textit{MCP tool}}{-1}
-        \RQ{1}{Il codice sorgente deve essere contenuto in un \textit{repository} versionato tramite \textit{Git}}{-1}
-        \RQ{1}{Consegnare la documentazione dei casi d'uso per l'utilizzo dell'applicativo \textit{web}}{0}
-        \RQ{1}{Consegnare la specifica tecnica dell'applicativo \textit{web}}{0}
-        \RQ{1}{Consegnare il manuale di utilizzo dell'applicativo \textit{web} per gli utenti}{0}
-    \end{xltabular}
-\end{center}
-\endgroup
-
-
-\subsection{Di vincolo}
-\begingroup
-\renewcommand{\arraystretch}{1.50}
-\begin{center}
-    \begin{xltabular}{\textwidth}{|c|c| >{\arraybackslash}X|c|}
-        \hline
-        \rowcolor{lightgray} \textbf{ID} & \textbf{Tipo} & \textbf{Descrizione} & \textbf{Fonti} \\
-        \hline
-        \RV{1}{Il sistema deve essere containerizzato tramite \textit{Docker} definendo 4 container:
-            \begin{itemize}
-                \item Server MCP;
-                \item Backend;
-                \item Frontend;
-                \item Database.
-            \end{itemize}
-        }{0}
-        \RV{1}{Il sistema deve utilizzare \textit{JWT} per l'autenticazione degli utenti.}{-1}
-    \end{xltabular}
-\end{center}
-\endgroup
-
 
 \subsection{Riepilogo}
 \begingroup
 \renewcommand{\arraystretch}{1.50}
 \begin{center}
-    \begin{xltabular}{\textwidth}{| >{\columncolor{lightgray}}c | c | c | c | c |}
+    \begin{xltabular}{\textwidth}{| c | c | c | c | c |}
         \hline
-        \rowcolor{lightgray} \textbf{Tipi di requisiti} & \textbf{Obbligatori} & \textbf{Opzionali} & \textbf{Desiderabili} & \textbf{Totali} \\
+        \textbf{Tipi di requisiti} & \textbf{Obbligatori} & \textbf{Opzionali} & \textbf{Desiderabili} & \textbf{Totali} \\
         \hline
-        \textbf{Funzionali} & 30 & 20 & 5 & 55 \\
+        \textbf{Funzionali} & 27 & 17 & 5 & 49 \\
         \hline
         \textbf{Di qualità} & 6 & 0 & 0 & 6 \\
         \hline
         \textbf{Di vincolo} & 2 & 0 & 0 & 2 \\
         \hline
-        \textbf{Totali} & 38 & 20 & 5 & \textbf{63} \\
+        \textbf{Totali} & 35 & 17 & 5 & \textbf{57} \\
         \hline
     \end{xltabular}
 \end{center}
