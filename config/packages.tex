@@ -39,7 +39,7 @@
 
 \usepackage{listings}                   % codici
 
-\usepackage{microtype}                  % microtipografia
+\usepackage[expansion=false]{microtype} % microtipografia
 
 \usepackage{mparhack,relsize}           % finezze tipografiche
 
@@ -55,9 +55,13 @@
 \usepackage{longtable}                  % tabelle su più pagine
 \usepackage{ltxtable}                   % tabelle su più pagine e adattabili in larghezza
 
-\usepackage[toc, acronym]{glossaries}   % glossario
+\usepackage[toc, acronym, makeindex]{glossaries}   % glossario
 
 \usepackage[backend=biber,style=verbose-ibid,hyperref,backref]{biblatex}
 
 \usepackage{layaureo}                   % margini ottimizzati per l'A4
 \usepackage{fancyhdr}
+
+\usepackage{float}
+
+\usepackage{xltabular}

@@ -1,44 +1,108 @@
 \chapter{Introduzione}
 \label{cap:introduzione}
+Il presente capitolo ha l'obiettivo di fornire una descrizione del 
+contesto del progetto di stage e della struttura del presente elaborato. 
+I punti trattati saranno: 
+\begin{itemize}
+    \item l'azienda ospitante;
+    \item gli obiettivi del progetto e le motivazioni alla base del suo sviluppo;
+    \item la struttura del documento.
+\end{itemize}
 
-Introduzione al contesto applicativo.\\
+% \noindent Esempio di utilizzo di un termine nel glossario \\
+% \gls{api}. \\
 
-\noindent Esempio di utilizzo di un termine nel glossario \\
-\gls{api}. \\
+% \noindent Esempio di citazione in linea \\
+% \cite{site:agile-manifesto}. \\
 
-\noindent Esempio di citazione in linea \\
-\cite{site:agile-manifesto}. \\
-
-\noindent Esempio di citazione nel pie' di pagina \\
-citazione\footcite{womak:lean-thinking} \\
+% \noindent Esempio di citazione nel pie' di pagina \\
+% citazione\footcite{womak:lean-thinking} \\
 
 \section{L'azienda}
+L'azienda scelta per il tirocinio curricolare è RiskApp S.r.l., una realtà italiana specializzata 
+nello sviluppo di soluzioni software e algoritmi per il settore assicurativo, bancario 
+e finanziario. 
+Fondata nel 2015 con sede a Conselve (Padova), l'azienda offre una piattaforma digitale con lo scopo di
+aiutare le piccole e medie imprese nell'analisi e nella valutazione dei rischi aziendali.
+\begin{figure}[!h] 
+    \centering 
+    \includegraphics[width=0.4\columnwidth]{riskapp} 
+    \caption{Logo di RiskApp S.r.l.}
+\end{figure}
 
-Descrizione dell'azienda.
+\section{Il caso di studio}
+L'efficacia dei modelli di intelligenza artificiale moderni è strettamente 
+legata alla qualità e all'attualità delle informazioni a disposizione. 
+Tuttavia, per loro stessa natura, questi modelli vengono addestrati su un 
+insieme di dati definito in un momento preciso: questo limite strutturale 
+rende la loro conoscenza intrinsecamente statica che dipende dal momento in 
+cui la fase \textit{training} viene eseguita.
 
-\section{L'idea}
 
-Introduzione all'idea dello stage.
+Per superare tale limite, è necessario dotare i modelli di un meccanismo che 
+consenta loro di accedere a informazioni aggiornate al momento della richiesta, 
+superando in questo modo il problema temporale imposto dal \textit{training}.
+È in questo contesto che si inserisce il \textit{Model Context Protocol} (\gls{mcp})\glsfirstoccur, 
+uno standard che permette ai modelli di intelligenza artificiale di interagire con 
+strumenti e fonti di dati esterni. 
+
+Il caso di studio affrontato in questo lavoro di tesi si colloca in 
+questo scenario e nasce dall'esigenza di automatizzare il reperimento 
+di informazioni mirate da siti web. L'obiettivo principale è superare i 
+limiti dei tradizionali sistemi di 
+\gls{crawlingg}\glsfirstoccur, che spesso richiedono architetture rigide e 
+difficilmente integrabili con agenti artificiali di ultima generazione.
+
+Su queste basi, l'attività di tirocinio si è focalizzata 
+sull'analisi, progettazione e codifica di una piattaforma in grado di offrire
+il servizio di \gls{crawlingg}.
+
+\section{Il software da sviluppare}
+Il software sviluppato durante il tirocinio è un server \gls{mcpg}\glsfirstoccur, 
+progettato per esporre le funzionalità 
+di \textit{crawling} ed estrazione dati da siti web.
+
+Tale server, tuttavia, rappresenta una singola componente di un sistema 
+più ampio: per rendere tale servizio accessibile agli utenti finali, 
+il progetto prevede anche la realizzazione di un'applicazione web 
+composta da un \textit{frontend} e da un \textit{backend}. 
+Il servizio \gls{mcpg} si inserisce all'interno del \textit{backend} ed 
+espone un singolo \gls{toolg}\glsfirstoccur, responsabile dell'esecuzione del 
+\textit{crawling} su un sito web e della successiva estrazione dei dati 
+in un formato strutturato (\textit{plain text}, \gls{HTMLg}\glsfirstoccur, \gls{Markdowng}\glsfirstoccur o \gls{JSONg}\glsfirstoccur), 
+restituito poi al chiamante.
+ 
+\section{Il ruolo dello \textit{stage} nell'azienda}
+L'esigenza alla base del progetto è l'automazione del recupero di informazioni 
+dal web, al fine di renderle accessibili in modo standardizzato agli agenti 
+AI utilizzati internamente. In questo modo gli agenti potranno autonomamente chiamare 
+il \gls{toolg} necessario e ricevere il risultato nel formato atteso.
 
 \section{Organizzazione del testo}
-
+L'elaborato si compone di sei capitoli principali, inclusa l'introduzione.
 \begin{description}
-    \item[{\hyperref[cap:processi-metodologie]{Il secondo capitolo}}] descrive ...
+    \item[{\hyperref[cap:descrizione-stage]{Il secondo capitolo}}] descrive le attività 
+    svolte durante il periodo di tirocinio, con un approfondimento sui 
+    problemi affrontati e sulle relative soluzioni implementate.
     
-    \item[{\hyperref[cap:descrizione-stage]{Il terzo capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:analisi-requisiti]{Il terzo capitolo}}] analizza dettagliatamente 
+    i vari requisiti obbligatori, opzionali e desiderabili del progetto.
     
-    \item[{\hyperref[cap:analisi-requisiti]{Il quarto capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:progettazione-codifica]{Il quarto capitolo}}] approfondisce 
+    le scelte di progettazione architetturale e la fase di codifica dei componenti 
+    sviluppati.
     
-    \item[{\hyperref[cap:progettazione-codifica]{Il quinto capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:verifica-validazione]{Il quinto capitolo}}] illustra le attività 
+    di verifica e validazione del prodotto finale, analizzando i risultati raggiunti 
+    e tracciando la conformità tra i requisiti attesi e quelli effettivamente soddisfatti.
     
-    \item[{\hyperref[cap:verifica-validazione]{Il sesto capitolo}}] approfondisce ...
-    
-    \item[{\hyperref[cap:conclusioni]{Nel settimo capitolo}}] descrive ...
+    \item[{\hyperref[cap:conclusioni]{Il sesto capitolo}}] riassume le varie considerazioni finali
+    sull'esperienza di stage evidenziando i possibili sviluppi futuri del sistema.
 \end{description}
 
 Riguardo la stesura del testo, relativamente al documento sono state adottate le seguenti convenzioni tipografiche:
 \begin{itemize}
 	\item gli acronimi, le abbreviazioni e i termini ambigui o di uso non comune menzionati vengono definiti nel glossario, situato alla fine del presente documento;
 	\item per la prima occorrenza dei termini riportati nel glossario viene utilizzata la seguente nomenclatura: \emph{parola}\glsfirstoccur;
-	\item i termini in lingua straniera o facenti parti del gergo tecnico sono evidenziati con il carattere \emph{corsivo}.
+	\item i termini in lingua straniera di uso non comune o facenti parti del gergo tecnico sono evidenziati con il carattere \emph{corsivo}.
 \end{itemize}

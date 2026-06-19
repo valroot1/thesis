@@ -1,0 +1,159 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{template}[2026/05/05 Custom template for AdR]
+
+\RequirePackage{geometry}
+\RequirePackage{graphicx}
+\RequirePackage{hyperref}
+\RequirePackage{fancyhdr}
+\RequirePackage{titling}
+\RequirePackage{xltabular}
+\RequirePackage{enumitem}
+\RequirePackage{etoolbox}
+\RequirePackage{xstring}
+\RequirePackage{xparse}
+\RequirePackage{xspace}
+\RequirePackage{needspace}
+\RequirePackage{float}
+\RequirePackage{caption}
+\RequirePackage{lastpage}
+
+\geometry{margin=1in}
+
+\makeatletter
+\newcommand{\subtitle}[1]{\def\@subtitle{#1}}
+\newcommand{\@subtitle}{}
+\makeatother
+
+\makeatletter
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \centering
+        \vspace*{\vfill} 
+        
+        \begin{minipage}{0.45\textwidth}
+            \centering
+            % Ho corretto i percorsi con quelli che hai usato sopra (img/...)
+            \includegraphics[width=4cm]{img/unipd.png}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+            \centering
+            \includegraphics[width=3.5cm]{img/riskapp.png}
+        \end{minipage}
+        
+        \vskip 3cm 
+        
+        {\LARGE\bfseries \@title \par}
+        \vskip 0.8em
+        {\large \textit{\@subtitle} \par}
+        
+        \vskip 2.5cm
+        
+        {\large \textbf{\@author} \par}
+        \vskip 0.5em
+        {\large \@date \par}
+        
+        \vspace*{\vfill}
+    \end{titlepage}
+}
+\makeatother
+
+\newcommand{\makeUC}[9]{
+    \ifblank{#1}{}
+    {
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.9\textwidth]{img/#1.png}
+            \caption{Diagramma #1}
+        \end{figure}
+    }
+    \begin{table}[htbp]
+        \centering
+        \small
+        \renewcommand{\arraystretch}{1.4}
+        \begin{tabular}{|p{3cm}|p{10cm}|}
+            \hline
+            \textbf{Attori} & #2 \\
+            \hline
+            \textbf{Pre-condizioni} & #3 \\
+            \hline
+            \textbf{Post-condizioni} & #4 \\
+            \hline
+            \textbf{Scenario principale} & #5 \\
+            \hline
+            \ifblank{#6}{}{
+            \textbf{Inclusioni} & #6 \\
+            \hline
+            }
+            \ifblank{#7}{}{
+            \textbf{Scenari alternativi} & #7 \\
+            \hline
+            }
+            \ifblank{#8}{}{
+            \textbf{Estensioni} & #8 \\
+            \hline
+            }
+            \ifblank{#9}{}{
+            \textbf{Generalizzazioni} & #9 \\
+            \hline
+            }
+        \end{xltabular}
+    \end{table}
+}
+
+% contatore RF
+\newcounter{rcount}
+\setcounter{rcount}{0}
+
+\newcommand{\makeReq}[3]{%
+    \stepcounter{rcount}%
+    RF-\thercount & 
+    \ifcase#1\or Obbligatorio\or Opzionale\or Desiderabile\fi & 
+    #2 & 
+    UC#3 §\ref{#3} \\
+    \hline
+}
+
+% contatore RQ
+\newcounter{rqcount}
+\setcounter{rqcount}{0}
+
+\newcommand{\RQ}[3]{%
+    \stepcounter{rqcount}%
+    RQ-\therqcount & 
+    \ifcase#1\or Obbligatorio\or Opzionale\or Desiderabile\fi & 
+    #2 & 
+    \ifnum#3=0 
+        Piano di lavoro
+    \else
+        \ifnum#3=-1
+            Intervista
+        \else
+            UC#3 §\ref{#3}
+        \fi
+    \fi \\
+    \hline
+}
+
+% contatore RV
+\newcounter{rvcount}
+\setcounter{rvcount}{0}
+
+\newcommand{\RV}[3]{%
+    \stepcounter{rvcount}%
+    RV-\thervcount & 
+    \ifcase#1\or Obbligatorio\or Opzionale\or Desiderabile\fi & 
+    #2 & 
+    \ifnum#3=0 
+        Piano di lavoro
+    \else
+        \ifnum#3=-1
+            Intervista
+        \else
+            UC#3 §\ref{#3}
+        \fi
+    \fi \\
+    \hline
+}
+
+\endinput

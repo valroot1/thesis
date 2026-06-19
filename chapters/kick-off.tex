@@ -1,22 +1,448 @@
-\chapter{Descrizione dello stage}
+\chapter{Descrizione stage}
 \label{cap:descrizione-stage}
 
-\intro{Breve introduzione al capitolo}\\
+\intro{In questo capitolo vengono descritte le attività 
+    svolte, l'organizzazione dello stage e l'analisi dei rischi.}\\
 
-\section{Introduzione al progetto}
+\section{Obiettivi del progetto}
+Il tirocinio ha come obiettivo principale quello di avvicinare studentesse e 
+studenti al mondo del lavoro, apprendendo le tecnologie e gli strumenti 
+maggiormente richiesti in ambito aziendale.
+Al termine del tirocinio svolto in RiskApp S.r.l. erano attese le seguenti competenze:
+\begin{itemize}
+    \item progettazione e implementazione di un server conforme al \gls{mcpg} per l'esposizione
+    di funzionalità tramite \gls{toolg} dedicati;
+    \item implementazione di tecniche di validazione e \gls{prompt-engineeringg} per 
+    il controllo della qualità dei risultati prodotti dal \gls{llmg}\glsfirstoccur ;
+    \item implementazione di un sistema di \gls{cachingg} intelligente per la gestione 
+    efficiente delle richieste ridondanti;
+    \item sviluppo di un sistema di autenticazione e autorizzazione sicuro 
+    basato su \gls{jwtg}\glsfirstoccur ;
+    \item utilizzo dello strumento di containerizzazione \gls{dockerg} per la gestione 
+    e l'orchestrazione dei servizi;
+    \item gestione di database per la persistenza dei dati relativi alle richieste 
+    e agli utenti;
+    \item sviluppo di un'interfaccia utente intuitiva e reattiva.
+\end{itemize}
+
+\section{Vincoli}
+L'azienda ha definito alcune linee guida per 
+garantire la portabilità del prodotto finale e l'interoperabilità con i software 
+aziendali interni. I vincoli individuati sono i seguenti:
+\begin{itemize}
+    \item il prodotto deve essere sviluppato usando il \gls{frameworkg}\glsfirstoccur  React 
+    per il \textit{frontend};
+    \item il prodotto deve essere sviluppato usando il \gls{frameworkg}\glsfirstoccur FastAPI
+    per il \textit{backend};
+    \item il sistema deve essere containerizzato tramite \gls{dockerg};
+    \item le componenti del sistema devono comunicare tramite \gls{apig}\glsfirstoccur .
+\end{itemize}
+
+\section{Pianificazione}
+All'inizio del tirocinio è stato redatto il piano di lavoro per 
+la ripartizione approssimativa delle attività su base settimanale.
+La pianificazione prevista è dunque la seguente:
+\begin{itemize}
+    \item \textbf{Prima settimana} 
+        \begin{itemize}
+            \item incontro con le persone coinvolte nel progetto per discutere 
+            i vari requisiti;
+            \item studio e formazione sulle tecnologie adottate, 
+            quali FastMCP e FastAPI.
+        \end{itemize}
+    \item \textbf{Seconda settimana }
+        \begin{itemize}
+            \item studio e formazione sulle tecnologie adottate;
+            \item analisi dei requisiti.
+        \end{itemize}
+    \item \textbf{Terza settimana }
+        \begin{itemize}
+            \item sviluppo del prototipo;
+            \item inizio progettazione;
+            \item inizio pianificazione.
+        \end{itemize}
+    \item \textbf{Quarta settimana }
+        \begin{itemize}
+            \item configurazione dell'ambiente di sviluppo con \gls{dockerg};
+            \item implementazione del componente server \gls{mcpg}.
+        \end{itemize}
+    \item \textbf{Quinta settimana }
+        \begin{itemize}
+            \item implementazione della conversione delle pagine in 
+            formato \gls{markdowng} e \gls{htmlg};
+            \item implementazione del sistema di \gls{cachingg} intelligente.
+        \end{itemize}
+    \item \textbf{Sesta settimana }
+        \begin{itemize}
+            \item gestione degli errori e casi limite;
+            \item ottimizzazione delle performance del sistema.
+        \end{itemize}
+    \item \textbf{Settima settimana}
+        \begin{itemize}
+            \item sviluppo dei \textit{test};
+            \item collaudo e verifica;
+        \end{itemize}
+    \item \textbf{Ottava settimana}
+        \begin{itemize}
+            \item completamento del collaudo e correzione \textit{bug};
+            \item stesura della documentazione tecnica finale.
+        \end{itemize}
+\end{itemize}
+
+\subsection{Prima settimana}
+Durante la prima settimana di lavoro ha avuto luogo l'incontro iniziale con i 
+\textit{tutor} aziendali per un'analisi approfondita del progetto e la definizione 
+dei requisiti principali. Tale incontro è stato fondamentale per definire con precisione 
+gli obiettivi e delineare i vincoli tecnologici e operativi. 
+Parallelamente, è iniziata una fase di studio individuale focalizzata 
+sulla lettura della documentazione relativa ai \textit{framework} 
+\textit{FastMCP} e \textit{FastAPI}. Per velocizzare l'apprendimento di tali 
+tecnologie ho sviluppato dei piccoli progetti guidati in \textit{Python} 
+disponibili nella documentazione ufficiale (\textit{QuickStart}), 
+Tali progetti erano volti alla comprensione pratica delle tecnologie 
+studiate. In particolare:
+\begin{itemize}
+    \item riguardo \textbf{FastAPI} ho imparato a implementare:
+        \begin{itemize}
+            \item funzioni \texttt{async}/\texttt{await};
+            \item classi con \texttt{@dataclass};
+            \item \textit{streaming} di dati in formato \gls{jsong} per il \gls{sseg}\glsfirstoccur ;
+            \item \gls{websocketg};
+            \item i principali metodi \gls{httpg} (\texttt{GET}, \texttt{POST}, 
+            \texttt{PUT}, \texttt{DELETE});
+        \end{itemize}
+    \item riguardo \textbf{FastMCP}, ho imparato a implementare:
+        \begin{itemize}
+            \item \textit{tool} \gls{mcpg};
+            \item \textit{resources} \gls{mcpg};
+            \item \textit{prompts} \gls{mcpg};
+        \end{itemize}
+\end{itemize}
+
+
+\subsection{Seconda settimana}
+La seconda settimana è stata dedicata al consolidamento delle competenze tecnologiche 
+acquisite nei giorni precedenti. Per una comprensione più solida del progetto, si è 
+proceduto con la redazione del documento di Analisi dei Requisiti. Tale attività ha 
+permesso di formalizzare tutti i requisiti, che sono stati suddivisi in requisiti funzionali,
+di qualità e di vincolo e a sua volta scomposti in obbligatori, opzionali e desiderabili.
+Durante questo periodo sono 
+stati svolti alcuni incontri con i \textit{tutor} aziendali per chiarire alcuni dubbi
+e aggiungere nuovi requisiti, i quali hanno permesso di espandere il progetto.
+
+\subsection{Terza settimana}
+Nel corso della terza settimana l'attenzione si è spostata verso le attività di sviluppo 
+di un \textit{Proof of Concept}, volto a permettere all'azienda di valutare la mia comprensione degli obiettivi
+e dell'attuabilità del progetto. 
+\\Il prototipo realizzato ha previsto lo sviluppo 
+del server \gls{mcpg} che esponeva un 
+\textit{tool} di \textit{crawling}.
+Tale \textit{tool} richiedeva come parametri il nome del sito web da cui 
+eseguire il \textit{crawling}, la domanda dell'utente in linguaggio naturale 
+e il tipo di formato desiderato per la generazione della risposta.
+
+Il sistema avviava un processo di \textit{crawling} che, ricorsivamente, 
+estraeva l'\gls{htmlg} della pagina, lo riassumeva e tentava di rispondere 
+alla domanda dell'utente.
+Se le informazioni ricavate fino a quel punto non erano sufficienti a 
+rispondere al quesito, il sistema prelevava tutti i \textit{link} 
+ai siti del medesimo 
+dominio web, selezionava i più pertinenti (al 
+più tre) e proseguiva la ricerca.
+Per evitare una ricorsione infinita o un numero eccessivo di 
+chiamate ricorsive il sistema definiva due parametri: l'ampiezza massima (il 
+numero massimo di \textit{link} selezionabili ad ogni livello di 
+ricorsione) e profondità massima (numero 
+massimo di livelli di ricorsione).
+Successivamente è stata sviluppata anche una semplice interfaccia utente 
+per l'inserimento dei parametri e la visualizzazione della risposta generata.
+Infine, è stato implementato un processo di \textit{streaming} tramite \gls{sseg}, 
+per mostrare nella pagina web i singoli passaggi svolti durante la ricorsione 
+(estrazione della pagina, riassunto del contenuto, estrazione di tutti i \textit{link}, 
+scelta dei \textit{link} più pertinenti).
+
+Il prototipo sviluppato ha permesso di dimostrare concretamente la fattibilità 
+dell'approccio proposto, fornendo all'azienda una prima base tangibile su cui valutare 
+la direzione del progetto e indirizzare le fasi di sviluppo successive.
+
+In base ai riscontri del \textit{Proof of Concept}, è iniziata la pianificazione 
+di dettaglio dell'architettura del sistema, prima per il 
+\textit{backend} e successivamente per il \textit{frontend}.
+In particolare, sono state effettuate le seguenti scelte architetturali:
+\begin{itemize}
+    \item suddivisione del \textit{backend} in microservizi indipendenti, 
+    ciascuno responsabile di un dominio applicativo specifico (autenticazione, 
+    gestion utenti, storico delle richieste, ricerca e server \gls{mcpg}) con 
+    l'obiettivo di favorire la scalabilità e la manutenibilità del sistema;
+    \item adozione dell'architettura esagonale (\textit{hexagonal architecture})
+    all'interno di ciascun microservizio al fine di disaccoppiare la logica di business
+    dai dettagli implementativi (come database, \gls{llmg}, \gls{apig} esterne) e
+    favorire la testabilità del codice;
+    \item adozione del pattern \gls{mvvmg} per il \textit{frontend} allo scopo di 
+    separare la logica di presentazione dalla gestione dello stato dell'applicazione.
+\end{itemize}
+
+
+\subsection{Quarta settimana}
+La quarta settimana ha segnato l'inizio della fase di codifica dell'infrastruttura, 
+partendo dal componente \textit{backend}. Il primo obiettivo è stato la 
+configurazione dell'ambiente di sviluppo attraverso la containerizzazione 
+con \gls{dockerg} e la suddivisione dei container per microservizi, 
+al fine di garantire fin dall'inizio la portabilità e 
+scalabilità del software, uno dei vincoli principali imposti dall'azienda.
+In seguito è stato definito la base di dati dell'applicazione, al fine di 
+garantire la persistenza dei dati relativi agli utenti (profilo, permessi, 
+\text{chat}) e alle richieste effettuate al \gls{llmg}.
+\\Infine, è stata avviata la codifica dei vari microservizi 
+del \textit{backend}. Il processo di codifica di tali microservizi è 
+stato protratto per le successive settimane e sono stati 
+sviluppati nel seguente ordine:
+\begin{enumerate}
+    \item \textbf{server \gls{mcpg} service}: rappresenta il vero e proprio servizio \gls{mcpg} che espone il \gls{tool} di \textit{crawl} e per ogni passaggio effettuato,
+    invia al \textit{frontend} un \textit{event} tramite \gls{sseg};
+    \item \textbf{search service}: rappresenta il servizio dedicato alla gestione dei messaggi dell'utente il linguaggio naturale. Il microservizio, dato il contesto, comprende quale \gls{toolg} è richiesto dall'utente, estrae i parametri necessari e chiama l'\textit{endpoint} corretto del microservizio \textit{server MCP};
+    \item \textbf{auth service}: rappresenta il servizio dedicato all'autenticazione dell'utente e alla gestione dei \gls{jwtg} (validazione e creazione di \textit{access token} e \textit{refresh token}, salvataggio e revoca del \textit{refresh token});
+    \item \textbf{user service}: rappresenta il servizio dedicato alla creazione e 
+    alla gestione degli utenti;
+    \item \textbf{history service}: rappresenta il servizio dedicato alla gestione 
+    e salvataggio dei messaggi delle \textit{chat} tra l'utente e l'\gls{llmg}.
+\end{enumerate}
+Dalla quarta settimana la pianificazione prevista dal piano di lavoro non è stata più 
+seguita: dopo l'analisi dei requisiti sono sorte nuove funzionalità importanti e 
+complesse che non erano state dichiarate all'inizio. Il prodotto finale avrebbe 
+dunque richiesto più lavoro su vari fronti, diversi dalla sola gestione di un servizio 
+\gls{mcpg}. Durante tale periodo è stato dunque fondamentale una ripianificazione 
+completa delle settimane a seguire in maniera tale da adattarla alle nuove specifiche.
+
+\subsection{Quinta settimana}
+Durante la quinta settimana si è continuato il processo di codifica \textit{backend}avviato nella quarta settimana. In particolare:
+\begin{itemize}
+    \item è stato completato il microservizio relativo al server \gls{mcpg};
+    \item è stato avviato e completato \textit{search service};
+    \item è stato avviato \textit{auth service}.
+\end{itemize}
+
+\subsection{Sesta settimana}
+Nella sesta settimana si è continuato il processo di codifica, in particolare:
+\begin{itemize}
+    \item è stato completato il microservizio \textit{auth service};
+    \item sono stato avviati e completati \textit{user service} 
+    e \textit{history service}.
+\end{itemize}
+Avendo concluso lo sviluppo del \textit{backend}, ho iniziato 
+la codifica relativa alla parte del \textit{frontend}, la quale è stata 
+suddivisa in base alle funzionalità fornite. Sono state dunque 
+implementate le seguenti pagine web:
+\begin{itemize}
+    \item \textbf{login} per effettuare l'accesso al sistema tramite le 
+    credenziali \textit{username} e \textit{password};
+    \item \textbf{chatbot} per inviare messaggi al sistema e visualizzare 
+    la risposta generata con i vari passaggi del processo di \textit{crawling};
+    \item \textbf{gestione utenti}, dedicato ai soli utenti \textit{admin}, 
+    permette di creare e gestire nuovi utenti all'interno del sistema;
+    \item \textbf{profilo utente} per visualizzare e modificare le 
+    informazioni dell'utente;
+    \item \textbf{storico delle \textit{chat}} per visualizzare le varie 
+    conversazioni passate.
+\end{itemize}
+
+\subsection{Settima settimana}
+La settima settimana è stata dedicata al \textit{refactoring}: 
+partendo dal \textit{backend} fino a raggiungere il \textit{frontend}, sono state analizzate tutte le componenti e le funzioni implementate e 
+sono state ottimizzate, al fine di renderle 
+più efficienti dal punto di vista di complessità, velocità e utilizzo di 
+risorse.
+Un'attività di particolare rilievo ha riguardato l'implementazione del sistema di \textit{tracing} all'interno del servizio \gls{mcpg}, realizzato mediante la piattaforma \textit{LangSmith}. Tale funzionalità consente di monitorare e analizzare in modo dettagliato le chiamate effettuate ai modelli di intelligenza artificiale impiegati dal sistema.
+
+
+Sono state poi implementate piccole \textit{feature} aggiuntive per 
+migliorare l'\textit{user experience}, come l'utilizzo di icone nei 
+bottoni, il tema chiaro/scuro e la possibilità di copiare o 
+scaricare la risposta generata. 
+Infine sono stati sviluppati i vari \textit{test} relativi a tutte le componenti 
+del sistema per validare il loro corretto funzionamento e valutare 
+la conformità rispetto ai requisiti definiti in fase di analisi.
+
+\subsection{Ottava settimana}
+Durante l'ultima settimana sono stati corretti alcuni \textit{bug} 
+relativi alla visualizzazione dei messaggi nelle \textit{chat} e
+si è concluso ufficialmente il progetto con il collaudo finale 
+da parte dei \textit{tutor} aziendali.
+
+
+\subsection{Pianificazione in retrospettiva}
+L'esperienza di tirocinio si è rivelata particolarmente formativa soprattutto dal 
+punto di vista tecnico. Sebbene la pianificazione iniziale
+abbia costituito un utile punto di partenza per organizzare le attività, il progetto
+ha subito un'evoluzione importante durante il suo sviluppo. Dopo la fase di
+analisi dei requisiti, avviata nella seconda settimana, sono infatti emerse nuove esigenze e funzionalità che hanno portato a una revisione significativa degli obiettivi iniziali e della pianificazione prevista.
+
+Questa situazione ha evidenziato come, all'interno di un contesto aziendale reale,
+i requisiti possano evolvere nel tempo in funzione delle necessità del cliente,
+delle opportunità individuate durante lo sviluppo e dei risultati ottenuti nelle
+fasi preliminari del progetto. Di conseguenza, è stato necessario adattare
+costantemente il piano di lavoro, ridefinendo priorità e attività da svolgere.
+Tale esperienza ha permesso di comprendere l'importanza della flessibilità e della
+capacità di gestione del cambiamento, competenze fondamentali nello sviluppo
+software moderno.
+
+Dal punto di vista tecnico, il progetto ha rappresentato un'importante occasione
+di approfondimento di tecnologie e paradigmi architetturali non affrontati in modo
+approfondito durante il percorso universitario. In particolare, ho acquisito
+competenze nell'utilizzo di Python e dei relativi \gls{frameworkg} FastAPI e FastMCP, nella progettazione di architetture a microservizi, nell'applicazione dell'architettura esagonale e nell'utilizzo del pattern MVVM per lo sviluppo \textit{frontend}. Ho inoltre maturato esperienza nella containerizzazione delle applicazioni mediante \gls{dockerg} e nella progettazione di sistemi che integrano modelli linguistici di grandi dimensioni (\gls{llmg}).
+
+Un altro aspetto particolarmente significativo è stato il confronto continuo con
+i \textit{tutor} aziendali. Le revisioni periodiche e le discussioni sulle scelte
+progettuali hanno contribuito a migliorare la qualità delle soluzioni sviluppate
+e mi hanno permesso di imparare molte tecnologie e tecniche nuove. 
+Questo confronto costante ha inoltre favorito lo sviluppo
+delle capacità comunicative.
+
+Il raggiungimento degli obiettivi finali e la realizzazione di un prodotto completo,
+composto da un'infrastruttura \textit{backend} a microservizi e da un'interfaccia
+\textit{frontend} dedicata, hanno rappresentato una conferma concreta delle
+competenze acquisite durante il percorso universitario e di quelle sviluppate nel
+corso del tirocinio. L'esperienza ha quindi contribuito in maniera significativa
+alla mia crescita professionale, fornendomi una visione più completa delle attività
+necessarie per progettare, sviluppare, testare e distribuire un'applicazione software
+all'interno di un contesto aziendale reale.
+
+
+\section{Organizzazione del lavoro}
+\subsection{Metodologia adottata}
+Per la gestione e l'esecuzione delle attività durante tutto il periodo di stage è stata scelta una metodologia di sviluppo di tipo \textit{iterativo-incrementale} basata su \textit{timebox} settimanali. Questo approccio ha permesso di tradurre la pianificazione strategica di alto livello in obiettivi operativi intermedi e costantemente verificabili. La misura dell'avanzamento del progetto è stata determinata dal progressivo rilascio di incrementi software stabili e funzionanti, garantendo al contempo la flessibilità necessaria per ripianificare gli obiettivi in base alle esigenze emerse in corso d'opera.
+
+Il modello iterativo-incrementale si fonda sul principio del miglioramento continuo del prodotto attraverso cicli ripetuti di analisi, progettazione, implementazione e verifica. Differisce dai modelli sequenziali poiché l'applicazione non viene sviluppata in un'unica soluzione finale, ma cresce per ''incrementi'' successivi. Ogni iterazione produce una versione del software che aggiunge nuove funzionalità o ottimizza quelle esistenti, consentendo di integrare tempestivamente i \textit{feedback} degli \textit{stakeholder} e mitigare i rischi tecnici.
+
+Il ciclo di vita del progetto di tirocinio è stato mappato sulle quattro macro-fasi logiche caratteristiche di questo modello di sviluppo:
+\begin{itemize}
+\item \textbf{Inception}: svoltasi prevalentemente durante la prima settimana, ha compreso la definizione del perimetro del progetto, l'analisi preliminare dei vincoli tecnologici (\textit{Docker}, \textit{Python} con \textit{FastAPI} e \textit{FastMCP}, \textit{React}, \textit{PostgreSQL}) e l'allineamento iniziale con i \textit{tutor} aziendali per delineare gli obiettivi ad alto livello;
+\item \textbf{Elaboration}: coincidente con la seconda e la terza settimana, in cui si è proceduto alla formalizzazione del documento di Analisi dei Requisiti e alla successiva progettazione architetturale, validata attraverso la realizzazione di un \textit{Proof of Concept};
+\item \textbf{Construction}: estesa dalla quarta alla settima settimana, ha rappresentato la fase a più alta intensità di sviluppo. In questo periodo l'architettura a microservizi del \textit{backend} e l'interfaccia \textit{frontend} in \textit{React} sono state progressivamente codificate, integrate e containerizzate tramite \textit{Docker}. Sono stati sviluppati i \textit{test} automatici ed è stata svolta l'attività di \textit{refactoring} di tutte le componenti di sistema;
+\item \textbf{Transition}: focalizzata nell'ultima settimana, ha riguardato l'ottimizzazione delle performance e la consegna finale del prodotto ai \textit{tutor} aziendali.
+\end{itemize}
+
+\subsection{Analisi comparativa e motivazioni della scelta}
+\subsubsection{Gestione del cambiamento}
+La scelta di questa metodologia è stata determinata dalla natura innovativa e dinamica del progetto, incentrato sull'utilizzo del protocollo \gls{mcpg} e sull'integrazione di modelli linguistici di grandi dimensioni (\gls{llmg}).
+
+L'efficacia della scelta iterativa si è manifestata concretamente a partire dalla quarta settimana: l'evoluzione dei requisiti ha reso obsoleta la pianificazione iniziale. In un \gls{frameworkg} rigido, tale variazione avrebbe comportato una seria minaccia per la stabilità e le tempistiche del progetto; l'approccio iterativo ha invece permesso di avviare una ripianificazione delle settimane rimanenti, rimodulando i confini dei \textit{timebox} e garantendo lo sviluppo delle nuove funzionalità senza compromettere la qualità del software o i tempi di consegna.
+
+\subsubsection{Confronto con altre metodologie}
+Per valutare la qualità nel contesto del progetto, la metodologia adottata è stata messa a confronto con i principali paradigmi alternativi:
+\begin{itemize}
+\item \textbf{Modello Waterfall (A Cascata)}: questo approccio prevede una sequenza rigida di fasi in cui i requisiti devono essere interamente definiti e congelati all'inizio. Applicare il modello a cascata in questo scenario sarebbe stato fallimentare, poiché l'evoluzione dei requisiti avrebbe richiesto un ritorno alle fasi iniziali, provocando ritardi insostenibili.
+\item \textbf{Scrum puro}: sebbene Scrum sia un'ottima metodologia agile per gestire requisiti fluttuanti, la sua struttura cerimoniale rigorosa (comprendente \textit{Daily Standup}, \textit{Sprint Planning}, \textit{Review} e \textit{Retrospective}) unita alla definizione formale di ruoli rigidi (\textit{Scrum Master}, \textit{Product Owner}) avrebbe generato un sovraccarico organizzativo ingiustificato per un progetto svolto individualmente.
+\item \textbf{Kanban}: pur offrendo flessibilità e concentrandosi sul flusso continuo di lavoro, Kanban non impone scadenze temporali rigide o cicli di pianificazione predefiniti. L'assenza di \textit{timebox} strutturati avrebbe reso complessa la verifica periodica degli obiettivi soddisfatti.
+\end{itemize}
+
+\subsection{Metodologia operativa e flussi di comunicazione}
+Le attività settimanali sono state governate da due dinamiche principali di sincronizzazione con la struttura aziendale:
+\begin{enumerate}
+    \item \textbf{Supporto quotidiano e comunicazione asincrona}: anche durante le giornale svolte da remoto, ero sempre in contatto con i \textit{tutor} aziendali tramite l'applicazione di messaggistica \textit{Slack}. 
+    Tale canale ha permesso di mantenere un flusso informativo costante con i \textit{tutor}, facilitando la rapida risoluzione di problemi o di domande relative al progetto;
+    \item \textbf{Allineamento finale settimanale}: un incontro della durata di circa 20 minuti programmato al termine di ogni ciclo. Durante la sessione veniva effettuato un controllo dei risultati ottenuti durante la settimana e veniva pianificato l'obiettivo del ciclo successivo.
+\end{enumerate}
+
+\subsection{Esempio di iterazione settimanale}
+A titolo esemplificativo, nella Tabella~\ref{tab:esempio-iterazione} viene riportata la scheda di gestione utilizzata per documentare e tracciare le attività della terza settimana, periodo in cui è stato sviluppato il prototipo del sistema di \textit{crawling}.
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabular}{|p{3cm}|p{10cm}|}
+        \hline
+        \textbf{Elemento} & \textbf{Descrizione} \\ \hline
+
+        \textbf{Settimana} & Settimana 3 \\ \hline
+
+        \textbf{Goal} & Sviluppo di un \textit{Proof of Concept} (PoC) funzionante, finalizzato alla verifica della fattibilità del server MCP. \\ \hline
+
+        \textbf{Attività pianificate in ordine di priorità} &
+        \begin{enumerate}
+            \item Implementazione base del server \textit{MCP} con esposizione di un \textit{tool} di \textit{crawling};
+            \item Sviluppo della logica di estrazione, riassunto e selezione \textit{link} delle pagine HTML;
+            \item Formattazione della risposta generata nei formati HTML, JSON, plain text e Markdown con vincoli di ampiezza e profondità massima;
+            \item Realizzazione di un’interfaccia utente di base con inserimento URL dei sito web, inserimento domanda e visualizzazione della risposta finale;
+            \item Implementazione dello \textit{streaming} degli stati tramite \textit{Server-Sent Events} (SSE);
+            \item Visualizzazione via \textit{frontend} dei passaggi in tempo reale.
+        \end{enumerate}
+        \\ \hline
+
+        \textbf{Esito} &
+        Obiettivo raggiunto. \\ \hline
+
+        \textbf{Feedback} &
+        Valutazione positiva. Viene consigliato di rendere \textit{built-in} (statici) i parametri di massima ampiezza e profondità. \\ \hline
+
+    \end{tabular}
+    \caption{Documentazione di un’iterazione settimanale (Settimana 3).}
+    \label{tab:esempio-iterazione}
+\end{table}
+
 
 \section{Analisi preventiva dei rischi}
 
 Durante la fase di analisi iniziale sono stati individuati alcuni possibili rischi a cui si potrà andare incontro.
 Si è quindi proceduto a elaborare delle possibili soluzioni per far fronte a tali rischi.\\
 
-\begin{risk}{Performance del simulatore hardware}
-    \riskdescription{le performance del simulatore hardware e la comunicazione con questo potrebbero risultare lenti o non abbastanza buoni da causare il fallimento dei test}
-    \risksolution{coinvolgimento del responsabile a capo del progetto relativo il simulatore hardware}
-    \label{risk:hardware-simulator} 
+\begin{risk}{Elevata curva di apprendimento tecnologico}
+    \riskdescription{L'adozione di un ampio \textit{stack} tecnologico comprendente \textit{framework} e paradigmi non approfonditi nel percorso accademico (FastAPI, protocollo MCP, architettura esagonale e Docker) rischia di sottrarre tempo prezioso alla fase più dispendiosa, ovvero la codifica.}
+    \risksolution{Pianificazione di una fase iniziale di formazione teorico-pratica con sviluppo di progetti pilota guidati (\textit{QuickStart}) e di un \textit{Proof of Concept} per validare le competenze prima dello sviluppo definitivo.}
+    \label{risk:curva-apprendimento} 
 \end{risk}
 
+\begin{risk}{Volatilità e instabilità dei requisiti}
+    \riskdescription{Trattandosi di un'applicazione legata a tecnologie emergenti in un contesto aziendale reale, i requisiti iniziali potrebbero subire variazioni o ampliamenti in corso d'opera, invalidando la pianificazione strategica originaria.}
+    \risksolution{Adozione di una metodologia iterativo-incrementale basata su \textit{timebox} settimanali e canali di comunicazione costanti (\textit{Slack} e allineamenti), permettendo una tempestiva ripianificazione e rimodulazione degli obiettivi operativi.}
+    \label{risk:volatilita-requisiti} 
+\end{risk}
+
+\begin{risk}{Latenza e limitazioni nell'integrazione di LLM e crawling}
+    \riskdescription{L'interazione con i modelli linguistici e i processi ricorsivi di \textit{web crawling} potrebbero introdurre colli di bottiglia prestazionali, problemi di \textit{rate limiting} delle \textit{API}.}
+    \risksolution{Definizione di parametri rigidi di ampiezza e profondità massima per la ricorsione, implementazione di un sistema di \textit{caching} intelligente e utilizzo della piattaforma \textit{LangSmith} per il tracciamento e il monitoraggio continuo delle chiamate.}
+    \label{risk:latenza-llm} 
+\end{risk}
+
+\begin{risk}{Non-determinismo delle risposte del modello linguistico (LLM)}
+    \riskdescription{I modelli linguistici di grandi dimensioni possono generare risposte imprevedibili o strutturalmente non omogenee (comunemente chiamate ''allucinazioni'') a parità di input, rischiando di compromettere la consistenza dei dati inviati al frontend o la corretta esecuzione dei tool basati sul protocollo MCP.}
+    \risksolution{Implementazione di tecniche stringenti di \textit{prompt engineering}, definizione di vincoli sintattici rigorosi sull'output del modello (richiedendo formati strutturati, come JSON) e aggiunta di validazione dei dati per intercettare e gestire tempestivamente eventuali risposte non conformi.}
+    \label{risk:non-determinismo-llm} 
+\end{risk}
+
+\begin{risk}{Complessità di integrazione dell'architettura a microservizi}
+    \riskdescription{La scomposizione del \textit{backend} in microservizi indipendenti introduce complessità nella comunicazione tra componenti e nella gestione della persistenza.}
+    \risksolution{Configurazione e orchestrazione dell'ambiente di sviluppo tramite \textit{Docker} fin dalle prime fasi e sviluppo sequenziale e incrementale dei singoli microservizi per isolare e risolvere tempestivamente le dipendenze critiche.}
+    \label{risk:integrazione-microservizi} 
+\end{risk}
+
+
 \section{Requisiti e obiettivi}
+\label{sec:requisiti-obiettivi}
 
+In questa sezione vengono formalizzati gli obiettivi prefissati all'inizio dell'esperienza di tirocinio, classificati in base alla loro priorità di realizzazione.
 
-\section{Pianificazione}
+\subsection{Obiettivi obbligatori}
+Gli obiettivi obbligatori rappresentano i requisiti minimi e indispensabili per il successo del progetto. Essi comprendono le componenti architetturali e le funzionalità primarie di interazione con i modelli linguistici:
+
+\begin{itemize}
+    \item \textbf{Progettazione e implementazione del server MCP}: Sviluppo di un server conforme allo standard \textit{Model Context Protocol} (MCP) mediante l'utilizzo del framework \textit{FastMCP}, finalizzato all'esposizione di funzionalità e strumenti dedicati all'ecosistema di intelligenza artificiale.
+    \item \textbf{Sviluppo del modulo di crawling parametrico}: Realizzazione di un motore di \textit{web crawling} ricorsivo in grado di estrarre e riassumere il contenuto informativo di pagine web in linguaggio naturale, governato da vincoli rigidi di ampiezza e profondità massima per prevenire cicli infiniti o sovraccarichi computazionali.
+    \item \textbf{Ingegnerizzazione dei prompt e validazione dell'output AI}: Applicazione di tecniche avanzate di \textit{prompt engineering} e introduzione di uno strato software di validazione sintattica e semantica, volto a garantire la qualità e la coerenza dei risultati prodotti dal \textit{Large Language Model} (LLM).
+    \item \textbf{Architettura del backend a microservizi}: Progettazione e codifica dei servizi di \textit{backend} (gestione utenti, autenticazione, storico chat, servizi di ricerca e server MCP) tramite il framework \textit{FastAPI}, strutturati secondo i dettami dell'architettura esagonale per disaccoppiare la logica di business dalle dipendenze tecnologiche.
+    \item \textbf{Sviluppo di un'interfaccia utente reattiva}: Realizzazione del \textit{frontend} dell'applicazione mediante il \textit{framework} \textit{React} (adottando il pattern MVVM), che includa una pagina per l'interazione in stile chatbot con il modello e la visualizzazione in tempo reale, tramite \gls{sseg}, dei singoli passaggi logici eseguiti dal \textit{crawler}.
+    \item \textbf{Gestione della sicurezza e dell'autenticazione}: Implementazione di un sistema sicuro di controllo degli accessi basato su \gls{jwtg}, che regoli l'emissione, la validazione e la revoca di \textit{access token} e \textit{refresh token}, associando permessi specifici in base al ruolo dell'utente (es. utente standard ed amministratore).
+    \item \textbf{Containerizzazione e orchestrazione dell'infrastruttura}: Utilizzo della piattaforma \textit{Docker} per l'isolamento di ciascun microservizio e del database relazionale, garantendo la parità degli ambienti, la portabilità del software e il rispetto dei vincoli di interoperabilità aziendali.
+    \item \textbf{Verifica e documentazione}: Conduzione di \textit{test} di unità e di integrazione per validare il corretto funzionamento del \textit{routing} dei \textit{MCP tools} e stesura della documentazione tecnica finale.
+\end{itemize}
+
+\subsection{Obiettivi desiderabili}
+Gli obiettivi desiderabili comprendono tutte quelle funzionalità aggiuntive, attività di ottimizzazione e strumenti di monitoraggio volti ad elevare la qualità del prodotto finale e la sua esperienza d'uso:
+
+\begin{itemize}
+    \item \textbf{Implementazione di un sistema di caching intelligente}: Sviluppo di un meccanismo di persistenza temporanea delle richieste per intercettare e gestire in modo efficiente i quesiti ridondanti formulati dagli utenti, abbattendo i tempi di latenza complessivi del sistema e riducendo il consumo di \textit{token} verso le \gls{apig} del modello linguistico.
+    \item \textbf{Integrazione di sistemi di tracing avanzati}: Introduzione e configurazione della piattaforma \textit{LangSmith} all'interno del servizio \textit{MCP}, allo scopo di monitorare, tracciare ed analizzare nel dettaglio il flusso delle chiamate e le performance dei modelli di intelligenza artificiale impiegati.
+    \item \textbf{Funzionalità avanzate di gestione e persistenza}: Estensione delle capacità del sistema attraverso la creazione di un pannello amministrativo per la gestione delle utenze, la personalizzazione del profilo utente e la memorizzazione persistente su database dello storico delle conversazioni.
+    \item \textbf{Esportazione locale dei dati generati}: Sviluppo di una funzionalità che consenta all'utente di salvare e scaricare la risposta generata dall'assistente virtuale in un file locale (in conformità con i requisiti di utilità aziendale), gestendo in modo robusto gli eventuali errori di scrittura del file.
+    \item \textbf{Ottimizzazione dell'User Experience (UX)}: Introduzione di accorgimenti grafici e funzionali volti a migliorare l'usabilità dell'interfaccia web, tra cui il supporto del tema chiaro/scuro, elementi visivi iconografici immediati e opzioni di copia rapida negli appunti o di \textit{download} per i testi generati.
+\end{itemize}

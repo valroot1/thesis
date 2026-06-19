@@ -1,17 +1,20 @@
 # Taken from http://mirrors.ctan.org/support/latexmk/example_rcfiles/glossaries_latexmkrc
 
-add_cus_dep( 'acn', 'acr', 0, 'makeglossaries' );
-add_cus_dep( 'glo', 'gls', 0, 'makeglossaries' );
+add_cus_dep( 'glo', 'gls', 0, 'run_makeindex_glo' );
+add_cus_dep( 'acn', 'acr', 0, 'run_makeindex_acn' );
 add_cus_dep( 'svg', 'pdf', 0, 'svg2pdf' );
 add_cus_dep( 'drawio.svg', 'pdf', 0, 'drawio2pdf');
 
 $clean_ext .= " acr acn alg glo gls glg bbl ist";
 
-sub makeglossaries {
+sub run_makeindex_glo {
     my ($base_name, $path) = fileparse( $_[0] );
-    my @args = ( "-q", "-d", $path, $base_name );
-    if ($silent) { unshift @args, "-q"; }
-    return system "makeglossaries", "-d", $path, $base_name;
+    return system( "makeindex", "-s", "$path/$base_name.ist", "-t", "$path/$base_name.glg", "-o", "$path/$base_name.gls", "$path/$base_name.glo" );
+}
+
+sub run_makeindex_acn {
+    my ($base_name, $path) = fileparse( $_[0] );
+    return system( "makeindex", "-s", "$path/$base_name.ist", "-t", "$path/$base_name.alg", "-o", "$path/$base_name.acr", "$path/$base_name.acn" );
 }
 
 sub svg2pdf {
