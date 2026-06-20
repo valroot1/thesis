@@ -1,26 +1,264 @@
 \chapter{Progettazione e codifica}
 \label{cap:progettazione-codifica}
 
-\intro{Breve introduzione al capitolo}\\
+\intro{In questo capitolo viene descritta la progettazione 
+del sistema e le tecnologie utilizzate per lo sviluppo prodotto 
+software.}\\
 
 \section{Tecnologie e strumenti}
 \label{sec:tecnologie-strumenti}
+% Di seguito viene data una panoramica delle tecnologie e degli strumenti 
+% presi in considerazione durante lo sviluppo del \textit{Proof of Concept}, 
+% e successivamente motivare le scelte effettuate.
+% Le scelte architetturali hanno preso in considerazione 
+Il prodotto software da sviluppare deve permettere 
+agli utenti di interagire con un \textit{chatbot} che, in base alla richiesta formulata, seleziona il \gls{toolg} più appropriato 
+tra quelli esposti dal server \gls{mcpg}, tra cui la funzionalità di \gls{crawlingg} intelligente sviluppato in questo progetto. 
+Questo processo richiede una comprensione approfondita delle tecniche di 
+caching semantico e delle tecnologie di intelligenza artificiale applicate al recupero 
+e all'elaborazione di informazioni testuali.
 
-Di seguito viene data una panoramica delle tecnologie e strumenti utilizzati.
+Le principali sfide affrontate durante lo sviluppo di questa applicazione includono:
+\begin{itemize}
+    \item la gestione dei dati e dell'autenticazione degli utenti;
+    \item l'ottimizzazione del processo di \gls{crawlingg} e di estrazione dei contenuti dalle pagine web;
+    \item la progettazione di un meccanismo di \textit{caching} semantico per evitare richieste ridondanti all'\gls{llmg};
+    \item lo sviluppo di un'interfaccia utente reattiva capace di mostrare in tempo reale i passaggi del processo di ricerca;
+    \item garantire la sicurezza delle comunicazioni e l'isolamento dei dati di ciascun utente;
+    \item l'integrazione di un server \gls{mcpg} che esponga il servizio di \gls{crawlingg} come strumento standardizzato, selezionabile dal chatbot tra i vari \gls{toolg} disponibili.
+\end{itemize}
 
-\subsection*{Tecnologia 1}
-Descrizione Tecnologia 1.
+\subsection{Strumenti analizzati}
+In questa sezione vengono discusse le principali tecnologie 
+individuate durante le prime settimane di tirocinio e
+utilizzate nello sviluppo del progetto.
 
-\subsection*{Tecnologia 2}
-Descrizione Tecnologia 2
+\subsubsection{React}
 
-\section{Ciclo di vita del software}
-\label{sec:ciclo-vita-software}
+React è una libreria JavaScript \textit{open source} mantenuta da Meta, ampiamente utilizzata per la costruzione di interfacce utente dichiarative e basate su componenti. 
+La sua adozione in questo progetto riflette la necessità di costruire un'interfaccia complessa, reattiva e facilmente manutenibile per la gestione delle conversazioni e degli utenti.
+React si basa sul concetto di componente: ogni elemento dell'interfaccia viene scomposto in unità indipendenti, riutilizzabili e componibili tra loro. 
+Questo approccio facilita la suddivisione del lavoro di sviluppo e la manutenzione del codice nel tempo, poiché ogni componente può essere modificato o testato in isolamento 
+senza impattare il resto dell'applicazione.
+Un altro aspetto rilevante di React è il suo \textit{Virtual DOM}, un meccanismo che consente di aggiornare dinamicamente gli oggetti nelle pagine, 
+evitando operazioni di \textit{refresh} dell'intera pagina. Questa caratteristica risulta particolarmente utile in questo progetto, 
+dove l'interfaccia deve aggiornarsi di continuo per mostrare in tempo reale i singoli passaggi durante l'elaborazione della risposta 
+da parte del \gls{llmg}.
+React vanta inoltre un insieme vasto di librerie di supporto, tra cui \textit{React Router} per la gestione della navigazione e \textit{i18next} per l'internazionalizzazione 
+dei contenuti, entrambe impiegate in questo progetto. 
+
+Per questi motivi, React rappresenta una scelta solida ed efficace per lo sviluppo del \textit{frontend} di questa applicazione.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\textwidth]{react_logo.png}
+    \caption{Logo di React}
+\end{figure}
+
+\subsubsection{Vite}
+Vite è uno strumento di compilazione per applicazioni web moderne, progettato per offrire un'esperienza di sviluppo estremamente rapida. 
+Infatti, Vite sfrutta i moduli \textit{ES} (\textit{ECMAScript Modules}) nativi del \textit{browser} durante la fase di sviluppo, 
+evitando di dover ricompilare l'intera applicazione ad ogni modifica del codice.
+Questo strumento si distingue per i tempi di avvio quasi istantanei del server di sviluppo e per 
+il processo di \textit{Hot Module Replacement} (HMR), che permette di visualizzare le modifiche al codice 
+nel \textit{browser} in tempi minimi, senza dover ricaricare l'intera pagina.
+
+La scelta di Vite integrata con React è motivata dalla necessità di mantenere un flusso di sviluppo rapido 
+ed efficiente durante l'iterazione continua sui componenti dell'interfaccia.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\textwidth]{vite_logo.png}
+    \caption{Logo di Vite}
+\end{figure}
+
+\subsubsection{Python}
+Python è un linguaggio di programmazione ad alto livello, interpretato e di uso generale, noto per la sua sintassi chiara e leggibile. 
+Questa caratteristica enfatizza la leggibilità del codice e riduce i costi di manutenzione del progetto, 
+aspetto particolarmente rilevante in un'architettura suddivisa in molti microservizi indipendenti.
+Python supporta diversi paradigmi di programmazione, tra cui quello procedurale, orientato agli oggetti e funzionale, 
+e si distingue per la sua versatilità: può essere impiegato per lo sviluppo \textit{backend}, 
+l'elaborazione di dati, l'integrazione con modelli di intelligenza artificiale e l'automazione di processi. 
+Questa versatilità lo rende particolarmente adatto a un progetto come questo, in cui il linguaggio deve gestire 
+sia la logica di business dei vari servizi sia l'orchestrazione delle chiamate al \gls{llmg}.
+Python permette anche l'integrazione di un vasto insieme di librerie e \gls{frameworkg} \textit{open source}, 
+tra cui FastAPI, FastMCP e BeautifulSoup, tutti adottati in questo progetto. 
+
+Per questi motivi, Python rappresenta la scelta naturale per l'implementazione di tutti i servizi \textit{backend} del sistema.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.15\textwidth]{python_logo.png}
+    \caption{Logo di Python}
+\end{figure}
+
+\subsubsection{FastAPI}
+
+FastAPI è un \gls{frameworkg} web moderno per Python, progettato per la costruzione di \gls{apig} ad alte prestazioni. 
+Si basa sugli standard \gls{openapi}\footnote{\textit{OpenAPI Specification}, un formato standard per la descrizione di API REST.} 
+e \textit{JSON Schema}, e sfrutta i \textit{type hints} di Python per la validazione automatica dei dati in ingresso e in uscita.
+Una delle caratteristiche principali di FastAPI è la generazione automatica della documentazione interattiva delle API, 
+basata sugli schemi \textit{Pydantic} definiti nel codice. 
+Questo riduce sensibilmente il tempo necessario alla documentazione manuale degli \textit{endpoint} e garantisce che 
+la documentazione sia sempre sincronizzata con l'implementazione effettiva.
+FastAPI è inoltre costruito su \textit{Starlette} e supporta nativamente la programmazione asincrona, 
+aspetto fondamentale per questo progetto, dove i singoli microservizi (auth-service, user-service, history-service, 
+search-service, mcpserver-service) devono gestire un elevato numero di richieste e comunicazioni in tempo reale 
+tramite \gls{sseg}. 
+
+Per queste ragioni, FastAPI è stato scelto come \gls{frameworkg} principale per l'implementazione dei servizi 
+\textit{backend} del sistema, secondo un'architettura a porte e adattatori (\textit{hexagonal architecture}).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{fastapi_logo.png}
+    \caption{Logo di FastAPI}
+\end{figure}
+
+
+\subsubsection{FastMCP e il Model Context Protocol}
+
+Il \gls{mcpg} è un protocollo standardizzato che consente ai modelli di intelligenza artificiale di interagire 
+con strumenti e servizi esterni tramite un'interfaccia uniforme, eliminando la necessità di implementare 
+integrazioni specifiche per ciascun provider o strumento. 
+FastMCP è un \gls{frameworkg} Python che semplifica notevolmente l'implementazione di un server 
+\gls{mcpg}, occupandosi della gestione del protocollo, della definizione degli strumenti esposti e della comunicazione con i client.
+FastMCP si distingue per la sua semplicità d'uso: permette di esporre funzioni Python come strumenti 
+utilizzabili da un modello di linguaggio tramite semplici decoratori (con l'utilizzo di \texttt{@mcp.tool}), senza richiedere la gestione 
+manuale dei dettagli di basso livello del protocollo.
+
+Nel contesto di questo progetto, FastMCP rappresenta il cuore del sistema: il server \gls{mcpg} espone, 
+tra i propri strumenti, il \gls{toolg} di \gls{crawlingg}, che il \textit{chatbot} è in grado di selezionare 
+automaticamente quando il messaggio dell'utente lo richiede. 
+La scelta di FastMCP consente quindi di concentrarsi sulla logica di estrazione e ricerca dei contenuti, 
+delegando a tale strumento la gestione del protocollo di comunicazione e di esposizione degli strumenti al modello.
+
+\subsubsection{BeautifulSoup}
+BeautifulSoup è una libreria Python per l'estrazione di dati da documenti \gls{htmlg} e \gls{xmlg}\glsfirstoccur. 
+Permette di analizzare la struttura di una pagina web e di navigarla attraverso un'interfaccia semplice e intuitiva, 
+individuando con facilità \textit{tag}, attributi e contenuti testuali.
+Questa libreria si distingue per la sua tolleranza nei confronti di \gls{htmlg} malformato, una caratteristica particolarmente 
+utile quando si analizzano pagine web reali, che spesso non rispettano rigorosamente gli standard. 
+BeautifulSoup fornisce inoltre un insieme di metodi per la ricerca e il filtraggio degli elementi della pagina in base 
+a \textit{tag}, classi, identificatori o altri attributi, semplificando notevolmente l'estrazione delle informazioni rilevanti.
+
+Nel contesto di questo progetto, BeautifulSoup viene impiegata nella fase di estrazione delle pagine web permettendo 
+prelevare il suo contenuto e i collegamenti ipertestuali, 
+necessari per la generazione dei riassunti e per il processo ricorsivo di \gls{crawlingg} 
+da parte del \gls{llmg}. 
+La sua semplicità d'uso e la sua robustezza nella gestione di \textit{markup} eterogeneo la rendono uno strumento 
+ideale per questo compito.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{beautifulsoup_logo.png}
+    \caption{Logo di BeautifulSoup}
+\end{figure}
+
+
+\subsubsection{LangSmith}
+
+LangSmith è una piattaforma di tracciabilità e \textit{debugging} pensata specificamente per applicazioni basate 
+su modelli di intelligenza artificiale. 
+Permette di tracciare in modo dettagliato l'esecuzione delle catene di chiamate che coinvolgono \gls{llmg}, 
+strumenti esterni e passaggi intermedi di elaborazione, fornendo una visione completa del flusso di esecuzione.
+Questa piattaforma si distingue per la sua capacità di raccogliere \textit{trace} distribuite anche in architetture 
+a microservizi, dove una singola richiesta dell'utente può attraversare più servizi prima di giungere a 
+una risposta finale. 
+Ogni passaggio viene registrato con i relativi \textit{input}, \textit{output}, tempi di esecuzione e metadati, 
+permettendo di individuare rapidamente latenze, errori o comportamenti inattesi del modello.
+
+Nel contesto di questo progetto, LangSmith è stato adottato per il tracciamento distribuito delle operazioni 
+svolte durante il processo di \gls{crawlingg}, dal momento della selezione del \gls{toolg} da parte 
+del \textit{chatbot} fino alla generazione della risposta finale. 
+Questo strumento si è rivelato fondamentale durante le fasi di sviluppo e \textit{debug} del sistema, 
+permettendo di analizzare nel dettaglio il comportamento del modello a fronte di ricerche complesse 
+distribuite su più microservizi.
+
+\subsubsection{PostgreSQL, TimescaleDB e pgvector}
+
+\textbf{PostgreSQL} è un sistema di gestione di basi di dati relazionali \textit{open source}, noto per la sua robustezza, 
+l'affidabilità e la conformità agli standard \gls{sqlg}\glsfirstoccur . 
+La sua espandibilità tramite estensioni native lo rende particolarmente adatto a progetti che richiedono funzionalità 
+avanzate oltre alla semplice gestione di dati relazionali, come nel caso di questo progetto.
+\textbf{TimescaleDB} è un'estensione di PostgreSQL pensata per la gestione efficiente di dati temporali (\textit{time-series}), 
+ottimizzata per l'inserimento e l'interrogazione di grandi volumi di dati ordinati nel tempo. 
+Tale estensione è stata adottata per la gestione dello storico delle ricerche effettuate dagli utenti, 
+dove ogni elemento è naturalmente associato a una dimensione temporale.
+L'estensione \textbf{pgvector} introduce invece un tipo di dato vettoriale e operatori di similarità, 
+permettendo di memorizzare e interrogare \textit{embedding} direttamente all'interno del database relazionale. 
+Questa estensione è fondamentale per l'implementazione del meccanismo di \textit{caching} semantico del sistema: 
+le domande poste dagli utenti vengono trasformate in vettori numerici e confrontate con quelle già elaborate in precedenza, 
+individuando richieste semanticamente simili ed evitando così rielaborazioni ridondanti da parte dell'\gls{llmg}.
+
+La combinazione di queste tre tecnologie permette di utilizzare un'unico database per gestire sia 
+i dati relazionali tradizionali (utenti, storico delle conversazioni, profili) sia i dati vettoriali necessari al 
+\textit{caching} semantico, semplificando l'infrastruttura complessiva del sistema.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\textwidth]{postgresql_logo.png}
+    \caption{Logo di PostgreSQL}
+\end{figure}
+
+\subsubsection{Docker e Docker Compose}
+\textbf{Docker} è una piattaforma di containerizzazione che consente di raggruppare un'applicazione e tutte le sue dipendenze 
+in un'unità isolata e portabile, denominata container. 
+Questo approccio garantisce che l'applicazione si comporti nello stesso modo indipendentemente dall'ambiente 
+in cui viene eseguita, eliminando i classici problemi di incompatibilità tra ambienti di sviluppo, test e produzione.
+\textbf{Docker Compose} è uno strumento che permette di definire e orchestrare applicazioni multi-container 
+tramite un singolo file di configurazione dichiarativo. 
+
+Questo strumento risulta particolarmente utile in questo progetto, dato che l'architettura del sistema è 
+suddivisa in molteplici microservizi, oltre al database e al \textit{gateway} Nginx, ciascuno eseguito nel proprio container isolato.
+
+La scalabilità e la portabilità garantite da Docker rispondono direttamente a uno dei requisiti fondamentali del progetto, 
+che richiede un servizio scalabile e portabile su diverse infrastrutture.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{docker_logo.png}
+    \caption{Logo di Docker}
+\end{figure}
+
+\subsubsection{Nginx}
+Nginx è un \textit{reverse proxy} \textit{open source}, noto per le sue elevate prestazioni e per la capacità 
+di gestire un numero elevato di connessioni simultanee con un basso utilizzo di risorse. 
+In questo progetto, Nginx svolge il ruolo di \textit{gateway} per l'intera applicazione, instradando le richieste 
+provenienti dal \textit{frontend} verso i corretti microservizi \textit{backend}.
+Questo approccio centralizza la gestione del traffico in ingresso, semplificando la configurazione dell'instradamento 
+delle richieste e permettendo di disaccoppiare il \textit{frontend} dalla conoscenza della struttura interna 
+del sistema a microservizi.
+
+La scelta di Nginx come \textit{gateway} riflette quindi l'esigenza di un punto di ingresso unico, 
+performante e configurabile per l'intera architettura distribuita del sistema.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\textwidth]{nginx_logo.jpg}
+    \caption{Logo di Nginx}
+\end{figure}
+
+
+\subsubsection{JWT e JWKS}
+\textbf{\gls{jwtg}} è uno standard aperto per la creazione di \textit{token} di accesso che permettono di trasmettere informazioni 
+in modo sicuro tra due parti, sotto forma di oggetto \gls{jsong} firmato digitalmente. 
+Nel contesto di questo progetto, i \gls{jwtg} vengono utilizzati per gestire l'autenticazione degli utenti tra 
+i diversi microservizi del sistema.
+
+In particolare, è stato adottato l'algoritmo di firma \textit{RS256}, basato su una coppia di chiavi asimmetriche: 
+una chiave privata, utilizzata dall'\textit{auth-service}, per firmare i \textit{token} al momento dell'autenticazione, 
+e una chiave pubblica, distribuita agli altri servizi tramite il protocollo \gls{jwksg}\glsfirstoccur , per la verifica della validità 
+dei \textit{token}. 
+
+L'adozione di \textit{RS256} e \gls{jwksg} risponde quindi a un'esigenza di sicurezza e di efficienza architetturale, 
+garantendo che ogni servizio possa operare in autonomia mantenendo al contempo un meccanismo di autenticazione robusto 
+e centralizzato nella sua gestione delle chiavi.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{jwt_logo.png}
+    \caption{Logo di JWT}
+\end{figure}
+
+% \section{Ciclo di vita del software}
+% \label{sec:ciclo-vita-software}
 
 \section{Progettazione}
 \label{sec:progettazione}
 
-\subsubsection{Namespace 1} %**************************
+\subsubsection{Progettazione backend} 
 Descrizione namespace 1.
 
 \begin{namespacedesc}

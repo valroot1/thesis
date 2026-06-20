@@ -42,7 +42,7 @@ cui la fase \textit{training} viene eseguita.
 Per superare tale limite, è necessario dotare i modelli di un meccanismo che 
 consenta loro di accedere a informazioni aggiornate al momento della richiesta, 
 superando in questo modo il problema temporale imposto dal \textit{training}.
-È in questo contesto che si inserisce il \textit{Model Context Protocol} (\gls{mcp})\glsfirstoccur, 
+È in questo contesto che si inserisce il \textit{Model Context Protocol} (\gls{mcpg})\glsfirstoccur, 
 uno standard che permette ai modelli di intelligenza artificiale di interagire con 
 strumenti e fonti di dati esterni. 
 
@@ -60,7 +60,7 @@ il servizio di \gls{crawlingg}.
 \section{Il software da sviluppare}
 Il software sviluppato durante il tirocinio è un server \gls{mcpg}\glsfirstoccur, 
 progettato per esporre le funzionalità 
-di \textit{crawling} ed estrazione dati da siti web.
+di \gls{crawlingg} ed estrazione dati da siti web.
 
 Tale server, tuttavia, rappresenta una singola componente di un sistema 
 più ampio: per rendere tale servizio accessibile agli utenti finali, 
@@ -68,7 +68,7 @@ il progetto prevede anche la realizzazione di un'applicazione web
 composta da un \textit{frontend} e da un \textit{backend}. 
 Il servizio \gls{mcpg} si inserisce all'interno del \textit{backend} ed 
 espone un singolo \gls{toolg}\glsfirstoccur, responsabile dell'esecuzione del 
-\textit{crawling} su un sito web e della successiva estrazione dei dati 
+\gls{crawlingg} su un sito web e della successiva estrazione dei dati 
 in un formato strutturato (\textit{plain text}, \gls{HTMLg}\glsfirstoccur, \gls{Markdowng}\glsfirstoccur o \gls{JSONg}\glsfirstoccur), 
 restituito poi al chiamante.
  

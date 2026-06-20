@@ -157,7 +157,7 @@ svolgere le funzionalità definite nei \gls{toolg} esposti, tra cui l'azione di 
         \item L'utente si autentica con le proprie credenziali:
             \begin{itemize}
                 \item inserimento \textit{username} (§\ref{1.1});
-                \item inserimento \textit{password} (§\ref{1.2}).
+                \item inserimento password (§\ref{1.2}).
             \end{itemize}
         \item l'utente conferma l'operazione.
     \end{enumerate}
@@ -167,11 +167,11 @@ svolgere le funzionalità definite nei \gls{toolg} esposti, tra cui l'azione di 
         \item UC1.2 §\ref{1.2}
     \end{itemize} 
 }
-{L'utente non è registrato nel sistema o la \textit{password} è errata (§\ref{1.3}).}
+{L'utente non è registrato nel sistema o la password è errata (§\ref{1.3}).}
 {UC1.3 \ref{1.3}}{}
 
 
-\subsection{UC1.1 - Inserimento \textit{username}}
+\subsection{UC1.1 - Inserimento username}
 \label{1.1}
 \makeUC{}
 {Utente}
@@ -180,20 +180,20 @@ svolgere le funzionalità definite nei \gls{toolg} esposti, tra cui l'azione di 
 {L'utente inserisce l'\textit{username}.}{}{}{}{}
 
 
-\subsection{UC1.2 - Inserimento \textit{password}}
+\subsection{UC1.2 - Inserimento password}
 \label{1.2}
 \makeUC{}
 {Utente}
 {L'utente sta eseguendo l'autenticazione.}
-{Il sistema riceve la \textit{password} dell'utente.}
-{L'utente inserisce la \textit{password}.}{}{}{}{}
+{Il sistema riceve la password dell'utente.}
+{L'utente inserisce la password.}{}{}{}{}
 
-\subsection{UC1.3 - Visualizzazione errore \textit{username} o \textit{password} errati}
+\subsection{UC1.3 - Visualizzazione errore username o password errati}
 \label{1.3}
 \makeUC{}
 {Utente}
 {L'utente ha inserito uno \textit{username} che non corrisponde ad un utente registrato nel sistema 
-oppure la \textit{password} è errata per l'\textit{username} inserito.}
+oppure la password è errata per l'\textit{username} inserito.}
 {Il sistema non autentica l'utente.}
 {Il sistema mostra un messaggio di errore.}{}{}{}{}
 
@@ -225,9 +225,9 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {   \begin{enumerate}
         \item L'admin crea un nuovo utente base:
             \begin{itemize}
-                \item inserimento \textit{email} (§\ref{3.1});
+                \item inserimento email (§\ref{3.1});
                 \item inserimento \textit{username} (§\ref{3.2});
-                \item inserimento \textit{password} (§\ref{3.3});
+                \item inserimento password (§\ref{3.3});
                 \item selezione dei permessi utente (§\ref{3.4}).
             \end{itemize}
         \item l'admin conferma l'operazione.
@@ -242,7 +242,7 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 }
 {
     \begin{itemize}
-        \item L'\textit{email} è già esistente nel sistema (§\ref{3.5});
+        \item L'email è già esistente nel sistema (§\ref{3.5});
         \item l'\textit{username} è già esistente nel sistema (§\ref{3.6}).
     \end{itemize}
 }
@@ -253,15 +253,15 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
     \end{itemize}
 }{}
 
-\subsection{UC3.1 - Inserimento \textit{email}}
+\subsection{UC3.1 - Inserimento email}
 \label{3.1}
 \makeUC{}
 {Admin}
 {L'admin sta eseguendo la creazione di un nuovo utente base.}
-{Il sistema riceve l'\textit{email} del nuovo utente base.}
-{L'admin inserisce l'\textit{email}.}{}{}{}{}
+{Il sistema riceve l'email del nuovo utente base.}
+{L'admin inserisce l'email.}{}{}{}{}
 
-\subsection{UC3.2 - Inserimento \textit{username}}
+\subsection{UC3.2 - Inserimento username}
 \label{3.2}
 \makeUC{}
 {Admin}
@@ -269,13 +269,13 @@ oppure la \textit{password} è errata per l'\textit{username} inserito.}
 {Il sistema riceve l'\textit{username} del nuovo utente base.}
 {L'admin inserisce l'\textit{username}.}{}{}{}{}
 
-\subsection{UC3.3 - Inserimento \textit{password}}
+\subsection{UC3.3 - Inserimento password}
 \label{3.3}
 \makeUC{}
 {Admin}
 {L'admin sta eseguendo la creazione di un nuovo utente base.}
-{Il sistema riceve la \textit{password} del nuovo utente base.}
-{L'admin inserisce la \textit{password}.}{}{}{}{}
+{Il sistema riceve la password del nuovo utente base.}
+{L'admin inserisce la password.}{}{}{}{}
 
 \subsection{UC3.4 - Selezione \textit{permessi}}
 \label{3.4}
@@ -292,11 +292,11 @@ In particolare, per ogni tipo di azione disponibile, i permessi assegnabili sono
 \end{itemize}
 }{}{}{}{}
 
-\subsection{UC3.5 - Visualizzazione errore \textit{email} già esistente}
+\subsection{UC3.5 - Visualizzazione errore email già esistente}
 \label{3.5}
 \makeUC{}
 {Admin}
-{L'admin ha inserito una \textit{email} che è già utilizzata all'interno del sistema.}
+{L'admin ha inserito una email che è già utilizzata all'interno del sistema.}
 {Il sistema non registra l'utente base.}
 {Il sistema mostra un messaggio di errore.}{}{}{}{}
 
@@ -341,7 +341,7 @@ In particolare, per ogni tipo di azione disponibile, i permessi assegnabili sono
 {L'utente visualizza le informazioni relative al profilo:
     \begin{itemize}
         \item visualizzazione \textit{username} (§\ref{5.1});
-        \item visualizzazione \textit{email} (§\ref{5.2}).
+        \item visualizzazione email (§\ref{5.2}).
     \end{itemize}
 }
 {   \begin{itemize}
@@ -350,7 +350,7 @@ In particolare, per ogni tipo di azione disponibile, i permessi assegnabili sono
     \end{itemize} 
 }{}{}{}
 
-\subsection{UC5.1 - Visualizzazione \textit{username}}
+\subsection{UC5.1 - Visualizzazione username}
 \label{5.1}
 \makeUC{}
 {Utente}
@@ -358,13 +358,13 @@ In particolare, per ogni tipo di azione disponibile, i permessi assegnabili sono
 {L'utente visualizza l'\textit{username}.}
 {L'utente visualizza l'\textit{username}.}{}{}{}{}
 
-\subsection{UC5.2 - Visualizzazione \textit{email}}
+\subsection{UC5.2 - Visualizzazione email}
 \label{5.2}
 \makeUC{}
 {Utente}
 {L'utente sta visualizzando il proprio profilo.}
-{L'utente visualizza l'\textit{email}.}
-{L'utente visualizza l'\textit{email}.}{}{}{}{}
+{L'utente visualizza l'email.}
+{L'utente visualizza l'email.}{}{}{}{}
 
 \subsection{UC6 - Modifica profilo}
 \label{6}
@@ -382,7 +382,7 @@ In particolare, per ogni tipo di azione disponibile, i permessi assegnabili sono
         \item l'utente modifica le credenziali:
             \begin{itemize}
                 \item modifica \textit{username} (§\ref{6.1});
-                \item modifica \textit{password} (§\ref{6.2}).
+                \item modifica password (§\ref{6.2}).
             \end{itemize}
         \item l'utente conferma l'operazione.
     \end{enumerate}
@@ -403,7 +403,7 @@ In particolare, per ogni tipo di azione disponibile, i permessi assegnabili sono
     \end{itemize}
 }{}
 
-\subsection{UC6.1 - Modifica \textit{username}}
+\subsection{UC6.1 - Modifica username}
 \label{6.1}
 \makeUC{}
 {Utente}
@@ -411,13 +411,13 @@ In particolare, per ogni tipo di azione disponibile, i permessi assegnabili sono
 {Il sistema riceve l'\textit{username} dell'utente.}
 {L'utente inserisce l'\textit{username}.}{}{}{}{}
 
-\subsection{UC6.2 - Modifica \textit{password}}
+\subsection{UC6.2 - Modifica password}
 \label{6.2}
 \makeUC{}
 {Utente}
 {L'utente sta eseguendo la modifica del profilo.}
-{Il sistema riceve la \textit{password} dell'utente.}
-{L'utente inserisce la \textit{password}.}{}{}{}{}
+{Il sistema riceve la password dell'utente.}
+{L'utente inserisce la password.}{}{}{}{}
 
 \subsection{UC7 - Invio messaggio in linguaggio naturale}
 \label{7}
@@ -576,12 +576,12 @@ oppure il \gls{toolg} richiesto non è valido.}
 {L'utente visualizza un messaggio informativo riguardante l'operazione specifica effettuata dall'\gls{llmg} in quel momento.}
 {
     \begin{enumerate}
-        \item L'utente visualizza una delle seguenti tipologie di passaggi, in caso il \gls{toolg} sia quello di \textit{crawling}:
+        \item L'utente visualizza una delle seguenti tipologie di passaggi, in caso il \gls{toolg} sia quello di \gls{crawlingg}:
             \begin{itemize}
                 \item pagina web estratta e analizzata (§\ref{8.1.1}); 
                 \item riassunto semantico del contenuto (§\ref{8.1.2}); 
                 \item link trovati nella pagina web analizzata (§\ref{8.1.3}); 
-                \item link selezionati per continuare il processo di \textit{crawling} (§\ref{8.1.4}); 
+                \item link selezionati per continuare il processo di \gls{crawlingg} (§\ref{8.1.4}); 
                 \item risposta finale elaborata (§\ref{8.1.5}). 
             \end{itemize}
         \item L'utente, per il singolo passaggio, visualizza le seguenti proprietà:
@@ -894,6 +894,15 @@ oppure un messaggio del sistema.}
 {Il sistema non elimina lo storico.}
 {Il sistema mostra un messaggio di errore.}{}{}{}{}
 
+\section{Requisiti}
+Da un'attenta analisi dei casi d'uso svolta è stata stilata la tabella per 
+il tracciamento dei requisiti in relazione agli \textit{usecase} definiti. 
+Sono stati individuati vari tipi di requisiti e si è quindi fatto uso di un codice identificativo per distinguerli:
+\begin{itemize}
+    \item \textbf{Funzionali} (RF): descrivono le funzionalità che un sistema deve avere per soddisfare i bisogni. Si suddividono in requisiti funzionali obbligatori, opzionali e desiderabili;
+    \item \textbf{Di qualità} (RQ): requisiti che devono essere rispettati per accertare la qualità della progettazione e dello sviluppo del sistema;
+    \item \textbf{Di vincolo} (RV): restrizioni che devono essere rispettate durante la progettazione e lo sviluppo del sistema.
+\end{itemize}
 \subsection{Funzionali}
 \begingroup
 \renewcommand{\arraystretch}{1.50}
@@ -905,33 +914,33 @@ oppure un messaggio del sistema.}
         % ── OBBLIGATORI ──────────────────────────────────────────────────────
         \makeReq{1}{L'utente deve potersi autenticare presso il sistema}{1}
         \makeReq{1}{L'utente deve inserire il proprio \textit{username} per autenticarsi presso il sistema}{1.1}
-        \makeReq{1}{L'utente deve inserire la propria \textit{password} per autenticarsi presso il sistema}{1.2}
+        \makeReq{1}{L'utente deve inserire la propria password per autenticarsi presso il sistema}{1.2}
         \makeReq{1}{L'utente deve ricevere un errore se le credenziali inserite sono errate}{1.3}
         \makeReq{1}{L'utente deve poter effettuare il \textit{logout} dal sistema}{2}
         \makeReq{1}{L'admin deve poter creare un nuovo utente base nel sistema}{3}
-        \makeReq{1}{L'admin deve poter inserire una \textit{email} per il nuovo utente base}{3.1}
+        \makeReq{1}{L'admin deve poter inserire una email per il nuovo utente base}{3.1}
         \makeReq{1}{L'admin deve poter inserire uno \textit{username} per il nuovo utente base}{3.2}
-        \makeReq{1}{L'admin deve poter inserire una \textit{password} per il nuovo utente base}{3.3}
+        \makeReq{1}{L'admin deve poter inserire una password per il nuovo utente base}{3.3}
         \makeReq{1}{L'admin deve poter selezionare i permessi per il nuovo utente base}{3.4}
-        \makeReq{1}{L'admin deve ricevere un errore se la \textit{email} inserita è già esistente nel sistema}{3.5}
+        \makeReq{1}{L'admin deve ricevere un errore se la email inserita è già esistente nel sistema}{3.5}
         \makeReq{1}{L'admin deve ricevere un errore se lo \textit{username} inserito è già esistente nel sistema}{3.6}
         \makeReq{1}{L'admin deve poter eliminare un utente base dal sistema}{4}
         \makeReq{1}{L'utente deve poter visualizzare il proprio profilo}{5}
         \makeReq{1}{L'utente deve poter visualizzare il proprio \textit{username} nel profilo}{5.1}
-        \makeReq{1}{L'utente deve poter visualizzare la propria \textit{email} nel profilo}{5.2}
+        \makeReq{1}{L'utente deve poter visualizzare la propria email nel profilo}{5.2}
         \makeReq{1}{L'utente deve poter modificare il proprio profilo}{6}
         \makeReq{1}{L'utente deve poter modificare il proprio \textit{username}}{6.1}
-        \makeReq{1}{L'utente deve poter modificare la propria \textit{password}}{6.2}
+        \makeReq{1}{L'utente deve poter modificare la propria password}{6.2}
         \makeReq{1}{L'utente deve poter inviare un messaggio in linguaggio naturale per avviare una ricerca}{7}
         \makeReq{1}{L'utente deve poter avviare una ricerca con \textit{cache bypass}}{7.2}
         \makeReq{1}{Il sistema deve estrarre l'URL di partenza dal messaggio dell'utente per avviare la ricerca}{7.3}
         \makeReq{1}{Il sistema deve estrarre la domanda dal messaggio dell'utente per avviare la ricerca}{7.4}
-        \makeReq{1}{Il sistema deve segnalare all'utente i parametri obbligatori mancanti, impedendo l'avvio del \textit{tool}}{7.6}
-        \makeReq{1}{L'utente deve ricevere un errore se l'azione richiesta non è permessa o il \textit{tool} richiesto non è valido}{7.7}
+        \makeReq{1}{Il sistema deve segnalare all'utente i parametri obbligatori mancanti, impedendo l'avvio del \gls{toolg}}{7.6}
+        \makeReq{1}{L'utente deve ricevere un errore se l'azione richiesta non è permessa o il \gls{toolg} richiesto non è valido}{7.7}
         \makeReq{1}{L'utente deve poter visualizzare la risposta generata dal sistema}{8.1.5}
         \makeReq{1}{Il sistema deve notificare l'utente in caso di errore durante la ricerca}{8.4}
         % ── OPZIONALI ─────────────────────────────────────────────────────────
-        \makeReq{2}{L'utente deve poter specificare il formato della risposta (\textit{Markdown}, \textit{HTML}, \textit{JSON})}{7.5}
+        \makeReq{2}{L'utente deve poter specificare il formato della risposta (\gls{markdowng}, \gls{htmlg}, \gls{jsong})}{7.5}
         \makeReq{2}{L'utente deve poter visualizzare in tempo reale i passaggi della ricerca in corso}{8}
         \makeReq{2}{L'utente deve poter visualizzare in tempo reale il singolo passaggio della ricerca in corso}{8.1}
         \makeReq{2}{L'utente deve poter visualizzare il passaggio relativo alla pagina \textit{web} in fase di analisi}{8.1.1}
@@ -954,6 +963,45 @@ oppure un messaggio del sistema.}
         \makeReq{3}{L'utente deve poter copiare la risposta generata negli appunti}{8.5.1}
         \makeReq{3}{L'utente deve poter salvare la risposta generata in un file locale}{8.5.2}
         \makeReq{3}{L'utente deve ricevere un errore se il file con la risposta generata non viene salvato correttamente}{8.5.2.1}
+        \caption{Requisiti funzionali}
+    \end{xltabular}
+\end{center}
+\endgroup
+
+\subsection{Di qualità}
+\begingroup
+\renewcommand{\arraystretch}{1.50}
+\begin{center}
+    \begin{xltabular}{\textwidth}{|c|c| >{\arraybackslash}X|c|}
+        \hline
+        \textbf{ID} & \textbf{Tipo} & \textbf{Descrizione} & \textbf{Fonti} \\
+        \hline
+        \RQ{1}{Il sistema deve essere corredato da almeno un test di unità che verifichi il corretto funzionamento del \textit{routing} dei \textit{MCP tool}}{-1}
+        \RQ{1}{Il sistema deve essere corredato da almeno un test per ogni funzionalità fornita dai \textit{MCP tool}}{-1}
+        \RQ{1}{Il codice sorgente deve essere contenuto in un \textit{repository} versionato tramite \textit{Git}}{-1}
+        \RQ{1}{Consegnare la documentazione dei casi d'uso per l'utilizzo dell'applicativo \textit{web}}{0}
+        \RQ{1}{Consegnare la specifica tecnica dell'applicativo \textit{web}}{0}
+        \RQ{1}{Consegnare il manuale di utilizzo dell'applicativo \textit{web} per gli utenti}{0}
+        \caption{Requisiti di qualità}
+    \end{xltabular}
+\end{center}
+\endgroup
+
+
+\subsection{Di vincolo}
+\begingroup
+\renewcommand{\arraystretch}{1.50}
+\begin{center}
+    \begin{xltabular}{\textwidth}{|c|c| >{\arraybackslash}X|c|}
+        \hline
+        \textbf{ID} & \textbf{Tipo} & \textbf{Descrizione} & \textbf{Fonti} \\
+        \hline
+        \RV{1}{Il sistema deve essere containerizzato tramite \gls{dockerg}}{0}
+        \RV{1}{Il sistema deve utilizzare \gls{jwtg} per l'autenticazione degli utenti.}{-1}
+        \RV{1}{Il \textit{frontend} deve essere sviluppato usando il \gls{frameworkg} React}{-1}
+        \RV{1}{Il \textit{backend} deve essere sviluppato usando il \gls{frameworkg} FastAPI}{0}
+        \RV{1}{Le componenti del sistema devono comunicare tramite \gls{apig}}{0}
+        \caption{Requisiti di vincolo}
     \end{xltabular}
 \end{center}
 \endgroup
@@ -970,10 +1018,11 @@ oppure un messaggio del sistema.}
         \hline
         \textbf{Di qualità} & 6 & 0 & 0 & 6 \\
         \hline
-        \textbf{Di vincolo} & 2 & 0 & 0 & 2 \\
+        \textbf{Di vincolo} & 5 & 0 & 0 & 5 \\
         \hline
-        \textbf{Totali} & 35 & 17 & 5 & \textbf{57} \\
+        \textbf{Totali} & 38 & 17 & 5 & \textbf{60} \\
         \hline
+        \caption{Riepilogo dei requisiti}
     \end{xltabular}
 \end{center}
 \endgroup
