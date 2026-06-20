@@ -127,7 +127,7 @@ FastMCP si distingue per la sua semplicità d'uso: permette di esporre funzioni 
 utilizzabili da un modello di linguaggio tramite semplici decoratori (come \texttt{@mcp.tool}), senza richiedere la gestione 
 manuale dei dettagli di basso livello del protocollo.
 
-Nel contesto di questo progetto, FastMCP rappresenta il cuore del sistema: il server \gls{mcpg} espone, 
+Nel contesto di questo progetto, FastMCP rappresenta il cuore del sistema: il server espone, 
 tra i propri strumenti, il \gls{toolg} di \gls{crawlingg}, che il \textit{chatbot} è in grado di selezionare 
 automaticamente quando il messaggio dell'utente lo richiede. 
 La scelta di FastMCP consente quindi di concentrarsi sulla logica di estrazione e ricerca dei contenuti, 
@@ -276,8 +276,8 @@ sfruttando i \gls{frameworkg} FastAPI e FastMCP.
 A seguire vengono descritti nel dettaglio i singoli microservizi 
 e le principali sfide affrontate nel loro sviluppo.
 
-\subsubsection{Server MCP Service}
-Il Server MCP Service si basa sul protocollo \gls{mcpg} ed è 
+\subsubsection{MCP Server Service}
+Il MCP Server Service si basa sul protocollo \gls{mcpg} ed è 
 responsabile dell'esposizione del \gls{toolg} di \textit{crawling}. 
 Esso si occupa, inoltre, di generare gli eventi \gls{sseg} e inviarli 
 verso il \textit{frontend} per notificare all'utente, in tempo reale, 
@@ -392,8 +392,7 @@ Questa progettazione risponde all'esigenza di ottimizzare
 il sistema evitando di rielaborare richieste rindondanti e, 
 di conseguenza, consumare inutilmente \textit{token} del \gls{llmg}.
 
-\paragraph{Flusso operativo e architettura vettoriale}
-Il sottosistema si appoggia sull'estensione \textit{pgvector} di PostgreSQL e opera 
+Il sottosistema si appoggia perciò sull'estensione \textit{pgvector} di PostgreSQL e opera 
 secondo una logica sequenziale:
 \begin{enumerate}
     \item \textbf{Generazione dell'embedding}: il messaggio dell'utente viene convertito 
@@ -418,25 +417,24 @@ secondo una logica sequenziale:
     \end{itemize}
 \end{enumerate}
 Tale strategia di memoizzazione trasforma l'infrastruttura da un sistema puramente reattivo 
-e computazionalmente oneroso a un ecosistema resiliente, in grado incrementare l'efficienza 
+e computazionalmente oneroso ad uno in grado di incrementare l'efficienza 
 e la qualità del prodotto software.
 
 \paragraph{Invio delle notifiche sui passaggi di crawling}
 Un'altra difficoltà affrontata è legata alla gestione degli eventi 
-da inviate al \textit{frontend} riguardanti i passaggi logici del \textit{crawler}. 
+da inviare al \textit{frontend} riguardanti i passaggi logici del \textit{crawler}. 
 Poiché l'esplorazione ricorsiva e l'elaborazione dei contenuti richiedono tempistiche 
-computazionali variabili e non immediate, l'utilizzo di una classica architettura \gls{httpg} 
+computazionali non immediate, l'utilizzo di una classica architettura \gls{httpg} 
 di tipo sincrono (\textit{request-response}) avrebbe esposto il sistema a frequenti 
 fenomeni di \textit{timeout}, oltre a lasciare l'utente in uno stato di attesa privo 
 di \textit{feedback} visivo.
-La soluzione progettuale ha dunque previsto l'implementazione di un modello di 
+La soluzione ha dunque previsto l'implementazione di un modello di 
 comunicazione asincrono basato su \gls{sseg}. 
-Il Server MCP Service espone un \textit{endpoint} per la definizione di un 
-canale di streaming persistente con il \textit{frontend}, consentendo di notificare 
-in tempo reale ogni singolo stato di avanzamento dell'orchestrazione 
-("\textit{Prelevata pagina $X$}", "\textit{Generazione sintesi}", "\textit{Scelta dei link}") 
-e di trasmettere la risposta non appena disponibile, ottimizzando drasticamente 
-l'esperienza utente.
+Il MCP Server Service espone un \textit{endpoint} per la definizione di un 
+canale di streaming con il \textit{frontend}, consentendo di notificare 
+in tempo reale ogni singolo stato di avanzamento della ricerca 
+("\textit{Prelevata pagina $X$}", "\textit{Generazione sintesi}", 
+"\textit{Scelta dei link}").
 
 
 \subsubsection{Search Service}
@@ -445,17 +443,27 @@ all'elaborazione dei messaggi dell'utente espressi in linguaggio naturale.
 Analizzando il contesto della richiesta, il servizio determina quale 
 \gls{toolg} sia necessario attivare, ne estrae i parametri 
 e invoca l'\textit{endpoint} corrispondente sul microservizio 
-Server \gls{mcpg} Service. 
-Sebbene i requisiti del progetto richiedessero esclusivamente lo 
+MCP Server Service. 
+Nonostante i requisiti del progetto richiedessero esclusivamente lo 
 sviluppo del \gls{toolg} di \textit{crawling}, il componente 
-è stato nativamente concepito per poter gestire e integrare agevolmente 
-ulteriori strumenti in futuro; l'esistenza del \textit{search service} 
+è stato nativamente concepito per poter gestire ulteriori 
+\gls{toolg} in futuro; l'esistenza del \textit{search service} 
 come orchestratore e selettore dinamico delle azioni risponde proprio 
-a questa fondamentale esigenza di estensibilità.
+a questo fondamentale vincolo di estensibilità.
 
-\paragraph{Estrazione dei parametri e del non-determinismo}
-La prima problematica risiede nella caratteristiche di non determinismo dei 
-modelli di linguaggio. 
+\paragraph{Iniezione della cronologia e riordino dei messaggi}
+Una delle principali sfide riguarda la corretta ricostruzione della conversazione: 
+per consentire all'\gls{llmg} di comprendere appieno le richieste dell'utente, 
+il Search Service non elabora il singolo messaggio isolato, bensì recupera 
+l'intero set di messaggi presenti nella \textit{chat}. 
+Questa sequenza di messaggi viene strutturata e ordinata in senso cronologico 
+decrescente (dal più recente al più vecchio): tale gerarchia informativa è 
+fondamentale per specificare al modello quale sia il messaggio principale
+e l'obiettivo dell'utente, evitando che il contesto pregresso comprometta 
+la coerenza della risposta.
+
+\paragraph{Estrazione dei parametri e non-determinismo}
+Un'altra difficoltà riguarda il non determinismo dei modelli \gls{llmg}. 
 Quando l'utente formula le richieste in linguaggio naturale, 
 il \textit{search service} deve garantire che l'\gls{llmg} non solo selezioni 
 lo strumento corretto, ma estragga i parametri di input (come \gls{urlg}, parole 
@@ -463,8 +471,9 @@ chiave o vincoli di ricerca) in un formato rigidamente tipizzato e privo di ambi
 
 Per risolvere tale criticità, la progettazione ha previsto l'adozione di schemi di 
 validazione dei dati basati sulla libreria \textit{Pydantic}. 
-Forzando il modello a rispondere secondo una struttura \gls{jsong} conforme a uno 
-schema predefinito, si è ridotto a zero il rischio di ricevere risposte malformate.
+Forzando il modello a rispondere secondo uno schema \gls{jsong} rigido, 
+si è ridotto quasi allo zero il rischio di ricevere risposte malformate in 
+caso di "allucinazioni".
 
 \subsubsection{Auth Service}
 L'Auth Service gestisce l'intero ciclo di vita dell'autenticazione 
@@ -479,29 +488,119 @@ consentendo al contempo agli altri microservizi di verificarne l'autenticità
 in totale autonomia tramite la rispettiva chiave pubblica, senza dover 
 effettuare chiamate inter-servizio sincrone per ogni richiesta. 
 A tale scopo, il servizio espone un \textit{endpoint} chiamato 
-''\textit{.well-known}'' che permette la distribuzione 
-della chiave pubblica all'interno dell'intera infrastruttura di \textit{backend}.
+''\textit{.well-known}'' che permette di distribuire la chiave pubblica 
+tra i vari microservizi del\textit{backend}.
 
 \subsubsection{User Service}
 User Service è il servizio dedicato alla creazione e alla gestione degli 
-utenti della piattaforma.
+utenti della piattaforma. Offre le seguenti funzionalità principali:
+\begin{itemize}
+    \item \textbf{Creazione utente}: crea un nuovo utente dato username, email e 
+    password. Solo gli amministratori possono creare un utente;
+    \item \textbf{Modifica dati utente}: un utente può modificare 
+    username o password accedendo al proprio profilo;
+    \item \textbf{Modifica permessi ai tool di un utente}: un admin può 
+    modificare i vari permessi di accesso, utilizzo della \textit{cache} e 
+    visualizzazione dei passaggi di ricerca di un utente base;
+    \item \textbf{Eliminazione utente}: un admin può eliminare un utente 
+    con qualsiasi ruolo;
+\end{itemize}
 
 
 \subsubsection{History Service}
-History Service si occupa della persistenza e della sincronizzazione dello 
-storico delle conversazioni, memorizzando i messaggi scambiati tra l'utente e 
-il \gls{llmg} per consentire il recupero delle sessioni passate.
+History Service si occupa della persistenza e della sincronizzazione dello storico 
+delle conversazioni, memorizzando le conversazioni tra l'utente e l'\gls{llmg} 
+per consentire il recupero e la consultazione delle \textit{chat} passate. 
+Oltre a garantire la continuità dell'esperienza utente tra i diversi accessi, 
+questo componente svolge un ruolo chiave nel fornire al modello il contesto 
+storico necessario per comprendere la richiesta dell'utente all'interno della 
+stessa \textit{chat}.
+
+\paragraph{Efficienza della persistenza e disaccoppiamento guidato dal client}
+Un problema riguarda l'impatto prestazionale derivante dalle frequenti 
+operazioni di scrittura sul database relazionale.
+Per evitare che il salvataggio della 
+cronologia generi latenza o blocchi il flusso principale 
+di generazione della risposta, l'architettura sfrutta un disaccoppiamento 
+basato sull'orchestrazione da parte del \textit{frontend}. 
+Il client, infatti, invoca inizialmente il Search Service per avviare il 
+processo di ricerca e, solo al suo termine, effettua 
+una chiamata verso l'\textit{endpoint} dell'\textit{History Service} per 
+salvare i nuovi messaggi. 
+Questo approccio garantisce che i tempi di scrittura 
+sul database non interferiscano mai con la generazione della risposta.
 
 
-\begin{namespacedesc}
-    \classdesc{Classe 1}{Descrizione classe 1}
-    \classdesc{Classe 2}{Descrizione classe 2}
-\end{namespacedesc}
+% \begin{namespacedesc}
+%     \classdesc{Classe 1}{Descrizione classe 1}
+%     \classdesc{Classe 2}{Descrizione classe 2}
+% \end{namespacedesc}
 
 
-\subsection{Progettazione frontend} 
+\subsection{Progettazione frontend}
+Il \textit{frontend} rappresenta il livello di presentazione dell'applicazione, 
+ovvero l'interfaccia diretta tra l'utente finale e i microservizi del \textit{backend}. 
+La reattività e la fluidità dell'interfaccia grafica costituiscono requisiti 
+non funzionali fondamentali per garantire un'esperienza d'uso equiparabile a 
+quella dei moderni sistemi di \textit{chatbot}.
+
+Poiché la pagina di \textit{chat} deve mostrare i passaggi 
+logici di ricerca in tempo reale (come il recupero delle pagine, 
+la sintesi del contenuto della pagina e il filtraggio dei collegamenti) 
+senza comportare il ricaricamento di tutta la pagina, si è scelto di adottare 
+il pattern architetturale \gls{mvvmg} (Model-View-ViewModel). 
+Questa separazione delle responsabilità permette di disaccoppiare 
+rigidamente l'interfaccia utente (\textit{View}) dalla logica di business 
+e dallo stato dei dati (\textit{Model}). 
+Il \textit{ViewModel} agisce come intermediario: quando un determinato oggetto 
+cambia valore, aggiorna automaticamente lo stato della vista, garantendo una resa 
+grafica fluida.
+
+\paragraph{Controllo degli accessi e gestione delle rotte}
+Al fine di garantire la sicurezza dell'applicazione e una corretta separazione 
+dei permessi a livello di interfaccia utente, la logica di navigazione del 
+\textit{frontend} implementa un sistema di protezione delle rotte basato su 
+componenti \textit{wrapper} (componenti di ordine superiore) sfruttando la 
+libreria \textit{React Router}. 
+L'accesso alle diverse macro-aree dell'applicazione (autenticazione, 
+chat e pannello di amministrazione) viene regolato controllando 
+lo stato del profilo utente mediante chiamate asincrone all'\textit{endpoint} di 
+sessione (\texttt{getCurrentUser}). 
+Tale strategia garantisce che un utente del sistema possa visualizzare e 
+interagire solamente con le viste a cui ha accesso.
+I moduli di controllo sono \texttt{Public Route}, \texttt{ProtectedRoute} e 
+\texttt{AdminRoute}.
+
+Il componente \texttt{Public Route} gestisce l'unica pagina accessibile da utenti non 
+autenticati, ovvero la pagina di \textit{login}. 
+Il problema risolto da questo modulo risiede nell'impedire a un utente già 
+autenticato di accedere nuovamente a moduli di login superflui. 
+Qualora la verifica restituisca uno stato \texttt{'authenticated'}, il 
+componente esegue un reindirizzamento forzato verso pagina principale di \textit{chat}.
+
+Al contrario, se un utente non autorizzato tenta di accedere ad una pagina diversa 
+da quella di \textit{login}, viene automaticamente reindirizzato a quest'ultima.
+L'utilizzo della proprietà \texttt{replace} è fondamentale in termini di gestione 
+della cronologia del browser (\textit{history stack}), poiché sostituisce 
+l'indirizzo corrente impedendo all'utente di tornare indietro alla pagina 
+non consentita tramite i comandi nativi del browser.
+
+Per l'accesso alle principali funzionalità come \textit{chat}, gestione utenti 
+e profilo utente, sono stati sviluppati i moduli 
+\texttt{ProtectedRoute} e \texttt{AdminRoute}. 
+Il primo si assicura che il \textit{token} di sessione sia valido: in caso di errore o di 
+sessione scaduta (\texttt{'expired'}), l'utente viene reindirizzato alla 
+pagina di \textit{login}. Il componente \texttt{AdminRoute} estende questa 
+logica introducendo un meccanismo di segregazione dei ruoli: dopo aver 
+accertato l'autenticazione, il componente verifica che il ruolo dell'utente 
+sia ''admin''. 
+Se l'utente non possiede i privilegi di amministratore, avviene un reindirizzamento 
+verso la pagina della \textit{chat}. 
+\\\\Questa gerarchia strutturata garantisce che ogni 
+tipologia di utente si trovi all'interno del proprio perimetro 
+operativo.
 
 
 \section{Design Pattern utilizzati}
 
-\section{Codifica}
+% \section{Codifica}
