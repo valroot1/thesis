@@ -11,21 +11,26 @@ software.}\\
 % presi in considerazione durante lo sviluppo del \textit{Proof of Concept}, 
 % e successivamente motivare le scelte effettuate.
 % Le scelte architetturali hanno preso in considerazione 
-Il prodotto software da sviluppare deve permettere 
-agli utenti di interagire con un \textit{chatbot} che, in base alla richiesta formulata, seleziona il \gls{toolg} più appropriato 
-tra quelli esposti dal server \gls{mcpg}, tra cui la funzionalità di \gls{crawlingg} intelligente sviluppato in questo progetto. 
-Questo processo richiede una comprensione approfondita delle tecniche di 
-caching semantico e delle tecnologie di intelligenza artificiale applicate al recupero 
-e all'elaborazione di informazioni testuali.
+Il prodotto software sviluppato ha l'obiettivo di consentire agli utenti 
+di interagire con un \textit{chatbot} capace di selezionare, in base alla 
+richiesta formulata, il \gls{toolg} più appropriato tra quelli esposti 
+dal server \gls{mcpg}, inclusa la funzionalità di \gls{crawlingg} 
+implementata in questo progetto. 
 
-Le principali sfide affrontate durante lo sviluppo di questa applicazione includono:
+La realizzazione di tale sistema richiede una comprensione approfondita 
+delle tecniche di \textit{caching} semantico e delle tecnologie di intelligenza 
+artificiale applicate al recupero e all'elaborazione delle informazioni testuali.
+
+Le tecnologie destinate al progetto sono state selezionate con l'obiettivo 
+di rispondere, nella maniera più efficiente possibile, alle seguenti 
+sfide architetturali e funzionali:
 \begin{itemize}
-    \item la gestione dei dati e dell'autenticazione degli utenti;
-    \item l'ottimizzazione del processo di \gls{crawlingg} e di estrazione dei contenuti dalle pagine web;
-    \item la progettazione di un meccanismo di \textit{caching} semantico per evitare richieste ridondanti all'\gls{llmg};
-    \item lo sviluppo di un'interfaccia utente reattiva capace di mostrare in tempo reale i passaggi del processo di ricerca;
-    \item garantire la sicurezza delle comunicazioni e l'isolamento dei dati di ciascun utente;
-    \item l'integrazione di un server \gls{mcpg} che esponga il servizio di \gls{crawlingg} come strumento standardizzato, selezionabile dal chatbot tra i vari \gls{toolg} disponibili.
+    \item \textbf{Gestione dei dati e autenticazione:} amministrazione sicura delle informazioni e profilazione degli utenti;
+    \item \textbf{Ottimizzazione del \textit{crawling}:} ottimizzazione del processo di estrazione dei contenuti dalle pagine web;
+    \item \textbf{Caching semantico:} progettazione di un meccanismo di memorizzazione intermedia per ridurre le richieste ridondanti all'\gls{llmg}, ottimizzando tempi e costi;
+    \item \textbf{Interfaccia utente reattiva:} sviluppo di una \textit{UI} dinamica, capace di mostrare in tempo reale i singoli passaggi del processo di ricerca;
+    \item \textbf{Sicurezza e isolamento:} garanzia di comunicazioni protette e segregazione dei dati di ciascun utente;
+    \item \textbf{Integrazione dell'ecosistema MCP:} implementazione di un server \gls{mcpg} che esponga il servizio di \gls{crawlingg} come strumento standardizzato, rendendolo fluidamente selezionabile dal \textit{chatbot} tra i vari \gls{toolg} disponibili.
 \end{itemize}
 
 \subsection{Strumenti analizzati}
@@ -35,7 +40,7 @@ utilizzate nello sviluppo del progetto.
 
 \subsubsection{React}
 
-React è una libreria JavaScript \textit{open source} mantenuta da Meta, ampiamente utilizzata per la costruzione di interfacce utente dichiarative e basate su componenti. 
+React è una libreria JavaScript \textit{open source} ampiamente utilizzata per la costruzione di interfacce utente dichiarative e basate su componenti. 
 La sua adozione in questo progetto riflette la necessità di costruire un'interfaccia complessa, reattiva e facilmente manutenibile per la gestione delle conversazioni e degli utenti.
 React si basa sul concetto di componente: ogni elemento dell'interfaccia viene scomposto in unità indipendenti, riutilizzabili e componibili tra loro. 
 Questo approccio facilita la suddivisione del lavoro di sviluppo e la manutenzione del codice nel tempo, poiché ogni componente può essere modificato o testato in isolamento 
@@ -72,7 +77,7 @@ ed efficiente durante l'iterazione continua sui componenti dell'interfaccia.
 
 \subsubsection{Python}
 Python è un linguaggio di programmazione ad alto livello, interpretato e di uso generale, noto per la sua sintassi chiara e leggibile. 
-Questa caratteristica enfatizza la leggibilità del codice e riduce i costi di manutenzione del progetto, 
+Tale caratteristica favisce la leggibilità del codice e riduce i costi di manutenzione del progetto, 
 aspetto particolarmente rilevante in un'architettura suddivisa in molti microservizi indipendenti.
 Python supporta diversi paradigmi di programmazione, tra cui quello procedurale, orientato agli oggetti e funzionale, 
 e si distingue per la sua versatilità: può essere impiegato per lo sviluppo \textit{backend}, 
@@ -92,15 +97,14 @@ Per questi motivi, Python rappresenta la scelta naturale per l'implementazione d
 \subsubsection{FastAPI}
 
 FastAPI è un \gls{frameworkg} web moderno per Python, progettato per la costruzione di \gls{apig} ad alte prestazioni. 
-Si basa sugli standard \gls{openapi}\footnote{\textit{OpenAPI Specification}, un formato standard per la descrizione di API REST.} 
+Si basa sugli standard \textit{OpenAI} 
 e \textit{JSON Schema}, e sfrutta i \textit{type hints} di Python per la validazione automatica dei dati in ingresso e in uscita.
 Una delle caratteristiche principali di FastAPI è la generazione automatica della documentazione interattiva delle API, 
 basata sugli schemi \textit{Pydantic} definiti nel codice. 
-Questo riduce sensibilmente il tempo necessario alla documentazione manuale degli \textit{endpoint} e garantisce che 
-la documentazione sia sempre sincronizzata con l'implementazione effettiva.
+Questo riduce sensibilmente il tempo necessario per la redazione della specifica degli \textit{endpoint} e garantisce che 
+quest'ultima sia sempre sincronizzata con l'implementazione effettiva.
 FastAPI è inoltre costruito su \textit{Starlette} e supporta nativamente la programmazione asincrona, 
-aspetto fondamentale per questo progetto, dove i singoli microservizi (auth-service, user-service, history-service, 
-search-service, mcpserver-service) devono gestire un elevato numero di richieste e comunicazioni in tempo reale 
+aspetto fondamentale per questo progetto, dove i singoli microservizi devono gestire un elevato numero di richieste e comunicazioni in tempo reale 
 tramite \gls{sseg}. 
 
 Per queste ragioni, FastAPI è stato scelto come \gls{frameworkg} principale per l'implementazione dei servizi 
@@ -120,7 +124,7 @@ integrazioni specifiche per ciascun provider o strumento.
 FastMCP è un \gls{frameworkg} Python che semplifica notevolmente l'implementazione di un server 
 \gls{mcpg}, occupandosi della gestione del protocollo, della definizione degli strumenti esposti e della comunicazione con i client.
 FastMCP si distingue per la sua semplicità d'uso: permette di esporre funzioni Python come strumenti 
-utilizzabili da un modello di linguaggio tramite semplici decoratori (con l'utilizzo di \texttt{@mcp.tool}), senza richiedere la gestione 
+utilizzabili da un modello di linguaggio tramite semplici decoratori (come \texttt{@mcp.tool}), senza richiedere la gestione 
 manuale dei dettagli di basso livello del protocollo.
 
 Nel contesto di questo progetto, FastMCP rappresenta il cuore del sistema: il server \gls{mcpg} espone, 
@@ -138,7 +142,7 @@ utile quando si analizzano pagine web reali, che spesso non rispettano rigorosam
 BeautifulSoup fornisce inoltre un insieme di metodi per la ricerca e il filtraggio degli elementi della pagina in base 
 a \textit{tag}, classi, identificatori o altri attributi, semplificando notevolmente l'estrazione delle informazioni rilevanti.
 
-Nel contesto di questo progetto, BeautifulSoup viene impiegata nella fase di estrazione delle pagine web permettendo 
+Nel contesto di questo progetto, BeautifulSoup viene impiegata nella fase di estrazione delle pagine web permettendo di
 prelevare il suo contenuto e i collegamenti ipertestuali, 
 necessari per la generazione dei riassunti e per il processo ricorsivo di \gls{crawlingg} 
 da parte del \gls{llmg}. 
@@ -172,35 +176,35 @@ distribuite su più microservizi.
 
 \subsubsection{PostgreSQL, TimescaleDB e pgvector}
 
-\textbf{PostgreSQL} è un sistema di gestione di basi di dati relazionali \textit{open source}, noto per la sua robustezza, 
+PostgreSQL è un sistema di gestione di basi di dati relazionali \textit{open source}, noto per la sua robustezza, 
 l'affidabilità e la conformità agli standard \gls{sqlg}\glsfirstoccur . 
 La sua espandibilità tramite estensioni native lo rende particolarmente adatto a progetti che richiedono funzionalità 
 avanzate oltre alla semplice gestione di dati relazionali, come nel caso di questo progetto.
-\textbf{TimescaleDB} è un'estensione di PostgreSQL pensata per la gestione efficiente di dati temporali (\textit{time-series}), 
+TimescaleDB è un'estensione di PostgreSQL pensata per la gestione efficiente di dati temporali (\textit{time-series}), 
 ottimizzata per l'inserimento e l'interrogazione di grandi volumi di dati ordinati nel tempo. 
 Tale estensione è stata adottata per la gestione dello storico delle ricerche effettuate dagli utenti, 
 dove ogni elemento è naturalmente associato a una dimensione temporale.
-L'estensione \textbf{pgvector} introduce invece un tipo di dato vettoriale e operatori di similarità, 
+L'estensione pgvector introduce invece un tipo di dato vettoriale e operatori di similarità, 
 permettendo di memorizzare e interrogare \textit{embedding} direttamente all'interno del database relazionale. 
 Questa estensione è fondamentale per l'implementazione del meccanismo di \textit{caching} semantico del sistema: 
 le domande poste dagli utenti vengono trasformate in vettori numerici e confrontate con quelle già elaborate in precedenza, 
 individuando richieste semanticamente simili ed evitando così rielaborazioni ridondanti da parte dell'\gls{llmg}.
 
-La combinazione di queste tre tecnologie permette di utilizzare un'unico database per gestire sia 
+La combinazione di queste tre tecnologie permette di utilizzare un unico database per gestire sia 
 i dati relazionali tradizionali (utenti, storico delle conversazioni, profili) sia i dati vettoriali necessari al 
 \textit{caching} semantico, semplificando l'infrastruttura complessiva del sistema.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.2\textwidth]{postgresql_logo.png}
+    \includegraphics[width=0.17\textwidth]{postgresql_logo.png}
     \caption{Logo di PostgreSQL}
 \end{figure}
 
 \subsubsection{Docker e Docker Compose}
-\textbf{Docker} è una piattaforma di containerizzazione che consente di raggruppare un'applicazione e tutte le sue dipendenze 
+Docker è una piattaforma di containerizzazione che consente di raggruppare un'applicazione e tutte le sue dipendenze 
 in un'unità isolata e portabile, denominata container. 
 Questo approccio garantisce che l'applicazione si comporti nello stesso modo indipendentemente dall'ambiente 
 in cui viene eseguita, eliminando i classici problemi di incompatibilità tra ambienti di sviluppo, test e produzione.
-\textbf{Docker Compose} è uno strumento che permette di definire e orchestrare applicazioni multi-container 
+Docker Compose è uno strumento che permette di definire e orchestrare applicazioni multi-container 
 tramite un singolo file di configurazione dichiarativo. 
 
 Questo strumento risulta particolarmente utile in questo progetto, dato che l'architettura del sistema è 
@@ -233,7 +237,7 @@ performante e configurabile per l'intera architettura distribuita del sistema.
 
 
 \subsubsection{JWT e JWKS}
-\textbf{\gls{jwtg}} è uno standard aperto per la creazione di \textit{token} di accesso che permettono di trasmettere informazioni 
+\gls{jwtg} è uno standard aperto per la creazione di \textit{token} di accesso che permettono di trasmettere informazioni 
 in modo sicuro tra due parti, sotto forma di oggetto \gls{jsong} firmato digitalmente. 
 Nel contesto di questo progetto, i \gls{jwtg} vengono utilizzati per gestire l'autenticazione degli utenti tra 
 i diversi microservizi del sistema.
@@ -256,15 +260,246 @@ e centralizzato nella sua gestione delle chiavi.
 % \label{sec:ciclo-vita-software}
 
 \section{Progettazione}
-\label{sec:progettazione}
+\label{sec:progettazione-architetturale}
+L'infrastruttura è stata definita secondo un modello stratificato (\textit{multitier}), 
+strutturato su due livelli macroscopici: il livello di presentazione 
+(\textit{frontend}) e lo strato di logica applicativa (\textit{backend}).
 
-\subsubsection{Progettazione backend} 
-Descrizione namespace 1.
+\subsection{Progettazione backend} 
+Il \textit{backend} rappresenta il nucleo computazionale dell'applicazione. 
+Viene suddiviso secondo l'architettura a microservizi, 
+una scelta mirata a garantire un elevato livello di modularità e di 
+separazione delle responsabilità.
+
+L'intero livello è sviluppato in linguaggio Python 
+sfruttando i \gls{frameworkg} FastAPI e FastMCP. 
+A seguire vengono descritti nel dettaglio i singoli microservizi 
+e le principali sfide affrontate nel loro sviluppo.
+
+\subsubsection{Server MCP Service}
+Il Server MCP Service si basa sul protocollo \gls{mcpg} ed è 
+responsabile dell'esposizione del \gls{toolg} di \textit{crawling}. 
+Esso si occupa, inoltre, di generare gli eventi \gls{sseg} e inviarli 
+verso il \textit{frontend} per notificare all'utente, in tempo reale, 
+i singoli passaggi logici del processo.
+
+La difficoltà maggiore durante la codifica di tale servizio ha riguardato 
+l'ingegnerizzazione della logica di ricorsione del processo di \textit{crawling}. 
+Ad ogni passo ricorsivo, l'algoritmo esegue in modo sequenziale i seguenti passaggi:
+\begin{enumerate}
+    \item \textbf{Estrazione:} recupero del contenuto \gls{htmlg} della pagina corrente $X$;
+    \item \textbf{Sintesi:} generazione di un riassunto mirato in base alla richiesta originaria dell'utente, il quale viene accodato alla lista dei riassunti raccolti nei passi precedenti;
+    \item \textbf{Valutazione del contesto:} verifica della sufficienza informativa dei dati raccolti per la generazione della risposta, effettuata analizzando l'intera lista dei riassunti accumulati. Tale controllo determina due possibili scenari:
+    \begin{itemize}
+        \item \textbf{Successo}: il contesto è valutato come esaustivo per rispondere al quesito; la ricorsione viene interrotta e si procede alla generazione della risposta finale;
+        \item \textbf{Prosecuzione}: i riassunti correnti sono considerati insufficienti per formulare una risposta completa, rendendo necessaria la continuazione del processo di \textit{crawl};
+    \end{itemize}
+    \item \textbf{Parsing dei collegamenti:} in caso di mancata risoluzione al punto precedente, vengono estratti dalla pagina $X$ tutti i collegamenti ipertestuali disponibili;
+    \item \textbf{Filtraggio semantico:} selezione dei \textit{link} ritenuti maggiormente pertinenti rispetto alla domanda dell'utente;
+    \item \textbf{Passo ricorsivo:} per ciascun collegamento selezionato, viene avviata una nuova istanza della medesima funzione ricorsiva.
+\end{enumerate}
+La logica sopra descritta modella l'esplorazione secondo una struttura ad albero. 
+In questa analogia algoritmica, l'\textbf{ampiezza} della struttura 
+è determinata dal fattore di \textit{branching}, ossia dal numero massimo di collegamenti 
+selezionati durante la fase di filtraggio semantico (passo 5); l'\textbf{altezza} 
+dell'albero (ovvero la sua profondità massima) corrisponde invece al limite massimo 
+di chiamate ricorsive nidificate lungo il cammino più lungo che intercorre tra il 
+nodo radice e un nodo foglia.
+
+
+\paragraph{Complessità ricorsiva}
+La principale criticità dell'algoritmo descritto risiede nella 
+definizione dei parametri di ampiezza e profondità. La configurazione di tali valori
+richiede una calibrazione 
+estremamente rigorosa: una scelta sovradimensionata esporrebbe il sistema al 
+fenomeno dell'\textit{esplosione combinatoria}. 
+Ciò comporterebbe un consumo eccessivo di risorse computazionali e un incremento 
+incontrollato delle chiamate verso l'\gls{llmg}, con conseguenti ripercussioni in 
+termini di latenza e costi finanziari. 
+Di contro, l'adozione di vincoli stringenti 
+comprometterebbe l'efficacia stessa del processo 
+di ricerca: in caso di domande più complesse, dei parametri troppo bassi condurrebbero 
+inevitabilmente a un'analisi superficiale e, di conseguenza, a un 
+fallimento nel soddisfare la richiesta dell'utente.
+\\\\La Tabella~\ref{tab:analisi-casi-ricorsione} mostra
+come i parametri di ampiezza e profondità 
+influenzano la complessità ricorsiva
+nel caso peggiore (ovvero qualora l'algoritmo esaurisse 
+l'intero albero senza raggiungere prima lo stato di successo). 
+Nel processo di \textit{crawling}, ogni singolo passo (nodo dell'albero) 
+richiede esattamente tre chiamate distinte all'\gls{llmg} (fasi di sintesi, 
+valutazione del contesto e filtraggio semantico).
+\begingroup
+\renewcommand{\arraystretch}{1.5}
+\begin{xltabular}{\textwidth}{|c|c|c|c|c|}
+\hline
+\textbf{Caso} & \textbf{Ampiezza} & \textbf{Profondità} & \textbf{\makecell{Chiamate di ricorsione}} & \textbf{\makecell{Chiamate al LLM}} \\
+\hline
+1 & 3 & 6 & 1092 & 3276 \\
+\hline
+2 & 1 & 4 & 4 & 12 \\
+\hline
+3 & 2 & 6 & 126 & 378 \\
+\hline
+4 & 2 & 5 & 62 & 186 \\
+\hline
+\caption{Analisi dell'impatto dei parametri di profondità e ampiezza sul numero di chiamate.}
+\label{tab:analisi-casi-ricorsione}
+\end{xltabular}
+\endgroup
+
+Sulla base delle analisi effettuate durante la fase di \textit{testing} e bilanciando il \textit{trade-off} tra l'accuratezza del reperimento informativo (\textit{recall}) e il contenimento di costi e latenze, la configurazione ottimale è stata individuata nei seguenti valori:
+\begin{itemize}
+    \item \textbf{Ampiezza = 2}: Limitare il fattore di \textit{branching} a un massimo di due collegamenti ipertestuali per pagina previene l'espansione iperbolica dell'albero;
+    \item \textbf{Profondità = 5}: Configurare l'altezza massima a cinque livelli di nidificazione consente all'algoritmo di penetrare sufficientemente a fondo nella struttura del sito web.
+\end{itemize}
+
+Con questa specifica impostazione ($b=2, d=5$), il numero massimo teorico di nodi 
+esplorabili è pari a $N_{\max} = 2^1 + 2^2 + 2^3 + 2^4 + 2^5 = 62$. 
+Di conseguenza, sempre nel caso peggiore, il numero massimo di chiamate all'\gls{llmg} si attesta a:
+\begin{equation}
+    C_{tot} = 62 \times 3 = 186 \text{ chiamate}
+\end{equation}
+Tale valore rappresenta un limite sostenibile per l'infrastruttura 
+e perfettamente in linea con le capacità operative dei modelli di intelligenza 
+artificiale aziendali.
+
+\paragraph{Collegamenti ipertestuali ciclici}
+Un'ulteriore criticità strutturale è rappresentata dalla presenza di 
+collegamenti ipertestuali ciclici (o \textit{link} circolari) all'interno 
+delle pagine web esplorate. 
+In assenza di un opportuno meccanismo di tracciamento, l'algoritmo 
+rischierebbe di rimanere intrappolato in cicli di navigazione infiniti tra 
+pagine che si referenziano reciprocamente.
+
+Per ovviare a questo problema, la soluzione più efficiente e lineare prevede 
+l'introduzione di una struttura dati per la memorizzazione degli stati visitati, 
+definita a livello di codice come una lista denominata \texttt{visited}. 
+All'avvio di ogni passo ricorsivo, la funzione registra l'\gls{urlg} della pagina 
+corrente all'interno di tale struttura, trasmettendola poi come parametro alle 
+successive chiamate. 
+Prima di procedere alla fase di scelte dei collegamenti (passo 5), 
+l'algoritmo esegue un'operazione di sottrazione insiemistica, 
+rimuovendo dall'elenco dei \textit{link} candidati tutti gli \gls{urlg} già 
+presenti in \texttt{visited}.
+
+\paragraph{Caching semantico}
+A differenza delle tecniche di memoizzazione tradizionali 
+(come il \textit{caching} basato su chiavi e valori esatti o \textit{hash} 
+di stringhe), il \textit{caching} semantico valuta il significato logico 
+e contestuale delle richieste inviate dagli utenti. 
+Questa progettazione risponde all'esigenza di ottimizzare 
+il sistema evitando di rielaborare richieste rindondanti e, 
+di conseguenza, consumare inutilmente \textit{token} del \gls{llmg}.
+
+\paragraph{Flusso operativo e architettura vettoriale}
+Il sottosistema si appoggia sull'estensione \textit{pgvector} di PostgreSQL e opera 
+secondo una logica sequenziale:
+\begin{enumerate}
+    \item \textbf{Generazione dell'embedding}: il messaggio dell'utente viene convertito 
+    in un vettore chiamato \textit{embedding} ad alte dimensioni, 
+    capace di catturarne i tratti semantici;
+    \item \textbf{Ricerca di similarità}: il vettore generato viene utilizzato per interrogare 
+    la tabella di \textit{cache} sul database relazionale.
+    Attraverso la funzione di calcolo di similarità del coseno, il sistema 
+    confronta l'\textit{input} corrente con le interrogazioni precedentemente storicizzate 
+    nelle ultime ore;
+    \item \textbf{Valutazione della soglia e raffinamento:} vengono estratti dal database i 
+    record che presentano la massima similarità riscontrata. 
+    Successivamente, per garantire la massima accuratezza ed evitare falsi positivi, 
+    viene selezionato il record semanticamente più pertinente tramite una chiamata di 
+    validazione al \gls{llmg}. In base all'esito di questo controllo si determinano due scenari:
+    \begin{itemize}
+        \item \textbf{Cache Hit}: il modello conferma l'equivalenza semantica; 
+        il sistema estrae la risposta pre-calcolata e la restituisce, 
+        ottimizzando tempi e costi;
+        \item \textbf{Cache Miss}: non viene riscontrata alcuna corrispondenza; 
+        viene avviata la normale elaborazione della richiesta.
+    \end{itemize}
+\end{enumerate}
+Tale strategia di memoizzazione trasforma l'infrastruttura da un sistema puramente reattivo 
+e computazionalmente oneroso a un ecosistema resiliente, in grado incrementare l'efficienza 
+e la qualità del prodotto software.
+
+\paragraph{Invio delle notifiche sui passaggi di crawling}
+Un'altra difficoltà affrontata è legata alla gestione degli eventi 
+da inviate al \textit{frontend} riguardanti i passaggi logici del \textit{crawler}. 
+Poiché l'esplorazione ricorsiva e l'elaborazione dei contenuti richiedono tempistiche 
+computazionali variabili e non immediate, l'utilizzo di una classica architettura \gls{httpg} 
+di tipo sincrono (\textit{request-response}) avrebbe esposto il sistema a frequenti 
+fenomeni di \textit{timeout}, oltre a lasciare l'utente in uno stato di attesa privo 
+di \textit{feedback} visivo.
+La soluzione progettuale ha dunque previsto l'implementazione di un modello di 
+comunicazione asincrono basato su \gls{sseg}. 
+Il Server MCP Service espone un \textit{endpoint} per la definizione di un 
+canale di streaming persistente con il \textit{frontend}, consentendo di notificare 
+in tempo reale ogni singolo stato di avanzamento dell'orchestrazione 
+("\textit{Prelevata pagina $X$}", "\textit{Generazione sintesi}", "\textit{Scelta dei link}") 
+e di trasmettere la risposta non appena disponibile, ottimizzando drasticamente 
+l'esperienza utente.
+
+
+\subsubsection{Search Service}
+Il servizio Search Service è dedicato alla ricezione e 
+all'elaborazione dei messaggi dell'utente espressi in linguaggio naturale. 
+Analizzando il contesto della richiesta, il servizio determina quale 
+\gls{toolg} sia necessario attivare, ne estrae i parametri 
+e invoca l'\textit{endpoint} corrispondente sul microservizio 
+Server \gls{mcpg} Service. 
+Sebbene i requisiti del progetto richiedessero esclusivamente lo 
+sviluppo del \gls{toolg} di \textit{crawling}, il componente 
+è stato nativamente concepito per poter gestire e integrare agevolmente 
+ulteriori strumenti in futuro; l'esistenza del \textit{search service} 
+come orchestratore e selettore dinamico delle azioni risponde proprio 
+a questa fondamentale esigenza di estensibilità.
+
+\paragraph{Estrazione dei parametri e del non-determinismo}
+La prima problematica risiede nella caratteristiche di non determinismo dei 
+modelli di linguaggio. 
+Quando l'utente formula le richieste in linguaggio naturale, 
+il \textit{search service} deve garantire che l'\gls{llmg} non solo selezioni 
+lo strumento corretto, ma estragga i parametri di input (come \gls{urlg}, parole 
+chiave o vincoli di ricerca) in un formato rigidamente tipizzato e privo di ambiguità.
+
+Per risolvere tale criticità, la progettazione ha previsto l'adozione di schemi di 
+validazione dei dati basati sulla libreria \textit{Pydantic}. 
+Forzando il modello a rispondere secondo una struttura \gls{jsong} conforme a uno 
+schema predefinito, si è ridotto a zero il rischio di ricevere risposte malformate.
+
+\subsubsection{Auth Service}
+L'Auth Service gestisce l'intero ciclo di vita dell'autenticazione 
+e della sicurezza degli accessi. 
+Ha la responsabilità di creare, validare e revocare i \gls{jwtg} 
+(gestendo sia gli \textit{access token} che i \textit{refresh token}). 
+Per la firma dei \textit{token} si è scelto di adottare l'algoritmo asimmetrico 
+\textit{RS256} (\textit{RSA} utilizzando \textit{SHA-256}): 
+questo approccio garantisce che solo l'\textit{auth-service}, custode 
+della chiave privata, possa generare e firmare \textit{token} validi, 
+consentendo al contempo agli altri microservizi di verificarne l'autenticità 
+in totale autonomia tramite la rispettiva chiave pubblica, senza dover 
+effettuare chiamate inter-servizio sincrone per ogni richiesta. 
+A tale scopo, il servizio espone un \textit{endpoint} chiamato 
+''\textit{.well-known}'' che permette la distribuzione 
+della chiave pubblica all'interno dell'intera infrastruttura di \textit{backend}.
+
+\subsubsection{User Service}
+User Service è il servizio dedicato alla creazione e alla gestione degli 
+utenti della piattaforma.
+
+
+\subsubsection{History Service}
+History Service si occupa della persistenza e della sincronizzazione dello 
+storico delle conversazioni, memorizzando i messaggi scambiati tra l'utente e 
+il \gls{llmg} per consentire il recupero delle sessioni passate.
+
 
 \begin{namespacedesc}
     \classdesc{Classe 1}{Descrizione classe 1}
     \classdesc{Classe 2}{Descrizione classe 2}
 \end{namespacedesc}
+
+
+\subsection{Progettazione frontend} 
 
 
 \section{Design Pattern utilizzati}
