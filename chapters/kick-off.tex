@@ -18,7 +18,7 @@ Al termine del tirocinio svolto in RiskApp S.r.l. erano attese le seguenti compe
     efficiente delle richieste ridondanti;
     \item sviluppo di un sistema di autenticazione e autorizzazione sicuro 
     basato su \gls{jwtg}\glsfirstoccur ;
-    \item utilizzo dello strumento di containerizzazione \gls{dockerg} per la gestione 
+    \item utilizzo dello strumento di containerizzazione \gls{dockerg}\glsfirstoccur per la gestione 
     e l'orchestrazione dei servizi;
     \item gestione di database per la persistenza dei dati relativi alle richieste 
     e agli utenti;
@@ -32,7 +32,7 @@ aziendali interni. I vincoli individuati sono i seguenti:
 \begin{itemize}
     \item il prodotto deve essere sviluppato usando il \gls{frameworkg}\glsfirstoccur  React 
     per il \textit{frontend};
-    \item il prodotto deve essere sviluppato usando il \gls{frameworkg}\glsfirstoccur FastAPI
+    \item il prodotto deve essere sviluppato usando il \gls{frameworkg} FastAPI
     per il \textit{backend};
     \item il sistema deve essere containerizzato tramite \gls{dockerg};
     \item le componenti del sistema devono comunicare tramite \gls{apig}\glsfirstoccur .
@@ -178,7 +178,7 @@ In particolare, sono state effettuate le seguenti scelte architetturali:
     all'interno di ciascun microservizio al fine di disaccoppiare la logica di business
     dai dettagli implementativi (come database, \gls{llmg}, \gls{apig} esterne) e
     favorire la testabilità del codice;
-    \item adozione del pattern \gls{mvvmg} per il \textit{frontend} allo scopo di 
+    \item adozione del pattern \gls{mvvmg}\glsfirstoccur per il \textit{frontend} allo scopo di 
     separare la logica di presentazione dalla gestione dello stato dell'applicazione.
 \end{itemize}
 
@@ -360,7 +360,7 @@ A titolo esemplificativo, nella Tabella~\ref{tab:esempio-iterazione} viene ripor
 
         \textbf{Attività pianificate in ordine di priorità} &
         \begin{enumerate}
-            \item Implementazione base del server \gls{mcpg} con esposizione di un \gls{toolg} di \gls{crawlingg};
+            \item Implementazione base del server \textit{MCP} con esposizione di un \textit{tool} di \textit{crawling};
             \item Sviluppo della logica di estrazione, riassunto e selezione \textit{link} delle pagine HTML;
             \item Formattazione della risposta generata nei formati HTML, JSON, plain text e Markdown con vincoli di ampiezza e profondità massima;
             \item Realizzazione di un’interfaccia utente di base con inserimento URL dei sito web, inserimento domanda e visualizzazione della risposta finale;
@@ -387,32 +387,32 @@ Durante la fase di analisi iniziale sono stati individuati alcuni possibili risc
 Si è quindi proceduto a elaborare delle possibili soluzioni per far fronte a tali rischi.\\
 
 \begin{risk}{Elevata curva di apprendimento tecnologico}
-    \riskdescription{L'adozione di un ampio \textit{stack} tecnologico comprendente \gls{frameworkg} e paradigmi non approfonditi nel percorso accademico (FastAPI, protocollo MCP, architettura esagonale e Docker) rischia di sottrarre tempo prezioso alla fase più dispendiosa, ovvero la codifica.}
-    \risksolution{Pianificazione di una fase iniziale di formazione teorico-pratica con sviluppo di progetti pilota guidati (\textit{QuickStart}) e di un \textit{Proof of Concept} per validare le competenze prima dello sviluppo definitivo.}
+    \riskdescription{L'adozione di un ampio \textit{stack} tecnologico comprendente \gls{frameworkg} e paradigmi non approfonditi nel percorso accademico (FastAPI, protocollo \gls{mcpg}, architettura esagonale e \gls{dockerg}) rischia di sottrarre tempo prezioso alla fase più dispendiosa, ovvero la codifica}
+    \risksolution{Pianificazione di una fase iniziale di formazione teorico-pratica con sviluppo di progetti guidati (\textit{QuickStart}) e di un \textit{Proof of Concept} per validare le competenze prima dello sviluppo definitivo}
     \label{risk:curva-apprendimento} 
 \end{risk}
 
 \begin{risk}{Volatilità e instabilità dei requisiti}
-    \riskdescription{Trattandosi di un'applicazione legata a tecnologie emergenti in un contesto aziendale reale, i requisiti iniziali potrebbero subire variazioni o ampliamenti in corso d'opera, invalidando la pianificazione strategica originaria.}
-    \risksolution{Adozione di una metodologia iterativo-incrementale basata su \textit{timebox} settimanali e canali di comunicazione costanti (\textit{Slack} e allineamenti), permettendo una tempestiva ripianificazione e rimodulazione degli obiettivi operativi.}
+    \riskdescription{Trattandosi di un'applicazione legata a tecnologie emergenti in un contesto aziendale reale, i requisiti iniziali potrebbero subire variazioni o ampliamenti in corso d'opera, invalidando la pianificazione strategica originaria}
+    \risksolution{Adozione di una metodologia iterativo-incrementale basata su \textit{timebox} settimanali e canali di comunicazione costanti (\textit{Slack} e allineamenti), permettendo una tempestiva ripianificazione degli obiettivi}
     \label{risk:volatilita-requisiti} 
 \end{risk}
 
 \begin{risk}{Latenza e limitazioni nell'integrazione di LLM e crawling}
-    \riskdescription{L'interazione con i modelli linguistici e i processi ricorsivi di \textit{web crawling} potrebbero introdurre colli di bottiglia prestazionali, problemi di \textit{rate limiting} delle \textit{API}.}
-    \risksolution{Definizione di parametri rigidi di ampiezza e profondità massima per la ricorsione, implementazione di un sistema di \textit{caching} intelligente e utilizzo della piattaforma \textit{LangSmith} per il tracciamento e il monitoraggio continuo delle chiamate.}
+    \riskdescription{L'interazione con i modelli linguistici e i processi ricorsivi di \textit{web crawling} potrebbero introdurre colli di bottiglia e problemi di \textit{rate limiting} delle \textit{API}}
+    \risksolution{Definizione di parametri rigidi di ampiezza e profondità massima per la ricorsione, implementazione di un sistema di \textit{caching} intelligente e utilizzo della piattaforma \textit{LangSmith} per il tracciamento e il monitoraggio continuo delle chiamate}
     \label{risk:latenza-llm} 
 \end{risk}
 
 \begin{risk}{Non-determinismo delle risposte del modello linguistico (LLM)}
-    \riskdescription{I modelli linguistici di grandi dimensioni possono generare risposte imprevedibili o strutturalmente non omogenee (comunemente chiamate ''allucinazioni'') a parità di input, rischiando di compromettere la consistenza dei dati inviati al frontend o la corretta esecuzione dei tool basati sul protocollo MCP.}
-    \risksolution{Implementazione di tecniche stringenti di \textit{prompt engineering}, definizione di vincoli sintattici rigorosi sull'output del modello (richiedendo formati strutturati, come JSON) e aggiunta di validazione dei dati per intercettare e gestire tempestivamente eventuali risposte non conformi.}
+    \riskdescription{I modelli linguistici di grandi dimensioni possono generare risposte imprevedibili o strutturalmente non omogenee (comunemente chiamate ''allucinazioni'') a parità di \textit{input}, rischiando di compromettere la consistenza dei dati inviati al \textit{frontend} o la corretta esecuzione dei \gls{toolg} basati sul protocollo \gls{mcpg}}
+    \risksolution{Implementazione di tecniche stringenti di \textit{prompt engineering}, definizione di vincoli sintattici rigorosi sull'\textit{output} del modello (richiedendo formati strutturati, come \gls{jsong}) e aggiunta di validazione dei dati per intercettare e gestire tempestivamente eventuali risposte non conformi}
     \label{risk:non-determinismo-llm} 
 \end{risk}
 
 \begin{risk}{Complessità di integrazione dell'architettura a microservizi}
-    \riskdescription{La scomposizione del \textit{backend} in microservizi indipendenti introduce complessità nella comunicazione tra componenti e nella gestione della persistenza.}
-    \risksolution{Configurazione e orchestrazione dell'ambiente di sviluppo tramite \textit{Docker} fin dalle prime fasi e sviluppo sequenziale e incrementale dei singoli microservizi per isolare e risolvere tempestivamente le dipendenze critiche.}
+    \riskdescription{La scomposizione del \textit{backend} in microservizi indipendenti introduce complessità nella comunicazione tra componenti e nella gestione della persistenza}
+    \risksolution{Configurazione e orchestrazione dell'ambiente di sviluppo tramite \textit{Docker} fin dalle prime fasi e sviluppo sequenziale e incrementale dei singoli microservizi}
     \label{risk:integrazione-microservizi} 
 \end{risk}
 

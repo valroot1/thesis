@@ -154,6 +154,29 @@ ideale per questo compito.
     \caption{Logo di BeautifulSoup}
 \end{figure}
 
+\subsubsection{OpenAI}
+OpenAI è un'organizzazione di ricerca e sviluppo nel campo 
+dell'intelligenza artificiale, celebre i modelli generativi 
+GPT (\textit{Generative Pre-trained Transformer}).
+I modelli offerti da OpenAI sono accessibili tramite servizi cloud e 
+possono essere utilizzati attraverso 
+interfacce di programmazione (\textit{API}), permettendo di 
+realizzare sistemi basati sulla comprensione del linguaggio naturale.
+
+Nel contesto di questo progetto, OpenAI rappresenta il componente 
+centrale per l'elaborazione delle richieste 
+degli utenti e la generazione delle risposte. 
+In particolare, il modello linguistico è stato impiegato per 
+interpretare le domande ricevute, selezionare dinamicamente gli 
+strumenti più appropriati per il recupero delle 
+informazioni e sintetizzare i risultati ottenuti in una risposta 
+coerente e contestualizzata.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{openai_logo.png}
+    \caption{Logo di OpenAI}
+\end{figure}
+
 
 \subsubsection{LangSmith}
 
@@ -175,7 +198,6 @@ permettendo di analizzare nel dettaglio il comportamento del modello a fronte di
 distribuite su più microservizi.
 
 \subsubsection{PostgreSQL, TimescaleDB e pgvector}
-
 PostgreSQL è un sistema di gestione di basi di dati relazionali \textit{open source}, noto per la sua robustezza, 
 l'affidabilità e la conformità agli standard \gls{sqlg}\glsfirstoccur . 
 La sua espandibilità tramite estensioni native lo rende particolarmente adatto a progetti che richiedono funzionalità 
@@ -210,7 +232,7 @@ tramite un singolo file di configurazione dichiarativo.
 Questo strumento risulta particolarmente utile in questo progetto, dato che l'architettura del sistema è 
 suddivisa in molteplici microservizi, oltre al database e al \textit{gateway} Nginx, ciascuno eseguito nel proprio container isolato.
 
-La scalabilità e la portabilità garantite da Docker rispondono direttamente a uno dei requisiti fondamentali del progetto, 
+La scalabilità e la portabilità garantite da \gls{dockerg} rispondono direttamente a uno dei requisiti fondamentali del progetto, 
 che richiede un servizio scalabile e portabile su diverse infrastrutture.
 \begin{figure}[H]
     \centering
@@ -488,7 +510,7 @@ consentendo al contempo agli altri microservizi di verificarne l'autenticità
 in totale autonomia tramite la rispettiva chiave pubblica, senza dover 
 effettuare chiamate inter-servizio sincrone per ogni richiesta. 
 A tale scopo, il servizio espone un \textit{endpoint} chiamato 
-''\textit{.well-known}'' che permette di distribuire la chiave pubblica 
+''\texttt{.well-known/jwks.json}'' che permette di distribuire la chiave pubblica 
 tra i vari microservizi del\textit{backend}.
 
 \subsubsection{User Service}
@@ -602,5 +624,104 @@ operativo.
 
 
 \section{Design Pattern utilizzati}
+L'architettura del sistema è stata strutturata adottando molteplici 
+\textit{design pattern} consolidati dall'ingegneria del software. 
+L'impiego di questi modelli architetturali risponde alla necessità di 
+garantire il disaccoppiamento tra i componenti e l'estensibilità del 
+software.
 
+\subsection{Pattern Singleton}
+Il pattern \textit{Singleton} è stato adottato per la gestione della classe 
+\texttt{JwtValidation}, responsabile della validazione dei token \gls{jwtg} all'interno 
+del \textit{backend}.
+L'obiettivo era garantire che esistesse un'unica istanza di tale classe per tutto il
+ciclo di vita dell'applicazione, in modo da condividere la \textit{cache} della chiave
+pubblica (\texttt{\_jwks\_cache}) tra tutte le richieste ed evitare chiamate
+ridondanti all'\textit{endpoint} \texttt{/.well-known/jwks.json} esposto.
+
+Il modulo \texttt{JwtValidation} definisce la propria logica di validazione; la sua istanza, 
+invece, viene gestita tramite una metaclasse dedicata, \texttt{SingletonMeta}, in 
+maniera tale da rendere il comportamento di \textit{singleton} riutilizzabile e senza duplicare 
+la logica di sincronizzazione in ciascuna di esse.
+
+La metaclasse \texttt{SingletonMeta} mantiene un dizionario \texttt{\_instances},
+che associa ciascuna classe che la utilizza alla propria istanza unica, e un
+oggetto \texttt{\_lock} per garantire la sicurezza in ambiente \textit{multi-thread} durante
+la creazione. 
+Il metodo \texttt{\_\_call\_\_} viene invocato automaticamente da
+Python ogni volta che la classe \texttt{JwtValidation} viene istanziata: se per
+quella classe non esiste ancora un'istanza in \texttt{\_instances}, ne viene creata
+una sotto lock, altrimenti viene restituita quella già presente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{uml/singleton.png}
+    \caption{Diagramma UML del pattern Singleton implementato per \texttt{JwtValidation}}
+\end{figure}
+
+Grazie a questa architettura strutturata, il componente \texttt{JwtValidation} garantisce 
+un unico punto di accesso globale, memorizza rigidamente in \textit{cache} la chiave 
+pubblica dopo il primo recupero e restituisce direttamente l'oggetto validato 
+\texttt{JwtClaims} (correlato con il rispettivo set di \texttt{ToolPermission}), 
+minimizzando l'\textit{overhead} computazionale e i tempi di risposta 
+complessivi dell'infrastruttura.
+
+
+\subsection{Pattern Adapter}
+Il pattern \textit{Adapter} costituisce il meccanismo di implementazione
+dell'architettura esagonale (\textit{ports and adapters}) adottata in modo
+sistematico in tutti i microservizi del \textit{backend}. Ogni \textit{port}
+definito nello strato applicativo (ad esempio \texttt{CachePort},
+\texttt{SummarizePort}) descrive un'interfaccia astratta orientata al dominio,
+priva di qualunque riferimento a tecnologie o librerie specifiche. Il relativo
+\textit{adapter} fornisce invece l'implementazione concreta di tale interfaccia,
+traducendo le chiamate provenienti dai casi d'uso in operazioni effettive verso
+sistemi esterni (database, chiamate al \gls{llmg}, librerie). Questa separazione
+permette di sostituire o modificare l'infrastruttura sottostante senza impattare
+la logica applicativa.
+
+A titolo esemplificativo si riportano due \textit{adapter} implementati nel
+microservizio MCP Server Service: \texttt{CacheAdapter} e
+\texttt{SummarizeAdapter}.
+
+La classe \texttt{CacheAdapter} implementa \texttt{CachePort} e centralizza
+tutte le operazioni di \textit{caching} del microservizio. 
+L'\textit{adapter} in questione 
+realizza il processo di \textit{semantic caching} descritta nel capitolo precedente: 
+il metodo \texttt{findCachedRequest}
+genera l'\textit{embedding} della domanda tramite \texttt{OpenAIRepository}, recupera i
+candidati semanticamente più simili dal repository tramite ricerca per
+similarità vettoriale e infine invoca il metodo privato
+\texttt{\_getSimilarQuestionIndex}, che sottopone i candidati a un modello
+linguistico con un \textit{prompt} di sistema volutamente restrittivo: la
+corrispondenza viene accettata solo se il contenuto candidato copre
+\emph{esattamente} tutte le informazioni richieste, senza inferenze o
+approssimazioni. 
+Solo in caso di esito positivo viene restituito un
+\texttt{ToolResult} con la risposta in cache; in caso contrario il metodo
+restituisce \texttt{None}, segnalando un \textit{cache miss} e lasciando che il
+caso d'uso proceda con l'elaborazione della risposta. La stessa logica di
+ricerca semantica viene utilizzata da \texttt{findCachedSummary} per la cache
+dei riassunti delle pagine.
+
+La classe \texttt{SummarizeAdapter} implementa \texttt{SummarizePort} e adatta
+il bisogno applicativo di sintesi del contenuto verso il modello linguistico
+esposto da \texttt{OpenAIRepository}. Il metodo \texttt{summarize} riceve il
+testo estratto da una pagina web e la domanda dell'utente, costruisce un
+\textit{prompt} di sistema che impone regole stringenti e restituisce il risultato, 
+oppure \texttt{None} se il contenuto non è
+rilevante.
+
+Entrambi gli adapter sono implementati come \textit{dataclass} immutabili
+(\texttt{@dataclass(frozen=True)}), con le dipendenze necessarie
+(\texttt{CacheRepository}, \texttt{OpenAIRepository}) iniettate direttamente
+come campi della classe. Questa scelta, ricorrente in tutti gli adapter del
+sistema, mantiene gli adapter privi di stato mutabile interno, semplificandone
+test e sostituibilità.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.58\textwidth]{uml/adapter.png}
+    \caption{Diagramma UML del pattern Adapter implementato per \texttt{CacheAdapter}}
+\end{figure}
 % \section{Codifica}
