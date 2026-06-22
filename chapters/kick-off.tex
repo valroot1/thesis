@@ -154,7 +154,7 @@ chiamate ricorsive il sistema definiva due parametri: l'ampiezza massima (il
 numero massimo di \textit{link} selezionabili ad ogni livello di 
 ricorsione) e profondità massima (numero 
 massimo di livelli di ricorsione).
-Successivamente è stata sviluppata anche una semplice interfaccia utente 
+Successivamente è stata sviluppata anche un'interfaccia utente 
 per l'inserimento dei parametri e la visualizzazione della risposta generata.
 Infine, è stato implementato un processo di \textit{streaming} tramite \gls{sseg}, 
 per mostrare nella pagina web i singoli passaggi svolti durante la ricorsione 
@@ -172,7 +172,7 @@ In particolare, sono state effettuate le seguenti scelte architetturali:
 \begin{itemize}
     \item suddivisione del \textit{backend} in microservizi indipendenti, 
     ciascuno responsabile di un dominio applicativo specifico (autenticazione, 
-    gestion utenti, storico delle richieste, ricerca e server \gls{mcpg}) con 
+    gestione utenti, storico delle richieste, ricerca e server \gls{mcpg}) con 
     l'obiettivo di favorire la scalabilità e la manutenibilità del sistema;
     \item adozione dell'architettura esagonale (\textit{hexagonal architecture})
     all'interno di ciascun microservizio al fine di disaccoppiare la logica di business
@@ -215,7 +215,7 @@ dunque richiesto più lavoro su vari fronti, diversi dalla sola gestione di un s
 completa delle settimane a seguire in maniera tale da adattarla alle nuove specifiche.
 
 \subsection{Quinta settimana}
-Durante la quinta settimana si è continuato il processo di codifica \textit{backend}avviato nella quarta settimana. In particolare:
+Durante la quinta settimana si è continuato il processo di codifica \textit{backend} avviato nella quarta settimana. In particolare:
 \begin{itemize}
     \item è stato completato il microservizio relativo al server \gls{mcpg};
     \item è stato avviato e completato \textit{search service};
@@ -292,7 +292,7 @@ approfondito durante il percorso universitario. In particolare, ho acquisito
 competenze nell'utilizzo di Python e dei relativi \gls{frameworkg} FastAPI e FastMCP, nella progettazione di architetture a microservizi, nell'applicazione dell'architettura esagonale e nell'utilizzo del pattern MVVM per lo sviluppo \textit{frontend}. Ho inoltre maturato esperienza nella containerizzazione delle applicazioni mediante \gls{dockerg} e nella progettazione di sistemi che integrano modelli linguistici di grandi dimensioni (\gls{llmg}).
 
 Un altro aspetto particolarmente significativo è stato il confronto continuo con
-i \textit{tutor} aziendali. Le revisioni periodiche e le discussioni sulle scelte
+i \textit{tutor} aziendali. Le revisioni periodiche e gli incontri mirati sulle scelte
 progettuali hanno contribuito a migliorare la qualità delle soluzioni sviluppate
 e mi hanno permesso di imparare molte tecnologie e tecniche nuove. 
 Questo confronto costante ha inoltre favorito lo sviluppo
@@ -339,7 +339,7 @@ Per valutare la qualità nel contesto del progetto, la metodologia adottata è s
 \subsection{Metodologia operativa e flussi di comunicazione}
 Le attività settimanali sono state governate da due dinamiche principali di sincronizzazione con la struttura aziendale:
 \begin{enumerate}
-    \item \textbf{Supporto quotidiano e comunicazione asincrona}: anche durante le giornale svolte da remoto, ero sempre in contatto con i \textit{tutor} aziendali tramite l'applicazione di messaggistica \textit{Slack}. 
+    \item \textbf{Supporto quotidiano e comunicazione asincrona}: anche durante le giornate svolte da remoto, ero sempre in contatto con i \textit{tutor} aziendali tramite l'applicazione di messaggistica \textit{Slack}. 
     Tale canale ha permesso di mantenere un flusso informativo costante con i \textit{tutor}, facilitando la rapida risoluzione di problemi o di domande relative al progetto;
     \item \textbf{Allineamento finale settimanale}: un incontro della durata di circa 20 minuti programmato al termine di ogni ciclo. Durante la sessione veniva effettuato un controllo dei risultati ottenuti durante la settimana e veniva pianificato l'obiettivo del ciclo successivo.
 \end{enumerate}
