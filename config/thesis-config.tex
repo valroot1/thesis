@@ -108,26 +108,33 @@
     \hypersetup{draft}
 \fi
 
-% Listings setup
-\lstset{
-    language=[LaTeX]Tex,%C++,
-    keywordstyle=\color{RoyalBlue}, %\bfseries,
-    basicstyle=\small\ttfamily,
-    %identifierstyle=\color{NavyBlue},
-    commentstyle=\color{Green}\ttfamily,
-    stringstyle=\rmfamily,
-    numbers=none, %left,%
-    numberstyle=\scriptsize, %\tiny
-    stepnumber=5,
-    numbersep=8pt,
-    showstringspaces=false,
-    breaklines=true,
-    frameround=ftff,
-    frame=single
-}
-
+% Configurazione colori per il codice sorgente
 \definecolor{webgreen}{rgb}{0,.5,0}
 \definecolor{webbrown}{rgb}{.6,0,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.96}
+
+% Listings setup
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{webgreen}\ttfamily,
+    keywordstyle=\color{RoyalBlue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{webbrown},
+    basicstyle=\small\ttfamily,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=8pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    frame=single,
+    frameround=ftff
+}
 
 \newcommand{\sectionname}{sezione}
 \addto\captionsitalian{\renewcommand{\figurename}{Figura}

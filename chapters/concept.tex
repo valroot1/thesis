@@ -7,38 +7,36 @@
             \caption{Diagramma #1}
         \end{figure}
     }
-    \begin{table}[H]
-        \centering
-        \small
-        \renewcommand{\arraystretch}{1.4}
-        \begin{tabular}{|p{3cm}|p{10cm}|}
-            \hline
-            \textbf{Attori} & #2 \\
-            \hline
-            \textbf{Pre-condizioni} & #3 \\
-            \hline
-            \textbf{Post-condizioni} & #4 \\
-            \hline
-            \textbf{Scenario principale} & #5 \\
-            \hline
-            \ifblank{#6}{}{
-            \textbf{Inclusioni} & #6 \\
-            \hline
-            }
-            \ifblank{#7}{}{
-            \textbf{Scenari alternativi} & #7 \\
-            \hline
-            }
-            \ifblank{#8}{}{
-            \textbf{Estensioni} & #8 \\
-            \hline
-            }
-            \ifblank{#9}{}{
-            \textbf{Generalizzazioni} & #9 \\
-            \hline
-            }
-        \end{tabular}
-    \end{table}
+    % Sostituiamo table e tabular con un unico ambiente longtable
+    \small
+    \renewcommand{\arraystretch}{1.4}
+    \begin{longtable}{|p{3cm}|p{10cm}|}
+        \hline
+        \textbf{Attori} & #2 \\
+        \hline
+        \textbf{Pre-condizioni} & #3 \\
+        \hline
+        \textbf{Post-condizioni} & #4 \\
+        \hline
+        \textbf{Scenario principale} & #5 \\
+        \hline
+        \ifblank{#6}{}{
+        \textbf{Inclusioni} & #6 \\
+        \hline
+        }
+        \ifblank{#7}{}{
+        \textbf{Scenari alternativi} & #7 \\
+        \hline
+        }
+        \ifblank{#8}{}{
+        \textbf{Estensioni} & #8 \\
+        \hline
+        }
+        \ifblank{#9}{}{
+        \textbf{Generalizzazioni} & #9 \\
+        \hline
+        }
+    \end{longtable}
 }
 
 % contatore RF
@@ -817,7 +815,7 @@ oppure un messaggio del sistema.}
 
 \subsection{UC9.3 - Apertura conversazione dallo storico}
 \label{9.3}
-\makeUC{}
+\makeUC{UC9.3}
 {Utente}
 {
     \begin{itemize}
@@ -918,7 +916,7 @@ oppure un messaggio del sistema.}
 
 \subsection{UC11 - Visualizzazione lista utenti}
 \label{11}
-\makeUC{}
+\makeUC{UC11}
 {Admin}
 {
     \begin{itemize}
@@ -981,7 +979,7 @@ oppure un messaggio del sistema.}
 
 \subsection{UC12 - Creazione nuova chat}
 \label{12}
-\makeUC{}
+\makeUC{UC12}
 {Utente}
 {
     \begin{itemize}
@@ -999,21 +997,21 @@ oppure un messaggio del sistema.}
 }
 {}{}{}{}
 
-\subsection{UC13 - Visualizzazione messaggi della conversazione}
+\subsection{UC13 - Visualizzazione messaggi della chat}
 \label{13}
-\makeUC{}
+\makeUC{UC13}
 {Utente}
 {
     \begin{itemize}
         \item Il sistema è attivo;
         \item l'utente è autenticato;
-        \item l'utente ha selezionato una conversazione.
+        \item l'utente ha selezionato una \textit{chat}.
     \end{itemize}
 }
 {L'utente visualizza i messaggi della conversazione selezionata.}
 {
     \begin{enumerate}
-        \item L'utente seleziona una conversazione;
+        \item L'utente seleziona una \textit{chat};
         \item il sistema recupera tutti i messaggi associati;
         \item il sistema mostra i messaggi della conversazione:
         \begin{itemize}
@@ -1035,21 +1033,21 @@ oppure un messaggio del sistema.}
 \label{13.1}
 \makeUC{}
 {Utente}
-{L'utente sta visualizzando una conversazione.}
+{L'utente sta visualizzando una \textit{chat}.}
 {L'utente visualizza il ruolo associato al messaggio.}
 {Il sistema mostra il ruolo del messaggio (utente o sistema).}{}{}{}{}
 \subsection{UC13.2 - Visualizzazione contenuto del messaggio}
 \label{13.2}
 \makeUC{}
 {Utente}
-{L'utente sta visualizzando una conversazione.}
+{L'utente sta visualizzando una \textit{chat}.}
 {L'utente visualizza il contenuto del messaggio.}
 {Il sistema mostra il contenuto testuale del messaggio.}{}{}{}{}
 \subsection{UC13.3 - Visualizzazione data e ora del messaggio}
 \label{13.3}
 \makeUC{}
 {Utente}
-{L'utente sta visualizzando una conversazione.}
+{L'utente sta visualizzando una \textit{chat}.}
 {L'utente visualizza la data e l'ora del messaggio.}
 {Il sistema mostra la data e l'ora di invio del messaggio.}{}{}{}{}
 

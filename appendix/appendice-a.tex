@@ -11,15 +11,15 @@ dalle dipendenze esterne, come database, \gls{apig}, \gls{frameworkg} web e serv
 
 L’obiettivo principale di questa scelta architetturale è garantire il rispetto
 dei principi SOLID e, più in generale, promuovere una progettazione modulare
-e manutenibile del sistema. In particolare, l’architettura adottata consente di:
+e manutenibile del sistema. In particolare, l’architettura adottata consente:
 \begin{itemize}
-    \item \textbf{Isolare della logica di business}, che rimane indipendente
+    \item \textbf{Isolamento della logica di business}, che rimane indipendente
     da framework, database e tecnologie esterne;
 
-    \item \textbf{Garantire il principio di Single Responsibility (SRP)},
+    \item \textbf{Rispetto del principio di Single Responsibility (SRP)},
     grazie alla separazione tra dominio, applicazione e infrastruttura;
 
-    \item \textbf{Garantire il principio di Dependency Inversion (DIP)},
+    \item \textbf{Rispetto del principio di Dependency Inversion (DIP)},
     ottenuto tramite l’uso di \textit{ports} e \textit{adapters}, che permettono
     al dominio di dipendere da astrazioni e non da implementazioni concrete;
 
@@ -70,12 +70,6 @@ src/
  │    └── dtos
  └── main.py
 \end{verbatim}
-
-Gli \textit{inbound adapters} rappresentano i punti di ingresso del sistema
-(ovvero i moduli \texttt{Controller}), mentre gli
-\textit{outbound adapters} incapsulano tutte le comunicazioni verso
-sistemi esterni (database, servizi \gls{llmg}, \gls{SSE}, \gls{jwtg}).
-
 Per comprendere l'efficacia del paradigma \textit{Ports and Adapters} 
 all'interno del sistema è necessario analizzare la responsabilità di ciascun livello 
 e come questi interagiscono tra loro.
@@ -86,67 +80,134 @@ Questo nucleo non ha alcuna conoscenza del mondo esterno: non sa se i dati arriv
 una chiamata \gls{httpg}, da una riga di comando o da un test unitario. 
 Tale livello si compone dei seguenti elementi:
 \begin{itemize}
-    \item \textbf{Domain Entities e Value Objects}: Rappresentano i concetti di business puri. 
+    \item \textbf{Domain Entities e Value Objects}: rappresentano i concetti di business puri. 
     Ad esempio, in History Service, \texttt{ConversationEntity} e \texttt{MessageEntity} 
-    contengono la struttura definita per la definizione della conversazione.
-    \begin{lstlisting}[language=Python, caption={Esempio di controller FastAPI}, label={lst:auth_controller}]
-        @router.post("/auth/login")
-        def login(credentials: LoginDTO):
-            # Logica di autenticazione esagonale
-            return {"token": "jwt_token_example"}
+    contengono la struttura per la definizione della conversazione.
+    \begin{lstlisting}[language=Python, caption={Definizione delle classi ConversationEntity e MessageEntity}, label={lst:domain-entities}]
+@dataclass(frozen=True)
+class ConversationEntity:
+    id: UUID
+    user_id: UUID
+    created_at: datetime
+    messages: list[MessageEntity]
+
+@dataclass(frozen=True)
+class MessageEntity:
+    id: UUID
+    conversation_id: UUID
+    role: str
+    content: str
+    type: str
+    format: str
+    created_at: datetime
+\end{lstlisting}
+    \item \textbf{Domain Services}: incapsulano logiche di business complesse che coinvolgono più entità. 
+    Un esempio è il \texttt{CrawlToolService} in MCP Server Service, che coordina l'algoritmo
+    del \gls{toolg} di \gls{crawlingg} senza legarsi a client \gls{httpg} o librerie di 
+    \textit{scraping} specifiche.
+    \begin{lstlisting}[language=Python, caption={Implementazione di CrawlToolService}, label={lst:auth_controller}]
+@dataclass(frozen=True)
+class CrawlToolService(CrawlToolUseCase):
+    cachePort: CachePort
+    fetchPagePort: FetchPagePort
+    summarizePort: SummarizePort
+    checkAnswerabilityPort: CheckAnswerabilityPort
+    chooseLinksPort: ChooseLinksPort
+    formatAnswerPort: FormatAnswerPort
+    notifyProgressPort: NotifyProgressPort
+    manageChunksPort: ManageChunksPort
+
+    def execute(self, param):
+        # Logica di crawling
     \end{lstlisting}
-    \item \textbf{Domain Services}: Incapsulano logiche di business complesse che coinvolgono più entità. Un esempio è il \texttt{crawltool\_service.py} in \texttt{mcpserver-service}, che coordina l'algoritmo logico del tool di crawling senza legarsi a client HTTP o librerie di scraping specifiche.
-    \item \textbf{Inbound Ports (Use Cases)}: Sono interfacce che definiscono ciò che l'applicazione può fare. Nel microservizio di autenticazione, \texttt{auth\_usecase.py} espone il contratto per le operazioni di login o di rinnovo del token.
-    \item \textbf{Outbound Ports}: Sono interfacce che definiscono i bisogni infrastrutturali del dominio. Ad esempio, il dominio di \texttt{mcpserver-service} ha bisogno di archiviare i dati estratti o di notificare l'avanzamento dei passaggi all'utente; per farlo, definisce astrazioni come \texttt{cache\_port.py} e \texttt{notifyprogress\_port.py}.
+    \item \textbf{Inbound Ports (Use Cases)}: sono interfacce che definiscono ciò che l'applicazione 
+    può fare. 
+    Nel microservizio di autenticazione, per esempio, \texttt{AuthUseCase} espone il contratto per le operazioni 
+    di login o di rinnovo del \textit{token}.
+    \begin{lstlisting}[language=Python, caption={Definizione di AuthUseCase}, label={lst:auth_controller}]
+class AuthUseCase(ABC):
+    @abstractmethod
+    def login(self, username: str, password: str) -> TokenPair : ...
+
+    @abstractmethod
+    def refresh(self, token: str) -> TokenPair : ...
+
+    @abstractmethod
+    def logout(self, token: str) -> None : ...
+
+    @abstractmethod
+    def getJwks(self) -> dict : ...
+    \end{lstlisting}
+    \item \textbf{Outbound Ports}: sono interfacce che definiscono i bisogni infrastrutturali del dominio. 
+    Ad esempio, il dominio di MCP Server Service ha bisogno di archiviare i dati estratti o di 
+    notificare l'avanzamento dei passaggi all'utente; per farlo, definisce astrazioni come 
+    \texttt{CachePort}.
+    \begin{lstlisting}[language=Python, caption={Definizione di CachePort}, label={lst:auth_controller}]
+class CachePort(ABC):
+    @abstractmethod
+    def findCachedRequest(self, param: CrawlParam) -> ToolResult | None : ...
+
+    @abstractmethod
+    def storeRequest(self, param: CrawlParam, result: str) -> None : ...
+    \end{lstlisting}
 \end{itemize}
 
 \subsection{I Punti di Ingresso: Inbound Adapters}
-Gli \textit{Inbound Adapters} (o \textit{Driving Adapters}) guidano l'applicazione catturando gli stimoli esterni e traducendoli in comandi per i casi d'uso interni. 
+Gli \textit{Inbound Adapters} (o \textit{Driving Adapters}) guidano l'applicazione catturando gli 
+stimoli esterni e traducendoli in comandi per i casi d'uso interni. 
 Nel progetto, questi adattatori sono rappresentati dai \textbf{Controller} web FastAPI. 
 
-Prendendo come esempio \texttt{auth\_controller.py} all'interno di \texttt{auth-service}:
+Prendendo come esempio la classe \texttt{AuthController} all'interno di Auth Service:
 \begin{enumerate}
-    \item Il controller espone l'endpoint HTTP \texttt{POST /auth/login};
-    \item Riceve la richiesta formattata secondo il \texttt{login\_dto.py} (livello infrastrutturale);
+    \item Il controller espone l'\textit{endpoint} \gls{httpg} \texttt{POST /login};
+    \item Riceve la richiesta formattata secondo il \texttt{LoginDto};
     \item Valida l'input sintattico e mappa il DTO in un oggetto di dominio;
-    \item Invoca l'inbound port \texttt{auth\_usecase.py} per eseguire la logica di autenticazione.
+    \item Invoca l'\textit{inbound port} \texttt{AuthUseCase} per eseguire la logica di autenticazione.
 \end{enumerate}
+\begin{lstlisting}[language=Python, caption={Definizione endpoint "/login" in AuthController}, label={lst:auth_controller}]
+class AuthController:
+    def __init__(self, authUseCase: AuthUseCase):
+        self.authUseCase = authUseCase
+        self.router = APIRouter()
+        self._register_routes()
+
+    def _register_routes(self):
+        @self.router.post("/login")
+        def login(dto: LoginDto):
+            try:
+                return self.authUseCase.login(dto.username, dto.password)
+            except (UnauthorizedException, UserNotFoundException):
+                raise HTTPException(status_code=403, detail="Forbidden")
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))
+
+        [...]
+\end{lstlisting}
 
 \subsection{Le Connessioni Esterne: Outbound Adapters e Persistence}
-Gli \textit{Outbound Adapters} (o \textit{Driven Adapters}) implementano le interfacce definite dalle porte d'uscita, gestendo l'effettiva interazione con i dettagli tecnologici. Grazie al meccanismo della \textit{Dependency Inversion}, le classi infrastrutturali ereditano dalle porte dell'applicazione.
-
-Un esempio lampante di questo disaccoppiamento è visibile nel modulo \texttt{mcpserver-service}:
+Gli \textit{Outbound Adapters} (o \textit{Driven Adapters}) implementano le interfacce 
+definite dalle porte d'uscita, gestendo l'effettiva interazione con i dettagli 
+tecnologici. 
+Grazie al meccanismo della \textit{Dependency Inversion}, le classi infrastrutturali 
+ereditano dalle porte dell'applicazione.
+Un esempio lampante di questo disaccoppiamento è visibile in MCP Server Service:
 \begin{itemize}
-    \item L'applicazione definisce la porta \texttt{summarize\_port.py} per richiedere il riassunto di un testo;
-    \item All'esterno dell'esagono, l'adattatore \texttt{summarize\_adapter.py} implementa tale interfaccia interfacciandosi concretamente con le API di OpenAI tramite l'infrastruttura condivisa (\texttt{openairepository\_impl.py}).
+    \item L'applicazione definisce la porta \texttt{SummarizePort} per richiedere il 
+    riassunto di un testo;
+    \item All'esterno dell'esagono, l'adattatore \texttt{SummarizeAdapter} 
+    implementa tale interfaccia interfacciandosi con le \gls{apig} 
+    di OpenAI.
 \end{itemize}
+Lo stesso principio regola il livello di persistenza dei dati: i moduli 
+\texttt{Repository} definiscono le interfacce e i contratti astratti di accesso ai dati, 
+la cui implementazione concreta è demandata alle rispettive classi \texttt{RepositoryImpl} 
+all'interno dello strato infrastrutturale. 
+Grazie a questo totale disaccoppiamento, 
+qualora in futuro l'azienda decidesse di sostituire l'attuale database relazionale, 
+l'intervento di \textit{refactoring} si limiterebbe alla sola riscrittura della classe di 
+implementazione, lasciando il nucleo completamente inalterato.
 
-Lo stesso principio regola il livello di persistenza dei dati. I file \texttt{*repository.py} (situati nel livello application/repositories) definiscono i contratti di accesso ai dati, mentre le implementazioni reali (come \texttt{userrepository\_impl.py} in \texttt{user-service}) risiedono nella cartella \texttt{infrastructure/persistence}. Se in futuro l'azienda decidesse di sostituire il database relazionale gestito con le migrazioni di Alembic con un database documentale, l'intervento si limiterebbe alla riscrittura della sola classe di implementazione, lasciando il codice di business totalmente inalterato.
-
-\section{Flusso di Esecuzione: Il Tool di Crawling}
-
-Per visualizzare la sinergia tra i componenti, si consideri il flusso logico e architetturale che sperimenta il sistema quando l'utente richiede l'esecuzione del tool di crawling in \texttt{mcpserver-service}:
-
-\begin{figure}[H]
-    \centering
-    % Nota per la compilazione: sostituire con un diagramma a blocchi Ports & Adapters se disponibile
-    \textit{[Rappresentazione concettuale del flusso: Client $\rightarrow$ Inbound Adapter $\rightarrow$ Inbound Port $\rightarrow$ Domain Service $\rightarrow$ Outbound Port $\rightarrow$ Outbound Adapter]}
-    \caption{Flusso dei dati attraverso i livelli dell'architettura esagonale nel modulo mcpserver}
-\end{figure}
-
-\begin{enumerate}
-    \item \textbf{Ingresso}: Il client web invia una richiesta di scansione. L'\textit{inbound adapter} \texttt{mcpserver\_controller.py} intercetta la chiamata, estrae i parametri mappandoli nel Value Object \texttt{crawl\_param.py} e chiama il caso d'uso \texttt{crawltool\_usecase.py}.
-    \item \textbf{Elaborazione}: Il servizio di dominio \texttt{crawltool\_service.py} prende in carico la logica dell'algoritmo. Avvia il ciclo di recupero delle pagine e di analisi dei contenuti.
-    \item \textbf{Uscita e Notifica (SSE)}: Durante il ciclo, il servizio deve informare l'utente dei passaggi intermedi (es. \textit{FETCHED}, \textit{SUMMARIZED}). Non potendo comunicare direttamente con il protocollo web, il servizio invoca l'astrazione \texttt{notifyprogress\_port.py}.
-    \item \textbf{Infrastruttura}: La porta è implementata dall'adattatore \texttt{notifyprogress\_adapter.py} il quale si appoggia al modulo infrastrutturale \texttt{sse\_manager.py}. Quest'ultimo si occupa di spingere fisicamente l'evento sul canale \gls{sseg} aperto con il browser dell'utente.
-\end{enumerate}
-
-Questo flusso dimostra come la reattività in tempo reale richiesta dal \textit{frontend} sia stata integrata senza inquinare la purezza algoritmica del nucleo di business.
-
-\section{Conclusioni sull’architettura}
-
-L’adozione dell’architettura esagonale ha permesso di ottenere un sistema
-fortemente modulare, facilmente estendibile e testabile.
-La separazione tra dominio, applicazione e infrastruttura si è dimostrata
-particolarmente efficace in un contesto a microservizi complesso,
-dove ogni componente deve poter evolvere indipendentemente dagli altri.
+Il medesimo vantaggio architetturale si riscontra nella gestione dei modelli di linguaggio: 
+un'eventuale transizione verso un \gls{llmg} differente da quello attuale comporterebbe 
+esclusivamente l'aggiornamento o la sostituzione dello specifico \textit{outbound adapter}, 
+senza alcun impatto sulla logica di calcolo e sul comportamento globale del sistema.
