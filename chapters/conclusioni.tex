@@ -2,17 +2,501 @@
 \label{cap:conclusioni}
 
 \section{Prodotto allo stato attuale}
+Al termine del tirocinio è stato consegnato all'azienda un prodotto software 
+completo e pienamente funzionante, in linea con gli obiettivi prefissati.
+
+Il sistema, tanto dal punto di vista funzionale quanto da quello 
+architetturale, è stato valutato positivamente dai \textit{tutor} aziendali.
+
+Nelle sezioni seguenti vengono descritti nel dettaglio i risultati raggiunti, 
+illustrando le principali schermate dell'applicazione web realizzata.
 
 \subsection{Login}
+La schermata di \textit{login} è l'unica pagina accessibile agli utenti 
+non autenticati.
+Dopo l'inserimento delle credenziali (\textit{username} e \textit{password}), 
+l'utente viene reindirizzato alla schermata principale, ovvero alla pagina di 
+\textit{chat}. 
+In caso di errore durante l'autenticazione, viene mostrato un messaggio informativo 
+all'utente.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{screen/login.png}
+    \caption{Schermata di login}
+\end{figure}
+
+\subsection{Menu}
+Dopo l'autenticazione, l'utente viene reindirizzato alla pagina principale.
+Ogni pagina è caratterizzata da un menu laterale che consente la navigazione tra 
+le diverse sezioni e la visualizzazione dello storico conversazionale. 
+La scelta di integrare lo storico direttamente nel menu non è casuale: poiché la 
+creazione e la visualizzazione delle conversazioni rappresentano il principale caso d'uso 
+del sistema, una pagina dedicata comporterebbe un aumento delle interazioni necessarie 
+per un'azione molto frequente. Al contrario, inserendo la lista delle \textit{chat} nella 
+barra laterale, queste rimangono sempre immediatamente accessibili all'utente.
+
+Dal menu è anche possibile eseguire il \textit{logout} dal proprio profilo tramite 
+il bottone ''Esci'' posto in basso.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{screen/pagina_principale.png}
+    \caption{Schermata principale con menu laterale}
+\end{figure}
+
 \subsection{Chat}
+Ogni conversazione è composta dallo storico dei messaggi scambiati, se presenti.
+Un messaggio è composto da:
+\begin{itemize}
+    \item \textbf{Ruolo}: indica l'attore che ha inviato il messaggio, 
+    distinguendo tra l'utente ("TU") e il sistema ("AI");
+    \item \textbf{Contenuto}: il testo del messaggio;
+    \item \textbf{Data}: visualizza la data e l'orario di invio del messaggio;
+    \item \textbf{Passaggi}: se il messaggio proviene dal sistema e l'utente 
+    possiede i permessi di visualizzazione, vengono mostrati i vari \textit{step} 
+    di elaborazione del \gls{toolg};
+    \item \textbf{Azioni sul messaggio}: se il messaggio rappresenta una risposta 
+    generata dal sistema, sono disponibili due azioni: il pulsante di copia 
+    negli appunti e il pulsante di \textit{download} per 
+    salvare il contenuto nel dispositivo locale. L'estensione del file scaricato 
+    è determinata dal sistema in base al tipo di contenuto: \textit{plain text} = 
+    \texttt{.txt}, \gls{jsong} = \texttt{.json}, \gls{markdowng} = \texttt{.md}, 
+    \gls{htmlg} = \texttt{.html}.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{screen/chat5.png}
+    \caption{Esempio di messaggi nella schermata \textit{chat}}
+\end{figure}
+
+\subsubsection{Visualizzazione dei passaggi}
+Nell'elaborazione della risposta da parte del sistema,
+è possibile visualizzare tutti i passaggi avvenuti durante 
+l'elaborazione. Questa funzionalità è fondamentale per garantire la trasparenza 
+del processo decisionale e per mantenere l'utente informato durante l'intero processo
+di esecuzione del \gls{toolg}. 
+\\Cliccando sull'apposito elemento espandibile in corrispondenza del messaggio del sistema, 
+l'utente può esaminare la sequenza logica delle operazioni effettuate. Per quanto 
+riguarda il \gls{toolg} di \gls{crawlingg} sviluppato in questo progetto, i 
+passaggi visualizzabili sono:
+\begin{enumerate}
+    \item \textbf{FETCHED}: il nome del sito web da cui è stato prelevato il contenuto;
+    \item \textbf{SUMMARIZED}: il riassunto delle informazioni rilevanti trovate nel testo;
+    \item \textbf{LINKS FOUND}: l'insieme di tutti i collegamenti ipertestuali presenti nella pagina;
+    \item \textbf{LINKS CHOSEN}: i \textit{link} selezionati per la continuazione del processo;
+    \item \textbf{ANSWERED}: comunica che la risposta è stata correttamente generata;
+    \item \textbf{ERROR}: visualizza l'errore avvenuto durante l'elaborazione.
+\end{enumerate}
+Grazie a questa granularità, l'utente è in grado di verificare l'esatto percorso logico 
+eseguito dal \gls{toolg}. 
+Qualora il sistema non riuscisse a generare la risposta finale (a causa di fenomeni di 
+allucinazione del modello o del raggiungimento dei limiti di profondità) l'utente ha 
+comunque la possibilità di analizzare i singoli passaggi intermedi.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{screen/chat3.png}
+    \caption{Dettaglio dell'espansione dei passaggi di elaborazione}
+\end{figure}
+
+
 \subsection{Storico Chat}
+La sezione dello storico, integrata nella barra laterale come descritto in precedenza, 
+consente di mantenere persistente l'esperienza d'uso dell'applicazione. Le conversazioni 
+vengono ordinate in modo cronologico decrescente, mostrando per ciascuna il messaggio più 
+recente della conversazione.
+
+Attraverso questa interfaccia, l'utente può visualizzare una conversazione passata 
+ed effettuare operazioni di gestione sulla stessa, come l'eliminazione definitiva 
+della \textit{chat}. 
+
+Al fine di ottimizzare la ricerca e l'organizzazione delle sessioni, l'applicazione offre 
+inoltre una funzionalità di filtraggio temporale, che permette di isolare le conversazioni 
+in base a tre criteri: tutte, ultima settimana e ultimo giorno. Infine, è possibile 
+eliminare tutte le \textit{chat} tramite il bottone dedicato, 
+indipendentemente dal filtro in quel momento selezionato. 
+In questo caso, l'operazione è preceduta da una finestra di dialogo che richiede all'utente 
+di confermare l'azione, per evitare la perdita accidentale dell'intero storico dell'utente.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{screen/storico_chat.png}
+    \caption{Dettaglio della gestione dello storico chat nel menu}
+\end{figure}
+
 \subsection{Gestione utenti}
+La sezione di gestione utenti è accessibile esclusivamente ai profili 
+con privilegi di amministratore (\textit{admin}).
+Il pannello si presenta sotto forma di tabella riassuntiva che elenca tutti gli utenti 
+registrati nel sistema in ordine alfabetico, mostrando informazioni quali lo \textit{username}, 
+il ruolo assegnato, i permessi di utilizzo dei \gls{toolg} e le azioni disponibili.
+Le regole imposte dal sistema sono le seguenti:
+\begin{enumerate}
+    \item un amministratore gode di tutti i permessi di utilizzo previsti 
+    dall'applicazione e non è consentito in alcun modo revocare o limitare tali privilegi;
+    \item un utente base, al momento della sua creazione, non possiede alcun tipo di 
+    permesso attivo. L'\textit{admin} ha il compito di configurare e assegnare 
+    i singoli permessi operativi in un secondo momento, abilitando l'utente alle funzionalità 
+    necessarie;
+    \item un amministratore possiede l'autorità di eliminare dal sistema sia gli utenti base 
+    sia gli altri profili amministrativi presenti.
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{screen/gestione_utenti.png}
+    \caption{Schermata di gestione degli utenti}
+\end{figure}
+
+\subsubsection{Creazione utente}
+L'amministratore ha la possibilità di creare un nuovo \textit{account} all'interno 
+dell'applicazione compilando un apposito modulo. 
+Il sistema richiede l'inserimento di \textit{username} e \textit{email} univoci, 
+di una \textit{password} iniziale e del ruolo dell'utente. 
+In conformità con la seconda regola sopra citata, il nuovo profilo verrà creato 
+privo di autorizzazioni, costringendo l'amministratore a una successiva 
+fase di configurazione dei permessi prima che l'utente possa interagire con il sistema 
+(es. l'utilizzo del \gls{toolg} di \gls{crawlingg}).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{screen/creazione_utente.png}
+    \caption{Schermata del modulo di creazione di un nuovo utente}
+\end{figure}
+
+\subsubsection{Gestione dei permessi utente}
+Come descritto nel secondo vincolo, l'amministratore può modificare i permessi 
+di utilizzo dei \gls{toolg} ai soli utenti base. All'interno della tabella del 
+pannello di amministrazione è presente, in corrispondenza di ciascuna riga, un 
+pulsante dedicato che mostra una finestra di dialogo per la gestione dei permessi.
+Questa interfaccia permette una configurazione granulare e mirata delle autorizzazioni. 
+Nello specifico, i permessi che l'amministratore può abilitare o disabilitare per 
+ciascun utente base sono:
+\begin{itemize}
+    \item \textbf{[Nome Tool]}: abilita o disabilita l'accesso e l'utilizzo del \gls{toolg}. 
+    Nel contesto di questo progetto, avendo sviluppato solo il \gls{toolg} di \gls{crawlingg}, 
+    verrà mostrato "Crawl";
+    \item \textbf{Utilizzo della cache}: permette al sistema di riutilizzare i dati precedentemente 
+    memorizzati in cache durante le operazioni del \gls{toolg}, ottimizzando i tempi di risposta 
+    e riducendo le chiamate di rete esterne;
+    \item \textbf{Visualizzazione dei passaggi}: garantisce all'utente l'autorizzazione 
+    a espandere e consultare la sezione di dettaglio contenente gli \textit{step} logici intermedi 
+    eseguiti dall'applicazione (es. \textit{FETCHED}, \textit{SUMMARIZED}, ecc.).
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{screen/permessi.png}
+    \caption{Dialogo modale per la modifica dei permessi utente}
+\end{figure}
+
+\subsubsection{Eliminazione utente}
+In conformità con il terzo vincolo di sistema, l'amministratore ha la 
+possibilità di rimuovere qualsiasi \textit{account} (sia esso un utente base 
+o un altro \textit{admin}). 
+Per prevenire perdite accidentali di dati, l'operazione non è 
+immediata: il sistema richiede una conferma esplicita tramite una finestra di dialogo modale. 
+Una volta confermata, l'azione comporta l'eliminazione dell'utente in maniera permanente.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{screen/elimina_utente.png}
+    \caption{Dialogo modale di conferma di eliminazione utente}
+\end{figure}
+
+
 \subsection{Profilo utente}
+Ogni utente autenticato ha accesso a una pagina di gestione del proprio profilo personale, 
+raggiungibile tramite il menu. 
+In questa sezione vengono visualizzati tutti i dati dell'\textit{account} corrente e 
+viene offerta la possibilità di personalizzare le proprie credenziali di accesso.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{screen/profilo.png}
+    \caption{Schermata di profilo}
+\end{figure}
+
+\subsubsection{Modifica username o password}
+Il pannello del profilo ospita un modulo per l'aggiornamento delle credenziali, 
+permettendo all'utente di modificare il proprio \textit{username} o aggiornare la \textit{password}. 
+Per ragioni di sicurezza, il cambio della \textit{password} è 
+subordinato all'inserimento della \textit{password} attuale.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{screen/modifica_profilo.png}
+    \caption{Schermata di gestione del profilo per la modifica delle credenziali}
+\end{figure}
 
 %\section{Consuntivo finale}
 
 \section{Raggiungimento degli obiettivi}
+In questa sezione viene discusso il raggiungimento degli obiettivi 
+del progetto di tirocinio in base al grado di soddisfacimento 
+dei requisiti definiti nel \hyperref[cap:analisi-requisiti]{terzo capitolo}.
+
+\subsection{Requisiti funzionali}
+\begingroup
+\renewcommand{\arraystretch}{1.50}
+\begin{center}
+    \begin{xltabular}{\textwidth}{|c|c| >{\arraybackslash}X|c|}
+        \hline
+        \textbf{Requisito} & \textbf{Tipo} & \textbf{Descrizione} & \textbf{Soddisfatto} \\
+        \hline
+        \endhead
+        % ── OBBLIGATORI ──────────────────────────────────────────────────────
+        RF-1 & Obbligatorio & L'utente deve potersi autenticare presso il sistema & Sì \\
+        \hline
+        RF-2 & Obbligatorio & L'utente deve inserire il proprio \textit{username} per autenticarsi presso il sistema & Sì \\
+        \hline
+        RF-3 & Obbligatorio & L'utente deve inserire la propria password per autenticarsi presso il sistema & Sì \\
+        \hline
+        RF-4 & Obbligatorio & L'utente deve ricevere un errore se le credenziali inserite sono errate & Sì \\
+        \hline
+        RF-5 & Obbligatorio & L'utente deve poter effettuare il \textit{logout} dal sistema & Sì \\
+        \hline
+        RF-6 & Obbligatorio & L'admin deve poter creare un nuovo utente nel sistema & Sì \\
+        \hline
+        RF-7 & Obbligatorio & L'admin deve poter inserire una email per il nuovo utente & Sì \\
+        \hline
+        RF-8 & Obbligatorio & L'admin deve poter inserire uno \textit{username} per il nuovo utente & Sì \\
+        \hline
+        RF-9 & Obbligatorio & L'admin deve poter inserire una password per il nuovo utente & Sì \\
+        \hline
+        RF-10 & Obbligatorio & L'admin deve poter selezionare il ruolo del nuovo utente & Sì \\
+        \hline
+        RF-11 & Obbligatorio & L'admin deve ricevere un errore se l'email inserita è già esistente nel sistema & Sì \\
+        \hline
+        RF-12 & Obbligatorio & L'admin deve ricevere un errore se lo \textit{username} inserito è già esistente nel sistema & Sì \\
+        \hline
+        RF-13 & Obbligatorio & L'admin deve poter eliminare un utente dal sistema & Sì \\
+        \hline
+        RF-14 & Obbligatorio & L'utente deve poter visualizzare il proprio profilo & Sì \\
+        \hline
+        RF-15 & Obbligatorio & L'utente deve poter visualizzare il proprio \textit{username} nel profilo & Sì \\
+        \hline
+        RF-16 & Obbligatorio & L'utente deve poter visualizzare la propria email nel profilo & Sì \\
+        \hline
+        RF-17 & Obbligatorio & L'utente deve poter modificare il proprio profilo & Sì \\
+        \hline
+        RF-18 & Obbligatorio & L'utente deve poter modificare il proprio \textit{username} & Sì \\
+        \hline
+        RF-19 & Obbligatorio & L'utente deve poter modificare la propria password & Sì \\
+        \hline
+        RF-20 & Obbligatorio & L'utente deve poter inviare un messaggio in linguaggio naturale per avviare una ricerca & Sì \\
+        \hline
+        RF-21 & Obbligatorio & L'utente deve poter avviare una ricerca con \textit{cache bypass} & Sì \\
+        \hline
+        RF-22 & Obbligatorio & Il sistema deve poter estrarre dal messaggio dell'utente i parametri necessari all'esecuzione del tool richiesto & Sì \\
+        \hline
+        RF-23 & Obbligatorio & Il sistema deve estrarre la domanda dal messaggio dell'utente per avviare la ricerca & Sì \\
+        \hline
+        RF-24 & Obbligatorio & Il sistema deve segnalare all'utente i parametri obbligatori mancanti, impedendo l'avvio del \gls{toolg} & Sì \\
+        \hline
+        RF-25 & Obbligatorio & L'utente deve ricevere un errore se l'azione richiesta non è permessa o il \gls{toolg} richiesto non è valido & Sì \\
+        \hline
+        RF-26 & Obbligatorio & L'utente deve poter visualizzare la risposta generata dal sistema & Sì \\
+        \hline
+        RF-27 & Obbligatorio & Il sistema deve notificare l'utente in caso di errore durante la ricerca & Sì \\
+        \hline
+        RF-28 & Obbligatorio & L'admin deve poter visualizzare la lista degli utenti registrati nel sistema & Sì \\
+        \hline
+        RF-29 & Obbligatorio & L'admin deve poter visualizzare lo username degli utenti & Sì \\
+        \hline
+        RF-30 & Obbligatorio & L'admin deve poter visualizzare l'email degli utenti & Sì \\
+        \hline
+        RF-31 & Obbligatorio & L'admin deve poter visualizzare il ruolo degli utenti & Sì \\
+        \hline
+        RF-32 & Obbligatorio & L'admin deve poter visualizzare i permessi degli utenti & Sì \\
+        \hline
+        RF-33 & Obbligatorio & L'utente deve poter creare una nuova conversazione & Sì \\
+        \hline
+        % ── OPZIONALI ─────────────────────────────────────────────────────────
+        RF-34 & Opzionale & L'utente deve poter specificare il formato della risposta (\gls{markdowng}, \gls{htmlg}, \gls{jsong}) & Sì \\
+        \hline
+        RF-35 & Opzionale & L'utente deve poter visualizzare in tempo reale i passaggi della ricerca in corso & Sì \\
+        \hline
+        RF-36 & Opzionale & L'utente deve poter visualizzare in tempo reale il singolo passaggio della ricerca in corso & Sì \\
+        \hline
+        RF-37 & Opzionale & L'utente deve poter visualizzare il passaggio relativo alla pagina \textit{web} in fase di analisi & Sì \\
+        \hline
+        RF-38 & Opzionale & L'utente deve poter visualizzare il passaggio relativo al riassunto semantico della pagina analizzata & Sì \\
+        \hline
+        RF-39 & Opzionale & L'utente deve poter visualizzare il passaggio relativo ai link trovati nella pagina analizzata & Sì \\
+        \hline
+        RF-40 & Opzionale & L'utente deve poter visualizzare il passaggio relativo ai link scelti per continuare la ricerca & Sì \\
+        \hline
+        RF-41 & Opzionale & L'utente deve poter visualizzare il nome del passaggio & Sì \\
+        \hline
+        RF-42 & Opzionale & L'utente deve poter visualizzare la descrizione del passaggio & Sì \\
+        \hline
+        RF-43 & Opzionale & L'utente deve poter visualizzare lo storico delle proprie \textit{chat} & Sì \\
+        \hline
+        RF-44 & Opzionale & L'utente deve poter filtrare lo storico per periodo temporale (ultima settimana, ultimo giorno, \dots) & Sì \\
+        \hline
+        RF-45 & Opzionale & L'utente deve poter visualizzare i singoli elementi dello storico & Sì \\
+        \hline
+        RF-46 & Opzionale & L'utente deve poter visualizzare, per ogni elemento dello storico, l'ultimo messaggio della relativa \textit{chat} & Sì \\
+        \hline
+        RF-47 & Opzionale & L'utente deve poter aprire una conversazione presente nello storico & Sì \\
+        \hline
+        RF-48 & Opzionale & L'utente deve poter eliminare lo storico delle proprie \textit{chat} & Sì \\
+        \hline
+        RF-49 & Opzionale & L'utente deve poter eliminare il singolo elemento dello storico & Sì \\
+        \hline
+        RF-50 & Opzionale & L'utente deve poter eliminare tutto lo storico & Sì \\
+        \hline
+        RF-51 & Opzionale & L'utente deve ricevere un errore se tenta di eliminare lo storico quando è vuoto & Sì \\
+        \hline
+        RF-52 & Opzionale & L'utente deve poter visualizzare i messaggi di una conversazione & Sì \\
+        \hline
+        RF-53 & Opzionale & L'utente deve poter visualizzare il ruolo associato a un messaggio & Sì \\
+        \hline
+        RF-54 & Opzionale & L'utente deve poter visualizzare il contenuto di un messaggio & Sì \\
+        \hline
+        RF-55 & Opzionale & L'utente deve poter visualizzare la data e l'ora di invio di un messaggio & Sì \\
+        \hline
+        % ── DESIDERABILI ──────────────────────────────────────────────────────
+        RF-56 & Desiderabile & L'utente deve poter avviare una ricerca con controllo della \textit{cache} & Sì \\
+        \hline
+        RF-57 & Desiderabile & L'utente deve poter salvare la risposta generata dal sistema & Sì \\
+        \hline
+        RF-58 & Desiderabile & L'utente deve poter copiare la risposta generata negli appunti & Sì \\
+        \hline
+        RF-59 & Desiderabile & L'utente deve poter salvare la risposta generata in un file locale & Sì \\
+        \hline
+        RF-60 & Desiderabile & L'utente deve ricevere un errore se il file con la risposta generata non viene salvato correttamente & Sì \\
+        \hline
+        \caption{Raggiungimento degli obiettivi: requisiti funzionali}
+        \label{tab:raggiungimento-funzionali}
+    \end{xltabular}
+\end{center}
+\endgroup
+
+\subsection{Requisiti di qualità}
+\begingroup
+\renewcommand{\arraystretch}{1.50}
+\begin{center}
+    \begin{xltabular}{\textwidth}{|c|c| >{\arraybackslash}X|c|}
+        \hline
+        \textbf{Requisito} & \textbf{Tipo} & \textbf{Descrizione} & \textbf{Soddisfatto} \\
+        \hline
+        \endhead
+        % ── DI QUALITÀ ───────────────────────────────────────────────────────
+        RQ-1 & Obbligatorio & Il sistema deve essere corredato da almeno un test di unità che verifichi il corretto funzionamento del \textit{routing} dei \textit{MCP tool} & Sì \\
+        \hline
+        RQ-2 & Obbligatorio & Il sistema deve essere corredato da almeno un test per ogni funzionalità fornita dai \textit{MCP tool} & Sì \\
+        \hline
+        RQ-3 & Obbligatorio & Il codice sorgente deve essere contenuto in un \textit{repository} versionato tramite \textit{Git} & Sì \\
+        \hline
+        RQ-4 & Obbligatorio & Consegnare la documentazione dei casi d'uso per l'utilizzo dell'applicativo \textit{web} & Sì \\
+        \hline
+        RQ-5 & Obbligatorio & Consegnare la specifica tecnica dell'applicativo \textit{web} & Sì \\
+        \hline
+        RQ-6 & Obbligatorio & Consegnare il manuale di utilizzo dell'applicativo \textit{web} per gli utenti & Sì \\
+        \hline
+        \caption{Raggiungimento degli obiettivi: requisiti di qualità}
+        \label{tab:raggiungimento-qualita}
+    \end{xltabular}
+\end{center}
+\endgroup
+
+\subsection{Requisiti di vincolo}
+\begingroup
+\renewcommand{\arraystretch}{1.50}
+\begin{center}
+    \begin{xltabular}{\textwidth}{|c|c| >{\arraybackslash}X|c|}
+        \hline
+        \textbf{Requisito} & \textbf{Tipo} & \textbf{Descrizione} & \textbf{Soddisfatto} \\
+        \hline
+        \endhead
+        % ── DI VINCOLO ───────────────────────────────────────────────────────
+        RV-1 & Obbligatorio & Il sistema deve essere containerizzato tramite \gls{dockerg} & Sì \\
+        \hline
+        RV-2 & Obbligatorio & Il sistema deve utilizzare \gls{jwtg} per l'autenticazione degli utenti & Sì \\
+        \hline
+        RV-3 & Obbligatorio & Il \textit{frontend} deve essere sviluppato usando il \gls{frameworkg} React & Sì \\
+        \hline
+        RV-4 & Obbligatorio & Il \textit{backend} deve essere sviluppato usando il \gls{frameworkg} FastAPI & Sì \\
+        \hline
+        RV-5 & Obbligatorio & Le componenti del sistema devono comunicare tramite \gls{apig} & Sì \\
+        \hline
+        \caption{Raggiungimento degli obiettivi: requisiti di vincolo}
+        \label{tab:raggiungimento-vincolo}
+    \end{xltabular}
+\end{center}
+\endgroup
+
+
+\subsection{Riepilogo dei requisiti soddisfatti}
+Come viene evidenziato dalle Tabelle~\ref{tab:raggiungimento-funzionali}, 
+~\ref{tab:raggiungimento-qualita} e ~\ref{tab:raggiungimento-vincolo}, tutti i requisiti 
+obbligatori, opzionali e desiderabili sono stati soddisfatti.
+
+In particolare, tutti i sessanta requisiti funzionali individuati nella fase di analisi 
+(Tabella~\ref{tab:raggiungimento-funzionali}) sono stati implementati e verificati 
+all'interno del sistema, coprendo le funzionalità di autenticazione e gestione del 
+profilo, la gestione degli utenti da parte dell'\textit{admin}, l'invio di messaggi in linguaggio 
+naturale per l'avvio delle ricerche, la visualizzazione in tempo reale dei passaggi di 
+elaborazione, la gestione dello storico delle conversazioni e il salvataggio delle 
+risposte generate dal sistema.
+
+Anche i requisiti di qualità (Tabella~\ref{tab:raggiungimento-qualita}) risultano 
+interamente soddisfatti: il sistema è coperto da test di unità e di integrazione 
+per le principali funzionalità esposte dal MCP Server Service, il codice 
+sorgente è versionato tramite \textit{Git} ed è stata prodotta tutta la documentazione 
+richiesta, comprendente i casi d'uso, la specifica tecnica e il manuale utente 
+dell'applicativo \textit{web}.
+
+Infine, i requisiti di vincolo (Tabella~\ref{tab:raggiungimento-vincolo}) sono stati 
+rispettati nella loro totalità: il sistema è completamente containerizzato tramite 
+\gls{dockerg}, l'autenticazione è gestita mediante \gls{jwtg}, il \textit{frontend} è 
+stato sviluppato con il \gls{frameworkg} React e il \textit{backend} con \gls{frameworkg} 
+FastAPI, e la comunicazione tra le componenti del sistema avviene esclusivamente tramite 
+\gls{apig}.
+
+Il raggiungimento completo di tutti i requisiti, su tutte e tre le categorie analizzate, 
+conferma il pieno soddisfacimento degli obiettivi definiti in fase di pianificazione del 
+progetto.
 
 %\section{Conoscenze acquisite}
 
-\section{Valutazione personale}
+\subsection{Valutazione personale}
+
+L'esperienza di stage svolta presso Riskapp S.r.l. ha rappresentato per me 
+un'occasione di crescita significativa, sia dal punto di vista tecnico che metodologico. 
+Il progetto mi ha permesso di imparare tecnologie e approcci nuovi, di fare scelte architetturali 
+complesse e di gestire al meglio la risorsa più importante, il tempo.
+
+Dal punto di vista tecnico, ho avuto l'opportunità di approfondire 
+l'architettura a microservizi, sperimentando in prima persona le difficoltà legate alla 
+comunicazione tra servizi distinti e all'orchestrazione tramite \gls{dockerg}. 
+La progettazione secondo l'architettura 
+esagonale mi ha permesso di comprendere appieno l'importanza della separazione 
+delle responsabilità: tale scelta si è rivelata molto utile 
+durante le fasi di \textit{refactoring} e di stesura dei \textit{test}.
+
+Un ulteriore elemento di crescita è stato il lavoro sul \textit{frontend}, in particolare 
+sulla gestione degli eventi \gls{sseg} per la visualizzazione 
+dei passaggi di elaborazione dell'\gls{llmg}. Tale funzionalità ha richiesto di conciliare 
+esigenze di reattività dell'interfaccia con la necessità di mantenere un'architettura 
+ordinata, portandomi ad approfondire il pattern \textit{MVVM}.
+
+Nel complesso, ritengo che il tirocinio abbia raggiunto pienamente gli obiettivi 
+formativi previsti, offrendomi un'esperienza concreta e completa dell'intero ciclo di 
+vita di un progetto \textit{software}, dall'analisi dei requisiti alla progettazione 
+architetturale, fino alla codifica e al collaudo. 
+
+Sono grata per questa esperienza che l'università e l'azienda mi hanno offerto e sono 
+sicura che le competenze apprese saranno preziose per il mio futuro professionale.
+
+\subsection{Possibili miglioramenti futuri}
+Nonostante il prodotto software consegnato soddisfi pienamente i requisiti iniziali, 
+sono stati individuati diversi possibili miglioramenti mirati a ottimizzare le prestazioni, 
+la scalabilità e l'esperienza utente:
+\begin{itemize}
+    \item \textbf{Ottimizzazione dell’architettura a microservizi}: introduzione di un sistema 
+    di messaggistica asincrona (ad esempio tramite broker come RabbitMQ o 
+    Kafka), al fine di gestire in maniera più efficiente i picchi di carico e delle 
+    operazioni più onerose legate all’elaborazione dei modelli linguistici;
+    \item \textbf{Supporto a nuovi formati di output}: estensione del sistema per includere 
+    la generazione di nuovi formati, come ad esempio documenti PDF, così da ampliare le 
+    possibilità di utilizzo;
+    \item \textbf{Generazione dinamica del titolo della chat}: implementazione di un meccanismo 
+    in grado di generare automaticamente il titolo della conversazione in base al contenuto 
+    e al contesto dei messaggi scambiati, migliorando l’usabilità e l’organizzazione delle 
+    \textit{chat}.
+\end{itemize}

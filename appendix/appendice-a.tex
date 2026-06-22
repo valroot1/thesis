@@ -1,3 +1,152 @@
-\chapter{Appendice A}
+\chapter{Architettura esagonale del sistema}
+%\epigraph{Citazione}{Autore della citazione}
+\label{appendix:hexagonal-architecture}
 
-\epigraph{Citazione}{Autore della citazione}
+\section{Introduzione}
+
+L’architettura di ogni microservizio del \textit{backend} è stata progettata seguendo il paradigma
+dell’architettura esagonale (\textit{Hexagonal Architecture}, o \textit{Ports and Adapters}).
+Questo approccio consente di separare nettamente la logica di dominio
+dalle dipendenze esterne, come database, \gls{apig}, \gls{frameworkg} web e servizi esterni.
+
+L’obiettivo principale di questa scelta architetturale è garantire il rispetto
+dei principi SOLID e, più in generale, promuovere una progettazione modulare
+e manutenibile del sistema. In particolare, l’architettura adottata consente di:
+\begin{itemize}
+    \item \textbf{Isolare della logica di business}, che rimane indipendente
+    da framework, database e tecnologie esterne;
+
+    \item \textbf{Garantire il principio di Single Responsibility (SRP)},
+    grazie alla separazione tra dominio, applicazione e infrastruttura;
+
+    \item \textbf{Garantire il principio di Dependency Inversion (DIP)},
+    ottenuto tramite l’uso di \textit{ports} e \textit{adapters}, che permettono
+    al dominio di dipendere da astrazioni e non da implementazioni concrete;
+
+    \item \textbf{Testabilità elevata}, grazie alla possibilità di sostituire
+    facilmente le dipendenze esterne con \textit{mock} o implementazioni fittizie;
+
+    \item \textbf{Manutenibilità ed estensibilità}, facilitando l’evoluzione del
+    sistema senza impatti significativi sulle componenti esistenti;
+
+    \item \textbf{Disaccoppiamento tra dominio e infrastruttura}, che consente
+    di modificare dettagli tecnici (database, \gls{llmg}, servizi esterni) senza
+    alterare la logica interna al sistema.
+\end{itemize}
+Nel sistema sviluppato, tale paradigma è stato applicato in modo coerente
+a tutti i microservizi principali: \textit{auth-service}, \textit{user-service},
+\textit{search-service}, \textit{history-service} e \textit{mcpserver-service}.
+
+\section{Struttura generale dei microservizi}
+Ogni microservizio del sistema segue una struttura standardizzata, 
+organizzata nei seguenti livelli:
+\begin{itemize}
+    \item \textbf{Domain}: contiene le entità, i \textit{value object}, i servizi di dominio e le eccezioni;
+    \item \textbf{Application}: definisce i casi d’uso e le interfacce (ports);
+    \item \textbf{Adapters}: implementa l’interazione con l’esterno (\textit{inbound} e \textit{outbound});
+    \item \textbf{Infrastructure}: gestisce dettagli tecnici come persistenza, DTO (\textit{Data Transfer Object}) e integrazioni.
+\end{itemize}
+
+
+\section{Architettura del progetto}
+La struttura del progetto segue il seguente schema ricorrente:
+\begin{verbatim}
+src/
+ ├── adapters
+ │    ├── inbound
+ │    └── outbound
+ ├── application
+ │    ├── ports
+ │    │    ├── inbound
+ │    │    └── outbound
+ │    └── repositories
+ ├── domain
+ │    ├── entities
+ │    ├── services
+ │    ├── value_objects
+ │    └── exceptions
+ ├── infrastructure
+ │    ├── persistence
+ │    └── dtos
+ └── main.py
+\end{verbatim}
+
+Gli \textit{inbound adapters} rappresentano i punti di ingresso del sistema
+(ovvero i moduli \texttt{Controller}), mentre gli
+\textit{outbound adapters} incapsulano tutte le comunicazioni verso
+sistemi esterni (database, servizi \gls{llmg}, \gls{SSE}, \gls{jwtg}).
+
+Per comprendere l'efficacia del paradigma \textit{Ports and Adapters} 
+all'interno del sistema è necessario analizzare la responsabilità di ciascun livello 
+e come questi interagiscono tra loro.
+
+\subsection{Il Core: Domain e Application}
+Il centro dell'esagono è costituito dal \textbf{Domain} e dal livello di \textbf{Application}. 
+Questo nucleo non ha alcuna conoscenza del mondo esterno: non sa se i dati arrivino da 
+una chiamata \gls{httpg}, da una riga di comando o da un test unitario. 
+Tale livello si compone dei seguenti elementi:
+\begin{itemize}
+    \item \textbf{Domain Entities e Value Objects}: Rappresentano i concetti di business puri. 
+    Ad esempio, in History Service, \texttt{ConversationEntity} e \texttt{MessageEntity} 
+    contengono la struttura definita per la definizione della conversazione.
+    \begin{lstlisting}[language=Python, caption={Esempio di controller FastAPI}, label={lst:auth_controller}]
+        @router.post("/auth/login")
+        def login(credentials: LoginDTO):
+            # Logica di autenticazione esagonale
+            return {"token": "jwt_token_example"}
+    \end{lstlisting}
+    \item \textbf{Domain Services}: Incapsulano logiche di business complesse che coinvolgono più entità. Un esempio è il \texttt{crawltool\_service.py} in \texttt{mcpserver-service}, che coordina l'algoritmo logico del tool di crawling senza legarsi a client HTTP o librerie di scraping specifiche.
+    \item \textbf{Inbound Ports (Use Cases)}: Sono interfacce che definiscono ciò che l'applicazione può fare. Nel microservizio di autenticazione, \texttt{auth\_usecase.py} espone il contratto per le operazioni di login o di rinnovo del token.
+    \item \textbf{Outbound Ports}: Sono interfacce che definiscono i bisogni infrastrutturali del dominio. Ad esempio, il dominio di \texttt{mcpserver-service} ha bisogno di archiviare i dati estratti o di notificare l'avanzamento dei passaggi all'utente; per farlo, definisce astrazioni come \texttt{cache\_port.py} e \texttt{notifyprogress\_port.py}.
+\end{itemize}
+
+\subsection{I Punti di Ingresso: Inbound Adapters}
+Gli \textit{Inbound Adapters} (o \textit{Driving Adapters}) guidano l'applicazione catturando gli stimoli esterni e traducendoli in comandi per i casi d'uso interni. 
+Nel progetto, questi adattatori sono rappresentati dai \textbf{Controller} web FastAPI. 
+
+Prendendo come esempio \texttt{auth\_controller.py} all'interno di \texttt{auth-service}:
+\begin{enumerate}
+    \item Il controller espone l'endpoint HTTP \texttt{POST /auth/login};
+    \item Riceve la richiesta formattata secondo il \texttt{login\_dto.py} (livello infrastrutturale);
+    \item Valida l'input sintattico e mappa il DTO in un oggetto di dominio;
+    \item Invoca l'inbound port \texttt{auth\_usecase.py} per eseguire la logica di autenticazione.
+\end{enumerate}
+
+\subsection{Le Connessioni Esterne: Outbound Adapters e Persistence}
+Gli \textit{Outbound Adapters} (o \textit{Driven Adapters}) implementano le interfacce definite dalle porte d'uscita, gestendo l'effettiva interazione con i dettagli tecnologici. Grazie al meccanismo della \textit{Dependency Inversion}, le classi infrastrutturali ereditano dalle porte dell'applicazione.
+
+Un esempio lampante di questo disaccoppiamento è visibile nel modulo \texttt{mcpserver-service}:
+\begin{itemize}
+    \item L'applicazione definisce la porta \texttt{summarize\_port.py} per richiedere il riassunto di un testo;
+    \item All'esterno dell'esagono, l'adattatore \texttt{summarize\_adapter.py} implementa tale interfaccia interfacciandosi concretamente con le API di OpenAI tramite l'infrastruttura condivisa (\texttt{openairepository\_impl.py}).
+\end{itemize}
+
+Lo stesso principio regola il livello di persistenza dei dati. I file \texttt{*repository.py} (situati nel livello application/repositories) definiscono i contratti di accesso ai dati, mentre le implementazioni reali (come \texttt{userrepository\_impl.py} in \texttt{user-service}) risiedono nella cartella \texttt{infrastructure/persistence}. Se in futuro l'azienda decidesse di sostituire il database relazionale gestito con le migrazioni di Alembic con un database documentale, l'intervento si limiterebbe alla riscrittura della sola classe di implementazione, lasciando il codice di business totalmente inalterato.
+
+\section{Flusso di Esecuzione: Il Tool di Crawling}
+
+Per visualizzare la sinergia tra i componenti, si consideri il flusso logico e architetturale che sperimenta il sistema quando l'utente richiede l'esecuzione del tool di crawling in \texttt{mcpserver-service}:
+
+\begin{figure}[H]
+    \centering
+    % Nota per la compilazione: sostituire con un diagramma a blocchi Ports & Adapters se disponibile
+    \textit{[Rappresentazione concettuale del flusso: Client $\rightarrow$ Inbound Adapter $\rightarrow$ Inbound Port $\rightarrow$ Domain Service $\rightarrow$ Outbound Port $\rightarrow$ Outbound Adapter]}
+    \caption{Flusso dei dati attraverso i livelli dell'architettura esagonale nel modulo mcpserver}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Ingresso}: Il client web invia una richiesta di scansione. L'\textit{inbound adapter} \texttt{mcpserver\_controller.py} intercetta la chiamata, estrae i parametri mappandoli nel Value Object \texttt{crawl\_param.py} e chiama il caso d'uso \texttt{crawltool\_usecase.py}.
+    \item \textbf{Elaborazione}: Il servizio di dominio \texttt{crawltool\_service.py} prende in carico la logica dell'algoritmo. Avvia il ciclo di recupero delle pagine e di analisi dei contenuti.
+    \item \textbf{Uscita e Notifica (SSE)}: Durante il ciclo, il servizio deve informare l'utente dei passaggi intermedi (es. \textit{FETCHED}, \textit{SUMMARIZED}). Non potendo comunicare direttamente con il protocollo web, il servizio invoca l'astrazione \texttt{notifyprogress\_port.py}.
+    \item \textbf{Infrastruttura}: La porta è implementata dall'adattatore \texttt{notifyprogress\_adapter.py} il quale si appoggia al modulo infrastrutturale \texttt{sse\_manager.py}. Quest'ultimo si occupa di spingere fisicamente l'evento sul canale \gls{sseg} aperto con il browser dell'utente.
+\end{enumerate}
+
+Questo flusso dimostra come la reattività in tempo reale richiesta dal \textit{frontend} sia stata integrata senza inquinare la purezza algoritmica del nucleo di business.
+
+\section{Conclusioni sull’architettura}
+
+L’adozione dell’architettura esagonale ha permesso di ottenere un sistema
+fortemente modulare, facilmente estendibile e testabile.
+La separazione tra dominio, applicazione e infrastruttura si è dimostrata
+particolarmente efficace in un contesto a microservizi complesso,
+dove ogni componente deve poter evolvere indipendentemente dagli altri.
