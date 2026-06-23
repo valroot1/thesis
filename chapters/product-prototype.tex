@@ -29,11 +29,10 @@ sfide architetturali e funzionali:
     \item \textbf{Ottimizzazione del \textit{crawling}:} ottimizzazione del processo di estrazione dei contenuti dalle pagine web;
     \item \textbf{Caching semantico:} progettazione di un meccanismo di memorizzazione intermedia per ridurre le richieste ridondanti all'\gls{llmg}, ottimizzando tempi e costi;
     \item \textbf{Interfaccia utente reattiva:} sviluppo di una \textit{UI} dinamica, capace di mostrare in tempo reale i singoli passaggi del processo di ricerca;
-    \item \textbf{Sicurezza e isolamento:} garanzia di comunicazioni protette e segregazione dei dati di ciascun utente;
     \item \textbf{Integrazione dell'ecosistema MCP:} implementazione di un server \gls{mcpg} che esponga il servizio di \gls{crawlingg} come strumento standardizzato, rendendolo fluidamente selezionabile dal \textit{chatbot} tra i vari \gls{toolg} disponibili.
 \end{itemize}
 
-\subsection{Strumenti analizzati}
+\subsection{Strumenti utilizzati}
 In questa sezione vengono discusse le principali tecnologie 
 individuate durante le prime settimane di tirocinio e
 utilizzate nello sviluppo del progetto.
@@ -58,8 +57,8 @@ Per questi motivi, React rappresenta una scelta solida ed efficace per lo svilup
 Vite è uno strumento di compilazione per applicazioni web moderne, progettato per offrire un'esperienza di sviluppo estremamente rapida. 
 Infatti, Vite sfrutta i moduli \textit{ES} (\textit{ECMAScript Modules}) nativi del \textit{browser} durante la fase di sviluppo, 
 evitando di dover ricompilare l'intera applicazione ad ogni modifica del codice.
-Questo strumento si distingue per i tempi di avvio quasi istantanei del server di sviluppo e per 
-il processo di \textit{Hot Module Replacement} (HMR), che permette di visualizzare le modifiche al codice 
+Questo strumento si distingue per i tempi di avvio quasi istantanei 
+e permette di visualizzare le modifiche al codice 
 nel \textit{browser} in tempi minimi, senza dover ricaricare l'intera pagina.
 
 La scelta di Vite integrata con React è motivata dalla necessità di mantenere un flusso di sviluppo rapido 
@@ -69,13 +68,10 @@ ed efficiente durante l'iterazione continua sui componenti dell'interfaccia.
 Python è un linguaggio di programmazione ad alto livello, interpretato e di uso generale, noto per la sua sintassi chiara e leggibile. 
 Tale caratteristica favisce la leggibilità del codice e riduce i costi di manutenzione del progetto, 
 aspetto particolarmente rilevante in un'architettura suddivisa in molti microservizi indipendenti.
-Python supporta diversi paradigmi di programmazione, tra cui quello procedurale, orientato agli oggetti e funzionale, 
-e si distingue per la sua versatilità: può essere impiegato per lo sviluppo \textit{backend}, 
+Python si distingue per la sua versatilità: può essere impiegato per lo sviluppo \textit{backend}, 
 l'elaborazione di dati, l'integrazione con modelli di intelligenza artificiale e l'automazione di processi. 
-Questa versatilità lo rende particolarmente adatto a un progetto come questo, in cui il linguaggio deve gestire 
-sia la logica di business dei vari servizi sia l'orchestrazione delle chiamate al \gls{llmg}.
-Python permette anche l'integrazione di un vasto insieme di librerie e \gls{frameworkg} \textit{open source}, 
-tra cui FastAPI, FastMCP e BeautifulSoup, tutti adottati in questo progetto. 
+Questa flessibilità lo rende particolarmente adatto a un progetto come questo, in cui il linguaggio deve gestire 
+sia la logica di business dei vari servizi sia l'orchestrazione delle chiamate al \gls{llmg}. 
 
 Per questi motivi, Python rappresenta la scelta naturale per l'implementazione di tutti i servizi \textit{backend} del sistema.
 
@@ -113,45 +109,35 @@ La scelta di FastMCP consente quindi di concentrarsi sulla logica di estrazione 
 delegando a tale strumento la gestione del protocollo di comunicazione e di esposizione degli strumenti al modello.
 
 \subsubsection{BeautifulSoup}
-BeautifulSoup è una libreria Python per l'estrazione di dati da documenti \gls{htmlg} e \gls{xmlg}\glsfirstoccur. 
-Permette di analizzare la struttura di una pagina web e di navigarla attraverso un'interfaccia semplice e intuitiva, 
-individuando con facilità \textit{tag}, attributi e contenuti testuali.
+BeautifulSoup è una libreria Python per l'estrazione del contenuto da documenti \gls{htmlg} e \gls{xmlg}\glsfirstoccur .
 Questa libreria si distingue per la sua tolleranza nei confronti di \gls{htmlg} malformato, una caratteristica particolarmente 
 utile quando si analizzano pagine web reali, che spesso non rispettano rigorosamente gli standard. 
 BeautifulSoup fornisce inoltre un insieme di metodi per la ricerca e il filtraggio degli elementi della pagina in base 
 a \textit{tag}, classi, identificatori o altri attributi, semplificando notevolmente l'estrazione delle informazioni rilevanti.
 
-Nel contesto di questo progetto, BeautifulSoup viene impiegata nella fase di estrazione delle pagine web permettendo di
-prelevare il suo contenuto e i collegamenti ipertestuali, 
-necessari per la generazione dei riassunti e per il processo ricorsivo di \gls{crawlingg} 
-da parte del \gls{llmg}. 
-La sua semplicità d'uso e la sua robustezza nella gestione di \textit{markup} eterogeneo la rendono uno strumento 
-ideale per questo compito.
+Nel contesto di questo progetto, BeautifulSoup viene impiegata nella fase di recupero delle pagine web permettendo di
+prelevare il loro contenuto e i collegamenti ipertestuali, 
+necessari per la generazione dei riassunti e la scelta 
+dei \textit{link} per il processo di \gls{crawlingg}.
 
 \subsubsection{OpenAI}
 OpenAI è un'organizzazione di ricerca e sviluppo nel campo 
-dell'intelligenza artificiale, celebre i modelli generativi 
+dell'intelligenza artificiale, celebre i modelli 
 GPT (\textit{Generative Pre-trained Transformer}).
-I modelli offerti da OpenAI sono accessibili tramite servizi cloud e 
-possono essere utilizzati attraverso 
-interfacce di programmazione (\textit{API}), permettendo di 
+I modelli offerti da OpenAI sono accessibili tramite servizi \textit{cloud} e 
+possono essere utilizzati attraverso \gls{apig}, permettendo di 
 realizzare sistemi basati sulla comprensione del linguaggio naturale.
 
 Nel contesto di questo progetto, OpenAI rappresenta il componente 
 centrale per l'elaborazione delle richieste 
-degli utenti e la generazione delle risposte. 
-In particolare, il modello linguistico è stato impiegato per 
-interpretare le domande ricevute, selezionare dinamicamente gli 
-strumenti più appropriati per il recupero delle 
-informazioni e sintetizzare i risultati ottenuti in una risposta 
-coerente e contestualizzata.
+degli utenti e la generazione delle risposte.
 
 \subsubsection{LangSmith}
 
 LangSmith è una piattaforma di tracciabilità e \textit{debugging} pensata specificamente per applicazioni basate 
 su modelli di intelligenza artificiale. 
 Permette di tracciare in modo dettagliato l'esecuzione delle catene di chiamate che coinvolgono \gls{llmg}, 
-strumenti esterni e passaggi intermedi di elaborazione, fornendo una visione completa del flusso di esecuzione.
+fornendo una visione completa del flusso di esecuzione.
 Questa piattaforma si distingue per la sua capacità di raccogliere \textit{trace} distribuite anche in architetture 
 a microservizi, dove una singola richiesta dell'utente può attraversare più servizi prima di giungere a 
 una risposta finale. 
@@ -162,8 +148,7 @@ Nel contesto di questo progetto, LangSmith è stato adottato per il tracciamento
 svolte durante il processo di \gls{crawlingg}, dal momento della selezione del \gls{toolg} da parte 
 del \textit{chatbot} fino alla generazione della risposta finale. 
 Questo strumento si è rivelato fondamentale durante le fasi di sviluppo e \textit{debug} del sistema, 
-permettendo di analizzare nel dettaglio il comportamento del modello a fronte di ricerche complesse 
-distribuite su più microservizi.
+permettendo di analizzare nel dettaglio il comportamento del modello.
 
 \subsubsection{PostgreSQL, TimescaleDB e pgvector}
 PostgreSQL è un sistema di gestione di basi di dati relazionali \textit{open source}, noto per la sua robustezza, 
@@ -186,17 +171,14 @@ i dati relazionali tradizionali (utenti, storico delle conversazioni, profili) s
 
 \subsubsection{Docker e Docker Compose}
 Docker è una piattaforma di containerizzazione che consente di raggruppare un'applicazione e tutte le sue dipendenze 
-in un'unità isolata e portabile, denominata container. 
+in un'unità isolata e portabile, denominata ''container''. 
 Questo approccio garantisce che l'applicazione si comporti nello stesso modo indipendentemente dall'ambiente 
 in cui viene eseguita, eliminando i classici problemi di incompatibilità tra ambienti di sviluppo, test e produzione.
 Docker Compose è uno strumento che permette di definire e orchestrare applicazioni multi-container 
 tramite un singolo file di configurazione dichiarativo. 
 
-Questo strumento risulta particolarmente utile in questo progetto, dato che l'architettura del sistema è 
-suddivisa in molteplici microservizi, oltre al database e al \textit{gateway} Nginx, ciascuno eseguito nel proprio container isolato.
-
-La scalabilità e la portabilità garantite da \gls{dockerg} rispondono direttamente a uno dei requisiti fondamentali del progetto, 
-che richiede un servizio scalabile e portabile su diverse infrastrutture.
+Questo strumento risulta particolarmente utile in questo progetto dove l'architettura del sistema è 
+suddivisa in molteplici microservizi indipendenti e si richiede scalabilità e portabilità.
 
 \subsubsection{Nginx}
 Nginx è un \textit{reverse proxy} \textit{open source}, noto per le sue elevate prestazioni e per la capacità 
@@ -217,8 +199,8 @@ Nel contesto di questo progetto, i \gls{jwtg} vengono utilizzati per gestire l'a
 i diversi microservizi del sistema.
 
 In particolare, è stato adottato l'algoritmo di firma \textit{RS256}, basato su una coppia di chiavi asimmetriche: 
-una chiave privata, utilizzata dall'\textit{auth-service}, per firmare i \textit{token} al momento dell'autenticazione, 
-e una chiave pubblica, distribuita agli altri servizi tramite il protocollo \gls{jwksg}\glsfirstoccur , per la verifica della validità 
+una chiave privata, utilizzata dal servizio responsabile dell'autenticazione, per firmare i \textit{token} al momento del \textit{login}, 
+e una chiave pubblica, distribuita agli altri servizi tramite \gls{jwksg}\glsfirstoccur , per la verifica della validità 
 dei \textit{token}. 
 
 L'adozione di \textit{RS256} e \gls{jwksg} risponde quindi a un'esigenza di sicurezza e di efficienza architetturale, 
@@ -297,7 +279,7 @@ nel caso peggiore (ovvero qualora l'algoritmo esaurisse
 l'intero albero senza raggiungere prima lo stato di successo). 
 Nel processo di \textit{crawling}, ogni singolo passo (nodo dell'albero) 
 richiede esattamente tre chiamate distinte all'\gls{llmg} (fasi di sintesi, 
-valutazione del contesto e filtraggio semantico).
+valutazione del contesto e selezione dei \textit{link}).
 \begingroup
 \renewcommand{\arraystretch}{1.5}
 \begin{xltabular}{\textwidth}{|c|c|c|c|c|}
